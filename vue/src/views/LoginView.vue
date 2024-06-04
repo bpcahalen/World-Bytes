@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+    <Spline/>
     <form v-on:submit.prevent="login">
       <h1 >Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">
@@ -9,14 +10,16 @@
         Thank you for registering, please sign in.
       </div>
       <div class="form-input-group">
-        <label for="username">Username</label>
+        <label for="username">Username:</label>
         <input type="text" id="username" v-model="user.username" required autofocus />
       </div>
       <div class="form-input-group">
-        <label for="password">Password</label>
+        <label for="password">Password:</label>
         <input type="password" id="password" v-model="user.password" required />
       </div>
+      <div id="submit">
       <button type="submit">Sign in</button>
+      </div>
       <p>
       <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
     </form>
@@ -25,6 +28,7 @@
 
 <script>
 import authService from "../services/AuthService";
+// import Spline from '@splinetool/react-spline';
 
 export default {
   components: {},
@@ -34,7 +38,8 @@ export default {
         username: "",
         password: ""
       },
-      invalidCredentials: false
+      invalidCredentials: false,
+      Spline : 'https://prod.spline.design/brJtcyoxW8TRCvoW/scene.splinecode'
     };
   },
   methods: {
@@ -61,6 +66,43 @@ export default {
 </script>
 
 <style scoped>
+#login{
+  height: 100vh;
+  width: 100vw;
+ display:flex;
+ justify-content: center;
+ align-items: center;
+}
+
+form{
+  background-color:  #00b35c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 175px;
+  border: black dotted 2px;
+}
+
+h1{
+  display: flex;
+  justify-content: center;
+}
+
+input{
+  border-radius: 25px;
+  border-width: 1px;
+}
+
+#submit{
+  display: flex;
+  justify-content: center;
+}
+
+button{
+  border-radius: 25px;
+  border-width: 1px;
+}
 .form-input-group {
   margin-bottom: 1rem;
 }

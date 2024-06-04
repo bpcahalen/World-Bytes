@@ -7,3 +7,18 @@
     <router-view />
   </div>
 </template>
+
+
+<style>
+#capstone-app{
+  /* background-color: ghostwhite; */
+}
+
+body{
+  margin: 0;
+}
+</style>
+
+
+
+
