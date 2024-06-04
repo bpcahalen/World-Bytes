@@ -29,7 +29,7 @@ public class MealPlanController {
         return mealPlanDao.findIdByUsername(username);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/library")
     public List<MealPlan> getAllMyMealPlans(Principal principal) {
         return getAllMyMealPlans(principal);
     }

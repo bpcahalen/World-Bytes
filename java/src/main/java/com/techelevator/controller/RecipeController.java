@@ -28,7 +28,7 @@ public class RecipeController {
 
 
     //API calls go here
-    @GetMapping("/{userId}")
+    @GetMapping("/library")
     public List<Recipe> getAllMyRecipes(Principal principal) {
         return getAllMyRecipes(principal);
     }

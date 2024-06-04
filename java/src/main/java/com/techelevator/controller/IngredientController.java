@@ -30,7 +30,7 @@ public class IngredientController {
         return ingredientDao.getAllIngredients();
     }
 
-    // need a POST for creating a new ingredient
+    // POST for creating a new ingredient
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Ingredient createIngredient(@RequestBody Ingredient ingredient) {
