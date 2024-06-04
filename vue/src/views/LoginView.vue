@@ -1,7 +1,8 @@
 <template>
   <div id="login">
     <form v-on:submit.prevent="$store.state.logo">
-      <h1 >Please Sign In <img src="../World_Byte.jpg"/></h1>
+      <h1 >Please Sign In </h1>
+      <!-- <img src=".../photos/World_Byte.jpg"/> -->
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -132,8 +133,8 @@ button{
   color: white;
   padding-top: 9px;
   padding-bottom: 9px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: 16px;
+  padding-right: 16px;
   margin-top: 4px;
   cursor: pointer;
 }
