@@ -72,10 +72,11 @@ export default {
  display:flex;
  justify-content: center;
  align-items: center;
+ background-color:  #00b35c;
 }
 
 form{
-  background-color:  #00b35c;
+  background-color:  white;
   display: flex;
   justify-content: center;
   align-items: center;
