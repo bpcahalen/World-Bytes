@@ -119,6 +119,11 @@ input[type="password"] {
   border-radius: 4px;
 }
 
+img{
+  height: 132px;
+  margin-left: 30px;
+}
+
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
