@@ -1,7 +1,7 @@
 <template>
   <div id="register" class="text-center">
     <form v-on:submit.prevent="register" class="register-form">
-      <h1 class="form-title">Create Account</h1>
+      <h1 class="form-title">Create Account <img src="../photos/walter_smiling.png"/></h1>
       <div role="alert" v-if="registrationErrors" class="alert alert-danger">
         {{ registrationErrorMsg }}
       </div>
@@ -117,6 +117,11 @@ input[type="password"] {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+img{
+  height: 132px;
+  margin-left: 30px;
 }
 
 .btn {
