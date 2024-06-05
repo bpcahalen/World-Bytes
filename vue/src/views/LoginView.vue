@@ -1,8 +1,8 @@
 <template>
   <div id="login">
     <form v-on:submit.prevent="$store.state.logo">
-      <h1 >Please Sign In </h1>
-      <!-- <img src=".../photos/World_Byte.jpg"/> -->
+      <h1 >Please Sign In <img src="../photos/walter_smiling.png"/></h1>
+      
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -93,12 +93,14 @@ form{
 
 h1{
   font-family: Merienda;
+  display: flex;
   color: #00b35c;
+  margin-top: 0;
+  align-items: center;
 }
 
 img{
-  width: 60px;
-  height: 60px;
+  height: 132px;
   margin-left: 30px;
 }
 
