@@ -3,14 +3,18 @@ package com.techelevator.model;
 public class Recipe {
 
     //Instance Variables
-    private int recipeId;
+    private int recipeId; // Empty unless we put it
     private String title;
     private String instructions;
     private int duration;
     private String category;
-    private String link;
-    private String image;
     private String dietaryLabel;
+    private String source; // Link to source of recipe for more info
+    private String image;
+
+    // Constructor
+    public Recipe() {
+    }
 
     //Getters and Setters
 
@@ -54,12 +58,12 @@ public class Recipe {
         this.category = category;
     }
 
-    public String getLink() {
-        return link;
+    public String getSource() {
+        return source;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getImage() {

@@ -10,4 +10,8 @@ public interface RecipeDao {
     List<Recipe> getAllMyRecipes(Principal Principal);
 
     int findIdByUsername(String username);
+
+    void addRecipeToLibrary();
+
+    void updateRecipeInLibrary();
 }

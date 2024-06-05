@@ -33,7 +33,7 @@ public class JdbcRecipeDao implements RecipeDao {
 
         int userId;
         try {
-            userId = jdbcTemplate.queryForObject("SELECT user_id FROM world_byte_user WHERE username = ?", int.class, username);
+            userId = jdbcTemplate.queryForObject("SELECT user_id FROM users WHERE username = ?", int.class, username);
         } catch (NullPointerException | EmptyResultDataAccessException e) {
             throw new UsernameNotFoundException("User " + username + " was not found.");
         }
@@ -42,7 +42,7 @@ public class JdbcRecipeDao implements RecipeDao {
     }
 
 
-
+    // GET
     @Override
     public List<Recipe> getAllMyRecipes(Principal principal) {
         List <Recipe> recipeList = new ArrayList<>();
@@ -61,6 +61,16 @@ public class JdbcRecipeDao implements RecipeDao {
         return recipeList;
     }
 
+    // POST
+    public void addRecipeToLibrary() {
+
+    }
+
+    // PUT
+    public void updateRecipeInLibrary() {
+
+    }
+
     private Recipe mapRecipeFromRowSet(SqlRowSet rowSet) {
         Recipe recipe = new Recipe();
 
@@ -70,7 +80,7 @@ public class JdbcRecipeDao implements RecipeDao {
         String instructions = rowSet.getString("instructions");
         int duration = rowSet.getInt("duration");
         String category = rowSet.getString("category");
-        String link = rowSet.getString("link");
+        String source = rowSet.getString("link");
         String image = rowSet.getString("image");
         String dietaryLabel = rowSet.getString("dietary_label");
 
@@ -79,7 +89,7 @@ public class JdbcRecipeDao implements RecipeDao {
         recipe.setInstructions(instructions);
         recipe.setDuration(duration);
         recipe.setCategory(category);
-        recipe.setLink(link);
+        recipe.setSource(source);
         recipe.setImage(image);
         recipe.setDietaryLabel(dietaryLabel);
 

@@ -8,7 +8,6 @@ public class Pantry {
     int userId;
 
 
-
     // Getters and Setters
 
     public int getIngredientId() {
