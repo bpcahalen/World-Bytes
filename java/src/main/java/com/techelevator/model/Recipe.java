@@ -8,6 +8,7 @@ public class Recipe {
     private String instructions;
     private int duration;
     private String category;
+    private String dietaryRestriction;
     private String dietaryLabel;
     private String source; // Link to source of recipe for more info
     private String image;
@@ -72,6 +73,14 @@ public class Recipe {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getDietaryRestriction() {
+        return dietaryRestriction;
+    }
+
+    public void setDietaryRestriction(String dietaryRestriction) {
+        this.dietaryRestriction = dietaryRestriction;
     }
 
     public String getDietaryLabel() {

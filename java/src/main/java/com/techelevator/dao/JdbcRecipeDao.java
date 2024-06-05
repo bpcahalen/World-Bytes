@@ -82,6 +82,7 @@ public class JdbcRecipeDao implements RecipeDao {
         String category = rowSet.getString("category");
         String source = rowSet.getString("link");
         String image = rowSet.getString("image");
+        String dietaryRestriction = rowSet.getString("dietary_restriction");
         String dietaryLabel = rowSet.getString("dietary_label");
 
         recipe.setRecipeId(recipeId);
@@ -91,6 +92,7 @@ public class JdbcRecipeDao implements RecipeDao {
         recipe.setCategory(category);
         recipe.setSource(source);
         recipe.setImage(image);
+        recipe.setDietaryRestriction(dietaryRestriction);
         recipe.setDietaryLabel(dietaryLabel);
 
         return recipe;
