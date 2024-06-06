@@ -62,10 +62,21 @@ public class JdbcMealPlanDao implements MealPlanDao{
 
     private MealPlan mapMealPlanFromRowSet(SqlRowSet rowSet) {
 
+        List<Integer> recipeList = new ArrayList<>();
         MealPlan mealPlan = new MealPlan();
 
         int mealPlanId = rowSet.getInt("meal_plan_id");
-        int recipeId = rowSet.getInt("recipe_id");
+        String recipeListString = rowSet.getString("recipe_list");
+        if(recipeListString != null && !recipeListString.isEmpty()) {
+            String[] recipeStringArray = recipeListString.split(",");
+            for(String id : recipeStringArray) {
+                try{
+                    recipeList.add(Integer.parseInt(id.trim()));
+                } catch(NumberFormatException ex) {
+                    System.out.println("Invalid number format" + ex.getMessage());
+                }
+            }
+        }
         String title = rowSet.getString("title");
         int duration = rowSet.getInt("duration");
         String type = rowSet.getString("type");
@@ -73,7 +84,7 @@ public class JdbcMealPlanDao implements MealPlanDao{
 
 
         mealPlan.setMealPlanId(mealPlanId);
-        mealPlan.setRecipeId(recipeId);
+        mealPlan.setRecipeList(recipeList);
         mealPlan.setTitle(title);
         mealPlan.setDuration(duration);
         mealPlan.setType(type);

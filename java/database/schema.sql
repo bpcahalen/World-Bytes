@@ -31,6 +31,7 @@ CREATE TABLE recipes_library (
 ---- Ingredient list which users will be able to add to their pantry and/or shopping cart
 --CREATE TABLE ingredients (
 --	ingredient_id serial,
+--  ingredient_name varchar(50),
 --	CONSTRAINT PK_ingredient_id PRIMARY KEY (ingredient_id)
 --);
 --
