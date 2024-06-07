@@ -13,5 +13,5 @@ public interface RecipeDao {
 
     void addRecipeToLibrary();
 
-    void updateRecipeInLibrary();
+    void updateRecipeInLibrary(Recipe recipe);
 }

@@ -4,8 +4,11 @@ public class Recipe {
 
     //Instance Variables
     private int recipeId; // Empty unless we put it
+    private int userId;
     private String title;
+    private String ingredientList;
     private String instructions;
+    private String summary;
     private int duration;
     private String category;
     private String dietaryRestriction;
@@ -27,6 +30,14 @@ public class Recipe {
         this.recipeId = recipeId;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -35,12 +46,28 @@ public class Recipe {
         this.title = title;
     }
 
+    public String getIngredientList() {
+        return ingredientList;
+    }
+
+    public void setIngredientList(String ingredientList) {
+        this.ingredientList = ingredientList;
+    }
+
     public String getInstructions() {
         return instructions;
     }
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public int getDuration() {

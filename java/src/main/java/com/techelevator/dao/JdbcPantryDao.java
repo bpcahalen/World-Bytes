@@ -57,6 +57,7 @@ public class JdbcPantryDao implements PantryDao{
         return pantryList;
     }
 
+
     public Pantry mapPantryFromRow(SqlRowSet rowSet) {
         Pantry pantry = new Pantry();
 

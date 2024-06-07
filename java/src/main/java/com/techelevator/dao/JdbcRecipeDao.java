@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 
+import com.techelevator.exception.DaoException;
 import com.techelevator.model.Recipe;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -63,37 +64,64 @@ public class JdbcRecipeDao implements RecipeDao {
 
     // POST
     public void addRecipeToLibrary() {
-
     }
 
     // PUT
-    public void updateRecipeInLibrary() {
-
+    public void updateRecipeInLibrary(Recipe recipe) {
     }
+
+    /* Handles adding recipe to database
+
+
+        String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +
+            "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
+            "\t\t\t\t\t\t\tdiet_category, dietary_restrictions,\n" +
+            "\t\t\t\t\t\t   recipe_source_url, image_path)\n" +
+            "VALUES(?,?,?,?,?,?,?,?,?,?)\n" +
+            "RETURNING recipe_id;";
+
+        try {
+            int recipeId = jdbcTemplate.queryForObject(sql, int.class,
+                recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
+                recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
+                recipe.getCategory(), recipe.getDietaryRestriction(), recipe.getSource(),
+                recipe.getImage());
+
+            recipe.setRecipeId(recipeId);
+
+        } catch(DaoException ex) {
+            System.out.println("Something went wrong: " + ex.getMessage());
+        }
+        return recipe;  */
 
     private Recipe mapRecipeFromRowSet(SqlRowSet rowSet) {
         Recipe recipe = new Recipe();
 
+        //userId, ingredientList, summary -- add these
         //enter column data to be mapped here
         int recipeId = rowSet.getInt("recipe_id");
+        int userId = rowSet.getInt("user_id");
         String title = rowSet.getString("title");
+        String ingredientList = rowSet.getString("ingredient_list");
         String instructions = rowSet.getString("instructions");
+        String summary = rowSet.getString("summary");
         int duration = rowSet.getInt("duration");
-        String category = rowSet.getString("category");
-        String source = rowSet.getString("link");
-        String image = rowSet.getString("image");
+        String category = rowSet.getString("diet_category");
+        String source = rowSet.getString("recipe_source_url");
+        String image = rowSet.getString("image_path");
         String dietaryRestriction = rowSet.getString("dietary_restriction");
-        String dietaryLabel = rowSet.getString("dietary_label");
 
         recipe.setRecipeId(recipeId);
+        recipe.setUserId(userId);
         recipe.setTitle(title);
+        recipe.setIngredientList(ingredientList);
         recipe.setInstructions(instructions);
+        recipe.setSummary(summary);
         recipe.setDuration(duration);
         recipe.setCategory(category);
         recipe.setSource(source);
         recipe.setImage(image);
         recipe.setDietaryRestriction(dietaryRestriction);
-        recipe.setDietaryLabel(dietaryLabel);
 
         return recipe;
     }

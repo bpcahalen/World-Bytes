@@ -107,7 +107,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
         return null;
     }
 
-    public void addRecipeToLibrary(Recipe recipe) {
+    public void addRecipeToLibrary() {
 
     }
 

@@ -44,8 +44,14 @@ public class RecipeController {
         return getAllMyRecipes(principal);
     }
 
+
     @PostMapping(path = "/library")
-    public void addRecipe(Principal principal, Recipe recipe) { // return recipe ?
-        recipeService.addRecipeToLibrary(recipe);
+    public void addRecipe() { // return recipe ?
+        recipeService.addRecipeToLibrary();
+    }
+
+    @PutMapping("/library")
+    public void updateRecipe(@RequestBody Recipe recipe) {
+        recipeDao.updateRecipeInLibrary(recipe);
     }
 }

@@ -37,7 +37,6 @@ public class JdbcIngredientDao implements IngredientDao{
 
     @Override
     public Ingredient createIngredient(Ingredient ingredient) {
-        Ingredient newIngredient = null;
 
         String sql = "INSERT INTO ingredients(ingredient_name)\n" +
                 "VALUES(?)\n" +
@@ -45,13 +44,12 @@ public class JdbcIngredientDao implements IngredientDao{
 
         try {
             int ingredientId = jdbcTemplate.queryForObject(sql, int.class, ingredient.getIngredientName());
-            newIngredient = ingredient;
-            newIngredient.setIngredientId(ingredientId);
+            ingredient.setIngredientId(ingredientId);
         } catch (Exception ex) {
             System.out.println("Something went wrong!" + ex.getMessage());
         }
 
-        return newIngredient;
+        return ingredient;
     }
 
     private Ingredient mapIngredientFromRowSet(SqlRowSet rowSet) {
