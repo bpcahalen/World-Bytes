@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface MealPlanDao {
 
-    int findIdByUsername(String username);
-
-    List<MealPlan> getAllMyMealPlans(Principal principal);
+    List<MealPlan> getAllMyMealPlans(int userId);
 }

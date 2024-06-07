@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.RecipeDao;
+import com.techelevator.dao.UserDao;
 import com.techelevator.model.Recipe;
 import com.techelevator.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +17,14 @@ public class RecipeController {
 
     @Autowired RecipeDao recipeDao;
     @Autowired RecipeService recipeService;
+    @Autowired UserDao userDao;
 
-    private final RecipeDao dao;
 
-    public RecipeController(RecipeDao dao) {
-        this.dao = dao;
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public int findIdByUsername(@RequestParam String username) {
-        return recipeDao.findIdByUsername(username);
+    public RecipeController() {
     }
 
     //API calls go here
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     public List<Recipe> searchRecipesByKeyword(Principal principal, String searchQuery) {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
@@ -41,9 +36,9 @@ public class RecipeController {
 
     @GetMapping(path = "/library")
     public List<Recipe> getAllMyRecipes(Principal principal) {
-        return getAllMyRecipes(principal);
+        int userId = userDao.findIdByUsername(principal.getName());
+        return recipeDao.getAllMyRecipes(userId);
     }
-
 
     @PostMapping(path = "/library")
     public void addRecipe() { // return recipe ?

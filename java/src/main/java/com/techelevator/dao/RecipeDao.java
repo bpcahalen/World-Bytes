@@ -7,9 +7,7 @@ import java.util.List;
 
 public interface RecipeDao {
 
-    List<Recipe> getAllMyRecipes(Principal Principal);
-
-    int findIdByUsername(String username);
+    List<Recipe> getAllMyRecipes(int userId);
 
     void addRecipeToLibrary();
 
