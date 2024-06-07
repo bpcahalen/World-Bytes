@@ -4,6 +4,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.MealPlanDao;
 import com.techelevator.model.MealPlan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

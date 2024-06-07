@@ -5,6 +5,7 @@ import com.techelevator.dao.IngredientDao;
 import com.techelevator.model.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,12 +15,11 @@ import java.util.List;
 @CrossOrigin
 public class IngredientController {
 
-    @Autowired IngredientDao ingredientDao;
+    private final IngredientDao ingredientDao;
 
-    private final IngredientDao dao;
-
-    public IngredientController(IngredientDao dao) {
-        this.dao = dao;
+    @Autowired
+    public IngredientController(IngredientDao ingredientDao) {
+        this.ingredientDao = ingredientDao;
     }
 
     // API calls go here
