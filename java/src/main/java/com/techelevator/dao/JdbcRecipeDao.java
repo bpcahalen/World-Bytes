@@ -24,30 +24,12 @@ public class JdbcRecipeDao implements RecipeDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-
     //Methods go here
-
-    @Override
-    public int findIdByUsername(String username) {
-        if (username == null) throw new IllegalArgumentException("Username cannot be null");
-
-        int userId;
-        try {
-            userId = jdbcTemplate.queryForObject("SELECT user_id FROM users WHERE username = ?", int.class, username);
-        } catch (NullPointerException | EmptyResultDataAccessException e) {
-            throw new UsernameNotFoundException("User " + username + " was not found.");
-        }
-
-        return userId;
-    }
-
 
     // GET
     @Override
-    public List<Recipe> getAllMyRecipes(Principal principal) {
+    public List<Recipe> getAllMyRecipes(int userId) {
         List <Recipe> recipeList = new ArrayList<>();
-        int userId = findIdByUsername(principal.getName());
 
         String sql = "SELECT *\n" +
                 "FROM recipes\n" +

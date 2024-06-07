@@ -2,8 +2,8 @@ package com.techelevator.model;
 
 public class Recipe {
 
-    //Instance Variables
-    private int recipeId; // Empty unless we put it
+    // Instance Variables
+    private int recipeId;
     private int userId;
     private String title;
     private String ingredientList;
@@ -13,14 +13,14 @@ public class Recipe {
     private String category;
     private String dietaryRestriction;
     private String dietaryLabel;
-    private String source; // Link to source of recipe for more info
+    private String source;
     private String image;
 
     // Constructor
     public Recipe() {
     }
 
-    //Getters and Setters
+    // Getters and Setters
 
     public int getRecipeId() {
         return recipeId;

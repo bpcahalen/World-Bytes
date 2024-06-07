@@ -10,7 +10,5 @@ import java.util.List;
 @Component
 public interface PantryDao {
 
-
-    int findIdByUsername(String username);
     List<Pantry> getAllMyIngredients(Principal principal);
 }

@@ -23,29 +23,11 @@ public class JdbcMealPlanDao implements MealPlanDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-
-
     // Methods go here
 
     @Override
-    public int findIdByUsername(String username) {
-        if (username == null) throw new IllegalArgumentException("Username cannot be null");
-
-        int userId;
-        try {
-            userId = jdbcTemplate.queryForObject("SELECT user_id FROM world_byte_user WHERE username = ?", int.class, username);
-        } catch (NullPointerException | EmptyResultDataAccessException e) {
-            throw new UsernameNotFoundException("User " + username + " was not found.");
-        }
-
-        return userId;
-    }
-
-    @Override
-    public List<MealPlan> getAllMyMealPlans(Principal principal) {
+    public List<MealPlan> getAllMyMealPlans(int userId) {
         List <MealPlan> mealPlanList = new ArrayList<>();
-        int userId = findIdByUsername(principal.getName());
 
         String sql = "SELECT *\n" +
                 "FROM meal_plan\n" +

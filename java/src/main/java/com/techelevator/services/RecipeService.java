@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class RecipeService { // Recipe Service; in progress switching to Spoonacular
 
     @Value("${spoonacular.api.url}")
@@ -33,6 +33,10 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
 
     public RecipeService(RecipeDao recipeDao) {
 //        this.recipeDao = recipeDao;
+    }
+
+    public void addRecipeToLibrary() {
+
     }
 
     /**
@@ -105,10 +109,6 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
      */
     public List<Recipe> getRecipesByIngredients(String[] ingredients) {
         return null;
-    }
-
-    public void addRecipeToLibrary() {
-
     }
 
     /*
