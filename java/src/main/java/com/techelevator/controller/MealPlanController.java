@@ -30,4 +30,9 @@ public class MealPlanController {
         return getAllMyMealPlans(principal);
     }
 
+    @PostMapping
+    public void createMealPlan(Principal principal) {
+        //int userId =
+    }
+
 }

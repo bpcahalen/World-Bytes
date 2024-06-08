@@ -2,12 +2,14 @@ package com.techelevator.controller;
 
 
 import com.techelevator.dao.IngredientDao;
+import com.techelevator.dao.UserDao;
 import com.techelevator.model.Ingredient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,16 +17,15 @@ import java.util.List;
 @CrossOrigin
 public class IngredientController {
 
-    private final IngredientDao ingredientDao;
+    @Autowired IngredientDao ingredientDao;
+    @Autowired UserDao userDao;
 
-    @Autowired
-    public IngredientController(IngredientDao ingredientDao) {
-        this.ingredientDao = ingredientDao;
+    public IngredientController(){
     }
 
     // API calls go here
 
-    // need a GET to retrieve all ingredients
+    // GET to retrieve all ingredients
     @GetMapping
     public List<Ingredient> getAllIngredients() {
         return ingredientDao.getAllIngredients();
