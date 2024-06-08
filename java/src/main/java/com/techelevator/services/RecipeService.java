@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techelevator.dao.JdbcRecipeDao;
-import com.techelevator.dao.RecipeDao;
 import com.techelevator.model.Recipe;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -29,25 +29,38 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
     private String ingredientEndpoint;
     @Value("${spoonacular.api.necessary-parameters}")
     private String necessaryParameters;
-    private JdbcRecipeDao recipeDao;
+    @Value("${spoonacular.api.random-parameter}")
+    private String randomParameter;
+    @Autowired private JdbcRecipeDao recipeDao;
 
-    public RecipeService(RecipeDao recipeDao) {
-//        this.recipeDao = recipeDao;
+    public RecipeService() {
     }
 
     public void addRecipeToLibrary() {
 
     }
 
+    public Recipe viewRecipeDetails() {
+        return null;
+    }
+
     /**
      * This method accepts a general keyword and returns a list of recipe objects that
-     * are associated with that keyword.
+     * are associated with that keyword. If there is no searchQuery, then it returns a
+     * random list
      *
      * @param searchQuery String containing the keyword that the user would like to search for
-     * @return List of Recipe objects that align with the provided keyword
+     * @return List of RecipeDto objects that align with the provided keyword
      */
     public List<Recipe> getRecipesByKeyword(String searchQuery) {
-        String url = this.apiURL + this.generalEndpoint + this.key + this.necessaryParameters + "&q=" + searchQuery;
+        String url = this.apiURL + this.generalEndpoint + this.key + this.necessaryParameters;
+
+        // If there is no searchQuery, it will return a random assortment of Recipes
+        if (searchQuery.isEmpty()) {
+            url += this.randomParameter;
+        } else {
+            url += "&query=" + searchQuery;
+        }
 
         // Setting up httpEntity and restTemplate
         HttpEntity<String> httpEntity = new HttpEntity<>("");
@@ -66,7 +79,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
         );
 
         // Setting up list that will be hold recipes
-        List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> recipeDisplays = new ArrayList<>();
 
         // Mapping the response data to the recipe model and catching potential exceptions
         try {
@@ -74,30 +87,20 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
             jsonNode = objectMapper.readTree(response.getBody());
             JsonNode root = jsonNode.path("results");
 
-            // Checking length of response
-//            JsonNode count = jsonNode.path("count");
-//            String responseLengthString = count.asText();
-//            int responseLength = Integer.parseInt(responseLengthString);
-
-            // For loop to add recipes to the list
+            // For loop to add recipes to the list; only accepting the id, title, and image currently
             for (int i=0; i < root.size(); i++) {
                 int id = root.path(i).path("id").asInt();
                 String title = root.path(i).path("title").asText();
-                String instructions = root.path(i).path("analyzedInstructions").asText();
-                int duration = root.path(i).path("readyInMinutes").asInt();
-//                String category;
-                String source = root.path(i).path("sourceUrl").asText();
                 String image = root.path(i).path("image").asText();
-//                String dietaryLabel;
 
-                recipes.add(mapResponseEntityToRecipe(id, title, instructions, duration, source, image));
+                recipeDisplays.add(mapResponseEntityToRecipeForDisplay(id, title, image));
             }
 
         } catch (JsonProcessingException e) {
             System.out.println("Something went wrong.");
         }
 
-        return recipes;
+        return recipeDisplays;
     }
 
     /**
@@ -108,6 +111,19 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
      * @return List of recipe objects that include the ingredients provided
      */
     public List<Recipe> getRecipesByIngredients(String[] ingredients) {
+//        for (int i=0; i < root.size(); i++) {
+//            int id = root.path(i).path("id").asInt();
+//            String title = root.path(i).path("title").asText();
+//            String instructions = root.path(i).path("analyzedInstructions").asText();
+//            int duration = root.path(i).path("readyInMinutes").asInt();
+////                String category;
+//            String source = root.path(i).path("sourceUrl").asText();
+//            String image = root.path(i).path("image").asText();
+////                String dietaryLabel;
+//
+//            recipeDisplays.add(mapResponseEntityToRecipeDisplay(id, title, image));
+//        }
+
         return null;
     }
 
@@ -131,5 +147,13 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
 //        recipe.setCategory();
 //        recipe.setDietaryLabel();
         return recipe;
+    }
+
+    public Recipe mapResponseEntityToRecipeForDisplay(int recipeId, String title, String image) {
+        Recipe recipeDisplay = new Recipe();
+        recipeDisplay.setRecipeId(recipeId);
+        recipeDisplay.setTitle(title);
+        recipeDisplay.setImage(image);
+        return recipeDisplay;
     }
 }
