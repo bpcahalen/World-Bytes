@@ -5,6 +5,7 @@ import com.techelevator.dao.MealPlanDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.model.MealPlan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,4 +32,10 @@ public class MealPlanController {
         return getAllMyMealPlans(principal);
     }
 
+    @PostMapping("/{mealPlanId}")
+    public Boolean createMealPlan(MealPlan mealPlan, @PathVariable int mealPlanId) {
+        mealPlan.setMealPlanId(mealPlanId);
+
+        return mealPlanDao.createMealPlan(mealPlan);
+    }
 }
