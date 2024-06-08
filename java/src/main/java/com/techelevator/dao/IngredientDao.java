@@ -11,4 +11,5 @@ public interface IngredientDao {
     Ingredient createIngredient(Ingredient ingredient);
 
     List<Ingredient> getAllIngredients();
+
 }

@@ -42,6 +42,12 @@ public class IngredientController {
         return ingredientDao.getAllIngredients();
     }
 
+    // GET all ingredients for the current user
+    @GetMapping("/pantry/user")
+    public List<Pantry> getAllMyIngredients(Principal principal) {
+        return pantryDao.getAllMyIngredients(principal);
+    }
+
     // POST for creating a new ingredient
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -49,8 +55,4 @@ public class IngredientController {
         return ingredientDao.createIngredient(ingredient);
     }
 
-    @GetMapping("/ingredients")
-    public List<Pantry> getAllMyIngredients(Principal principal) {
-        return pantryDao.getAllMyIngredients(principal);
-    }
 }

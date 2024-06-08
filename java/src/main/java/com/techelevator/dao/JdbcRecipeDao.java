@@ -3,13 +3,12 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Recipe;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,15 +44,7 @@ public class JdbcRecipeDao implements RecipeDao {
     }
 
     // POST
-    public void addRecipeToLibrary() {
-    }
-
-    // PUT
-    public void updateRecipeInLibrary(Recipe recipe) {
-    }
-
-    /* Handles adding recipe to database
-
+    public Recipe addRecipeToLibrary(Recipe recipe) {
 
         String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +
             "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
@@ -74,7 +65,31 @@ public class JdbcRecipeDao implements RecipeDao {
         } catch(DaoException ex) {
             System.out.println("Something went wrong: " + ex.getMessage());
         }
-        return recipe;  */
+        return recipe;
+    }
+
+    // PUT
+    public void updateRecipeInLibrary(Recipe recipe) {
+
+        String sql = "UPDATE recipes_library\n" +
+                "SET user_id = ?, title = ?, ingredient_list = ?,\n" +
+                "\tinstructions = ?, summary = ?, duration = ?,\n" +
+                "\tdiet_category = ?, dietary_restictions = ?,\n" +
+                "\trecipe_source_url = ?, image_path = ?\n" +
+                "WHERE recipe_id = ?;";
+
+        try {
+            jdbcTemplate.update(sql, recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
+                    recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
+                    recipe.getCategory(), recipe.getDietaryRestriction(), recipe.getSource(),
+                    recipe.getImage(), recipe.getRecipeId());
+
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Recipe not found, error: " + ex.getMessage());
+        }
+    }
+
 
     private Recipe mapRecipeFromRowSet(SqlRowSet rowSet) {
         Recipe recipe = new Recipe();

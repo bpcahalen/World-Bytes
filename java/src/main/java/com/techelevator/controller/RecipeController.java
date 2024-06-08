@@ -48,8 +48,9 @@ public class RecipeController {
         recipeService.addRecipeToLibrary();
     }
 
-    @PutMapping("/library")
-    public void updateRecipe(@RequestBody Recipe recipe) {
+    @PutMapping("/library/{recipeId}")
+    public void updateRecipe(@RequestBody Recipe recipe, @PathVariable int recipeId) {
+        recipe.setRecipeId(recipeId);
         recipeDao.updateRecipeInLibrary(recipe);
     }
 }
