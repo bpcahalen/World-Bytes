@@ -43,7 +43,7 @@ public class JdbcRecipeDao implements RecipeDao {
         return recipeList;
     }
 
-    // POST
+    // POST for creating new recipe
     public Recipe addRecipeToLibrary(Recipe recipe) {
 
         String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +

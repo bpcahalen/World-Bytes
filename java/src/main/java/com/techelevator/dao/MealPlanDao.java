@@ -11,4 +11,6 @@ import java.util.List;
 public interface MealPlanDao {
 
     List<MealPlan> getAllMyMealPlans(int userId);
+
+    boolean createMealPlan(MealPlan mealPlan);
 }

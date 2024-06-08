@@ -32,9 +32,10 @@ public class MealPlanController {
         return getAllMyMealPlans(principal);
     }
 
-    @PostMapping
-    public void createMealPlan(Principal principal) {
-        //int userId =
-    }
+    @PostMapping("/{mealPlanId}")
+    public Boolean createMealPlan(MealPlan mealPlan, @PathVariable int mealPlanId) {
+        mealPlan.setMealPlanId(mealPlanId);
 
+        return mealPlanDao.createMealPlan(mealPlan);
+    }
 }

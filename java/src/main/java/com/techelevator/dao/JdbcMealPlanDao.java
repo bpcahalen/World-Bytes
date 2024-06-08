@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 
+import com.techelevator.exception.DaoException;
 import com.techelevator.model.MealPlan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,6 +41,26 @@ public class JdbcMealPlanDao implements MealPlanDao{
         }
 
         return mealPlanList;
+    }
+
+    // Need MealPlan tables active before this will function
+    @Override
+    public boolean createMealPlan(MealPlan mealPlan) {
+        MealPlan newMealPlan = new MealPlan();
+
+        String sql = "INSERT INTO meal_plans(title, recipe_list, description, duration, diet_category, dietary_restrictions)\n" +
+                "VALUES(?,?,?,?,?,?)\n" +
+                "RETURNING meal_plan_id;";
+        try{
+            /* int mealPlanId = jdbcTemplate.queryForObject(sql, int.class, mealPlan.getTitle(),
+                    mealPlan.getRecipeList, mealPlan.getDescription, mealPlan.getDuration(),
+                    mealPlan.getCategory, mealPlan.getDietaryRestrictions()); */
+
+        } catch (DaoException ex) {
+            System.out.println("Something went wrong, error: " + ex.getMessage());
+        }
+
+        return true;
     }
 
     private MealPlan mapMealPlanFromRowSet(SqlRowSet rowSet) {
