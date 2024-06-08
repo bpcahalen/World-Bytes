@@ -9,7 +9,7 @@ public interface RecipeDao {
 
     List<Recipe> getAllMyRecipes(int userId);
 
-    void addRecipeToLibrary();
+    void addRecipeToLibrary(Recipe recipe);
 
     void updateRecipeInLibrary(Recipe recipe);
 }

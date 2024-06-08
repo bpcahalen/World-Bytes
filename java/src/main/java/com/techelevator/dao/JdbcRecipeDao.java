@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Ingredient;
 import com.techelevator.model.Recipe;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -45,7 +46,7 @@ public class JdbcRecipeDao implements RecipeDao {
     }
 
     // POST
-    public void addRecipeToLibrary() {
+    public void addRecipeToLibrary(Recipe recipe) {
     }
 
     // PUT
@@ -76,34 +77,33 @@ public class JdbcRecipeDao implements RecipeDao {
         }
         return recipe;  */
 
+    // NOTE: Need to get the ingredientList as an array to make into a list, same with dietaryRestrictions
     private Recipe mapRecipeFromRowSet(SqlRowSet rowSet) {
         Recipe recipe = new Recipe();
 
-        //userId, ingredientList, summary -- add these
-        //enter column data to be mapped here
         int recipeId = rowSet.getInt("recipe_id");
         int userId = rowSet.getInt("user_id");
         String title = rowSet.getString("title");
-        String ingredientList = rowSet.getString("ingredient_list");
-        String instructions = rowSet.getString("instructions");
+//        String ingredientList = rowSet.getString("ingredient_list");
+//        String instructions = rowSet.getString("instructions");
         String summary = rowSet.getString("summary");
         int duration = rowSet.getInt("duration");
-        String category = rowSet.getString("diet_category");
+//        String dietCategory = rowSet.getString("diet_category");
+//        String dietaryRestrictions = rowSet.getString("dietary_restrictions");
         String source = rowSet.getString("recipe_source_url");
         String image = rowSet.getString("image_path");
-        String dietaryRestriction = rowSet.getString("dietary_restriction");
 
         recipe.setRecipeId(recipeId);
         recipe.setUserId(userId);
         recipe.setTitle(title);
-        recipe.setIngredientList(ingredientList);
-        recipe.setInstructions(instructions);
+//        recipe.setIngredientList(ingredientList);
+//        recipe.setInstructions(instructions);
         recipe.setSummary(summary);
         recipe.setDuration(duration);
-        recipe.setCategory(category);
+//        recipe.setDietCategory(dietCategory);
+//        recipe.setDietaryRestrictions(dietaryRestrictions);
         recipe.setSource(source);
         recipe.setImage(image);
-        recipe.setDietaryRestriction(dietaryRestriction);
 
         return recipe;
     }

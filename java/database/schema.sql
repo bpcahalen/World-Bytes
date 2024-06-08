@@ -20,7 +20,7 @@ CREATE TABLE recipes_library (
 	instructions text,
 	summary text,
 	duration numeric,                       -- time in minutes for recipe
-	diet_category varchar(50),				-- will hold multiple categories, such as keto or gluten free
+	diet_categories varchar(50),			-- will hold multiple categories, such as keto or gluten free
 	dietary_restrictions varchar(50), 		-- restrictions "nuts", "etc."
 	recipe_source_url varchar(200),
 	image_path varchar(200),

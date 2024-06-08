@@ -32,9 +32,9 @@ public class RecipeController {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
-    @GetMapping(path = "/")
-    public List<Recipe> searchRecipesByIngredients(Principal principal, String[] ingredients) {
-        return recipeService.getRecipesByIngredients(ingredients);
+    @GetMapping(path = "/information")
+    public Recipe viewRecipeDetails() {
+        return recipeService.viewRecipeDetails();
     }
 
     @GetMapping(path = "/library")
@@ -52,4 +52,10 @@ public class RecipeController {
     public void updateRecipe(@RequestBody Recipe recipe) {
         recipeDao.updateRecipeInLibrary(recipe);
     }
+
+    // Extra cases; not implemented
+    //    @GetMapping(path = "/")
+//    public List<Recipe> searchRecipesByIngredients(Principal principal, String[] ingredients) {
+//        return recipeService.getRecipesByIngredients(ingredients);
+//    }
 }
