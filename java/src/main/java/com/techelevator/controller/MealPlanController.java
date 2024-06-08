@@ -19,7 +19,9 @@ public class MealPlanController {
     @Autowired MealPlanDao mealPlanDao;
     @Autowired UserDao userDao;
 
-    public MealPlanController() {
+    public MealPlanController(MealPlanDao mealPlanDao, UserDao userDao) {
+        this.mealPlanDao = mealPlanDao;
+        this.userDao = userDao;
     }
 
 

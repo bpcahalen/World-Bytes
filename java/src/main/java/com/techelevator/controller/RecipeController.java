@@ -16,16 +16,19 @@ import java.util.List;
 public class RecipeController {
 
     @Autowired RecipeDao recipeDao;
-    @Autowired RecipeService recipeService;
     @Autowired UserDao userDao;
+    @Autowired RecipeService recipeService;
 
 
-    public RecipeController() {
+    public RecipeController(RecipeDao recipeDao, UserDao userDao, RecipeService recipeService) {
+        this.recipeDao = recipeDao;
+        this.userDao = userDao;
+        this.recipeService = recipeService;
     }
 
     //API calls go here
-    @GetMapping(path = "")
-    public List<Recipe> searchRecipesByKeyword(Principal principal, String searchQuery) {
+    @GetMapping
+    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
