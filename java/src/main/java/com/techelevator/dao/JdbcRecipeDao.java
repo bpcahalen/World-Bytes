@@ -84,7 +84,7 @@ public class JdbcRecipeDao implements RecipeDao {
         try {
             jdbcTemplate.update(sql, recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
                     recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
-                    recipe.getCategory(), recipe.getDietaryRestriction(), recipe.getSource(),
+                    recipe.getDietCategories(), recipe.getDietaryRestrictions(), recipe.getSource(),
                     recipe.getImage(), recipe.getRecipeId());
 
         } catch (DaoException ex) {
