@@ -1,18 +1,27 @@
 package com.techelevator.model;
 
+import java.util.List;
+
 public class Recipe {
 
-    //Instance Variables
+    // Instance Variables
     private int recipeId;
+    private int userId;
     private String title;
-    private String instructions;
+    private List<Ingredient> ingredientList;
+    private List<String> instructions;
+    private String summary;
     private int duration;
-    private String category;
-    private String link;
+    private List<String> dietCategories;
+    private List<String> dietaryRestrictions;
+    private String source;
     private String image;
-    private String dietaryLabel;
 
-    //Getters and Setters
+    // Constructor
+    public Recipe() {
+    }
+
+    // Getters and Setters
 
     public int getRecipeId() {
         return recipeId;
@@ -20,6 +29,14 @@ public class Recipe {
 
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -30,12 +47,28 @@ public class Recipe {
         this.title = title;
     }
 
-    public String getInstructions() {
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
+    }
+
+    public List<String> getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(String instructions) {
+    public void setInstructions(List<String> instructions) {
         this.instructions = instructions;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public int getDuration() {
@@ -46,20 +79,28 @@ public class Recipe {
         this.duration = duration;
     }
 
-    public String getCategory() {
-        return category;
+    public List<String> getDietCategories() {
+        return dietCategories;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setDietCategories(List<String> dietCategories) {
+        this.dietCategories = dietCategories;
     }
 
-    public String getLink() {
-        return link;
+    public List<String> getDietaryRestrictions() {
+        return dietaryRestrictions;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setDietaryRestrictions(List<String> dietaryRestrictions) {
+        this.dietaryRestrictions = dietaryRestrictions;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getImage() {
@@ -68,13 +109,5 @@ public class Recipe {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getDietaryLabel() {
-        return dietaryLabel;
-    }
-
-    public void setDietaryLabel(String dietaryLabel) {
-        this.dietaryLabel = dietaryLabel;
     }
 }

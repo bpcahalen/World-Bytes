@@ -1,7 +1,9 @@
 package com.techelevator.controller;
 
 import com.techelevator.dao.RecipeDao;
+import com.techelevator.dao.UserDao;
 import com.techelevator.model.Recipe;
+import com.techelevator.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,22 +16,47 @@ import java.util.List;
 public class RecipeController {
 
     @Autowired RecipeDao recipeDao;
+    @Autowired UserDao userDao;
+    @Autowired RecipeService recipeService;
 
-    private final RecipeDao dao;
 
-    public RecipeController(RecipeDao dao) {
-        this.dao = dao;
+    public RecipeController(RecipeDao recipeDao, UserDao userDao, RecipeService recipeService) {
+        this.recipeDao = recipeDao;
+        this.userDao = userDao;
+        this.recipeService = recipeService;
     }
-
-    @RequestMapping(path = "/id/username", method = RequestMethod.GET)
-    public int findIdByUsername(@RequestParam String username) {
-        return recipeDao.findIdByUsername(username);
-    }
-
 
     //API calls go here
-    @GetMapping("/library")
-    public List<Recipe> getAllMyRecipes(Principal principal) {
-        return getAllMyRecipes(principal);
+    @GetMapping
+    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
+        return recipeService.getRecipesByKeyword(searchQuery);
     }
+
+    @GetMapping(path = "/information")
+    public Recipe viewRecipeDetails() {
+        return recipeService.viewRecipeDetails();
+    }
+
+    @GetMapping(path = "/library")
+    public List<Recipe> getAllMyRecipes(Principal principal) {
+        int userId = userDao.findIdByUsername(principal.getName());
+        return recipeDao.getAllMyRecipes(userId);
+    }
+
+    @PostMapping(path = "/library")
+    public void addRecipe() { // return recipe ?
+        recipeService.addRecipeToLibrary();
+    }
+
+    @PutMapping("/library/{recipeId}")
+    public void updateRecipe(@RequestBody Recipe recipe, @PathVariable int recipeId) {
+        recipe.setRecipeId(recipeId);
+        recipeDao.updateRecipeInLibrary(recipe);
+    }
+
+    // Extra cases; not implemented
+    //    @GetMapping(path = "/")
+//    public List<Recipe> searchRecipesByIngredients(Principal principal, String[] ingredients) {
+//        return recipeService.getRecipesByIngredients(ingredients);
+//    }
 }

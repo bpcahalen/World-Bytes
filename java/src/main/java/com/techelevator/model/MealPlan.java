@@ -1,10 +1,12 @@
 package com.techelevator.model;
 
+import java.util.List;
+
 public class MealPlan {
 
     //Instance Variables
     private int mealPlanId;
-    private int recipeId;
+    private List<Integer> recipeList;
     private String title;
     private int duration;
     private String type;
@@ -21,12 +23,12 @@ public class MealPlan {
         this.mealPlanId = mealPlanId;
     }
 
-    public int getRecipeId() {
-        return recipeId;
+    public List<Integer> getRecipeId() {
+        return recipeList;
     }
 
-    public void setRecipeId(int recipeId) {
-        this.recipeId = recipeId;
+    public void setRecipeList(List<Integer> recipeList) {
+        this.recipeList = recipeList;
     }
 
     public String getTitle() {

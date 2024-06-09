@@ -2,10 +2,10 @@ package com.techelevator.model;
 
 public class Pantry {
 
-    //Instance Variables
 
-    int ingredientId;
-    int userId;
+    //Instance Variables
+    private int userId;
+    private int ingredientId;
 
 
 

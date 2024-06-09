@@ -3,10 +3,12 @@ package com.techelevator.dao;
 import com.techelevator.model.Ingredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcIngredientDao implements IngredientDao{
 
     // Initialize the jdbcTemplate
@@ -35,9 +37,9 @@ public class JdbcIngredientDao implements IngredientDao{
         return ingredientList;
     }
 
+
     @Override
     public Ingredient createIngredient(Ingredient ingredient) {
-        Ingredient newIngredient = null;
 
         String sql = "INSERT INTO ingredients(ingredient_name)\n" +
                 "VALUES(?)\n" +
@@ -45,13 +47,12 @@ public class JdbcIngredientDao implements IngredientDao{
 
         try {
             int ingredientId = jdbcTemplate.queryForObject(sql, int.class, ingredient.getIngredientName());
-            newIngredient = ingredient;
-            newIngredient.setIngredientId(ingredientId);
+            ingredient.setIngredientId(ingredientId);
         } catch (Exception ex) {
             System.out.println("Something went wrong!" + ex.getMessage());
         }
 
-        return newIngredient;
+        return ingredient;
     }
 
     private Ingredient mapIngredientFromRowSet(SqlRowSet rowSet) {
