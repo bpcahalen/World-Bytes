@@ -74,6 +74,8 @@ export default {
  align-items: center;
  background-color: #369cdb;
  font-family: 'Varela Round', sans-serif;
+ cursor: url('../photos/walter_smiling.png'), auto;
+ 
 }
 
 form{
@@ -88,7 +90,7 @@ form{
   max-width: 400px;
   width: 100%;
   max-height: 398.4px;
-  height: 100%
+  height: 100%;
 }
 
 h1{
