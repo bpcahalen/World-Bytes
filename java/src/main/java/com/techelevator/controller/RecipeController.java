@@ -32,9 +32,9 @@ public class RecipeController {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
-    @GetMapping(path = "/information")
-    public Recipe viewRecipeDetails() {
-        return recipeService.viewRecipeDetails();
+    @GetMapping(path = "{recipeId}/information")
+    public Recipe viewRecipeDetails(@RequestBody Recipe recipe) {
+        return recipeService.viewRecipeDetails(recipe);
     }
 
     @GetMapping(path = "/library")
@@ -43,14 +43,16 @@ public class RecipeController {
         return recipeDao.getAllMyRecipes(userId);
     }
 
+//    @ResponseStatus()
     @PostMapping(path = "/library")
-    public void addRecipe() { // return recipe ?
-        recipeService.addRecipeToLibrary();
+    public void addRecipe(@RequestBody Recipe recipe) { // return recipe ?
+        recipeDao.addRecipeToLibrary(recipe);
     }
 
+//    @ResponseStatus
     @PutMapping("/library/{recipeId}")
     public void updateRecipe(@RequestBody Recipe recipe, @PathVariable int recipeId) {
-        recipe.setRecipeId(recipeId);
+        recipe.setRecipeId(recipeId); // this should already be done ?
         recipeDao.updateRecipeInLibrary(recipe);
     }
 

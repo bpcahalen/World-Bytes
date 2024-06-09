@@ -60,7 +60,7 @@ public class JdbcRecipeDao implements RecipeDao {
             int recipeId = jdbcTemplate.queryForObject(sql, int.class,
                 recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
                 recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
-                recipe.getCategory(), recipe.getDietaryRestriction(), recipe.getSource(),
+                recipe.getDietCategories(), recipe.getDietaryRestrictions(), recipe.getSource(),
                 recipe.getImage());
 
             recipe.setRecipeId(recipeId);
