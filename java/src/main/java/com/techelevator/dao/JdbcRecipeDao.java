@@ -60,7 +60,7 @@ public class JdbcRecipeDao implements RecipeDao {
             int recipeId = jdbcTemplate.queryForObject(sql, int.class,
                 recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
                 recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
-                recipe.getCategory(), recipe.getDietaryRestriction(), recipe.getSource(),
+                recipe.getDietCategories(), recipe.getDietaryRestrictions(), recipe.getSource(),
                 recipe.getImage());
 
             recipe.setRecipeId(recipeId);
@@ -77,7 +77,7 @@ public class JdbcRecipeDao implements RecipeDao {
         String sql = "UPDATE recipes_library\n" +
                 "SET user_id = ?, title = ?, ingredient_list = ?,\n" +
                 "\tinstructions = ?, summary = ?, duration = ?,\n" +
-                "\tdiet_category = ?, dietary_restictions = ?,\n" +
+                "\tdiet_category = ?, dietary_restrictions = ?,\n" +
                 "\trecipe_source_url = ?, image_path = ?\n" +
                 "WHERE recipe_id = ?;";
 
@@ -105,7 +105,7 @@ public class JdbcRecipeDao implements RecipeDao {
 //        String instructions = rowSet.getString("instructions");
         String summary = rowSet.getString("summary");
         int duration = rowSet.getInt("duration");
-//        String dietCategory = rowSet.getString("diet_category");
+//        String dietCategories = rowSet.getString("diet_categories");
 //        String dietaryRestrictions = rowSet.getString("dietary_restrictions");
         String source = rowSet.getString("recipe_source_url");
         String image = rowSet.getString("image_path");

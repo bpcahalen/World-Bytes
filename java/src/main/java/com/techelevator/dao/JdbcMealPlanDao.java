@@ -48,13 +48,15 @@ public class JdbcMealPlanDao implements MealPlanDao{
     public boolean createMealPlan(MealPlan mealPlan) {
         MealPlan newMealPlan = new MealPlan();
 
-        String sql = "INSERT INTO meal_plans(title, recipe_list, description, duration, diet_category, dietary_restrictions)\n" +
+        String sql = "INSERT INTO meal_plans(title, recipe_list, description, duration, diet_categories, dietary_restrictions)\n" +
                 "VALUES(?,?,?,?,?,?)\n" +
                 "RETURNING meal_plan_id;";
         try{
-            /* int mealPlanId = jdbcTemplate.queryForObject(sql, int.class, mealPlan.getTitle(),
-                    mealPlan.getRecipeList, mealPlan.getDescription, mealPlan.getDuration(),
-                    mealPlan.getCategory, mealPlan.getDietaryRestrictions()); */
+            int mealPlanId = jdbcTemplate.queryForObject(sql, int.class, mealPlan.getTitle(),
+                    mealPlan.getRecipeList(), mealPlan.getDescription(), mealPlan.getDuration(),
+                    mealPlan.getDietCategories(), mealPlan.getDietaryRestrictions());
+
+            mealPlan.setMealPlanId(mealPlanId);
 
         } catch (DaoException ex) {
             System.out.println("Something went wrong, error: " + ex.getMessage());
@@ -63,13 +65,17 @@ public class JdbcMealPlanDao implements MealPlanDao{
         return true;
     }
 
+
     private MealPlan mapMealPlanFromRowSet(SqlRowSet rowSet) {
 
         List<Integer> recipeList = new ArrayList<>();
+        List<String> dietCategories = new ArrayList<>();
         MealPlan mealPlan = new MealPlan();
 
         int mealPlanId = rowSet.getInt("meal_plan_id");
+        String title = rowSet.getString("title");
         String recipeListString = rowSet.getString("recipe_list");
+
         if(recipeListString != null && !recipeListString.isEmpty()) {
             String[] recipeStringArray = recipeListString.split(",");
             for(String id : recipeStringArray) {
@@ -80,17 +86,26 @@ public class JdbcMealPlanDao implements MealPlanDao{
                 }
             }
         }
-        String title = rowSet.getString("title");
+
+        String description = rowSet.getString("description");
         int duration = rowSet.getInt("duration");
-        String type = rowSet.getString("type");
+        String dietCategoriesString = rowSet.getString("diet_categories");
+
+        if(dietCategoriesString != null && !dietCategoriesString.isEmpty()) {
+            String[] dietCategoriesStringArray = dietCategoriesString.split(",");
+            for (String category : dietCategoriesStringArray) {
+                dietCategories.add(category.trim());
+            }
+        }
         String dietaryRestrictions = rowSet.getString("dietary_restrictions");
 
 
         mealPlan.setMealPlanId(mealPlanId);
-        mealPlan.setRecipeList(recipeList);
         mealPlan.setTitle(title);
+        mealPlan.setRecipeList(recipeList);
+        mealPlan.setDescription(description);
         mealPlan.setDuration(duration);
-        mealPlan.setType(type);
+        mealPlan.setDietCategories(dietCategories);
         mealPlan.setDietaryRestrictions(dietaryRestrictions);
 
         return mealPlan;
