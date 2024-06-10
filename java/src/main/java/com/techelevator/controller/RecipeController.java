@@ -44,8 +44,8 @@ public class RecipeController {
     }
 
     @PostMapping(path = "/library")
-    public void addRecipe() { // return recipe ?
-        recipeService.addRecipeToLibrary();
+    public void addRecipe(Recipe recipe) { // return recipe ?
+        recipeService.addRecipeToLibrary(recipe);
     }
 
     @PutMapping("/library/{recipeId}")

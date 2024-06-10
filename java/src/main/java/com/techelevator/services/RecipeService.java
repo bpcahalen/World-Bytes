@@ -41,7 +41,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
     public RecipeService() {
     }
 
-    public void addRecipeToLibrary() {
+    public void addRecipeToLibrary(Recipe recipe) {
 
     }
 

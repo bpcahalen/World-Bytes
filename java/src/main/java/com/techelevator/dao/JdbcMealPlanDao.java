@@ -45,7 +45,7 @@ public class JdbcMealPlanDao implements MealPlanDao{
 
     // Need MealPlan tables active before this will function
     @Override
-    public boolean createMealPlan(MealPlan mealPlan) {
+    public MealPlan createMealPlan(MealPlan mealPlan) {
         MealPlan newMealPlan = new MealPlan();
 
         String sql = "INSERT INTO meal_plans(title, recipe_list, description, duration, diet_categories, dietary_restrictions)\n" +
@@ -62,7 +62,7 @@ public class JdbcMealPlanDao implements MealPlanDao{
             System.out.println("Something went wrong, error: " + ex.getMessage());
         }
 
-        return true;
+        return mealPlan;
     }
 
 

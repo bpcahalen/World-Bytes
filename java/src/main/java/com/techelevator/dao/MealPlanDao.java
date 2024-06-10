@@ -12,5 +12,5 @@ public interface MealPlanDao {
 
     List<MealPlan> getAllMyMealPlans(int userId);
 
-    boolean createMealPlan(MealPlan mealPlan);
+    MealPlan createMealPlan(MealPlan mealPlan);
 }

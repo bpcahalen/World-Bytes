@@ -88,7 +88,7 @@ form{
   max-width: 400px;
   width: 100%;
   max-height: 398.4px;
-  height: 100%
+  height: 100%;
 }
 
 h1{
