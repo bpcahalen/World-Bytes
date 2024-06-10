@@ -5,6 +5,7 @@ import com.techelevator.dao.UserDao;
 import com.techelevator.model.Recipe;
 import com.techelevator.services.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -43,16 +44,20 @@ public class RecipeController {
         return recipeDao.getAllMyRecipes(userId);
     }
 
-//    @ResponseStatus()
+
+    // utilizing viewRecipeDetails to map the recipe model
+    // then using recipeDao.addRecipe, post the info into our database as a new recipe
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/library")
-    public void addRecipe(@RequestBody Recipe recipe) { // return recipe ?
-        recipeDao.addRecipeToLibrary(recipe);
+    public void addRecipe(@RequestBody Recipe recipe) {
+        Recipe recipeToAdd = recipeService.viewRecipeDetails(recipe);
+        recipeDao.addRecipe(recipeToAdd);
     }
 
-//    @ResponseStatus
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/library/{recipeId}")
     public void updateRecipe(@RequestBody Recipe recipe, @PathVariable int recipeId) {
-        recipe.setRecipeId(recipeId); // this should already be done ?
+        recipe.setRecipeId(recipeId);
         recipeDao.updateRecipeInLibrary(recipe);
     }
 

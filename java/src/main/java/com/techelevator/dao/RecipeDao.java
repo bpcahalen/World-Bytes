@@ -12,7 +12,7 @@ public interface RecipeDao {
 
     List<Recipe> getAllMyRecipes(int userId);
 
-    Recipe addRecipeToLibrary(Recipe recipe);
+    Recipe addRecipe(Recipe recipe);
 
     void updateRecipeInLibrary(Recipe recipe);
 }

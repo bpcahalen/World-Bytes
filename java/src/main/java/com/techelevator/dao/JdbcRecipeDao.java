@@ -47,7 +47,7 @@ public class JdbcRecipeDao implements RecipeDao {
     /* Handles adding recipe to database */
 
     // POST for creating new recipe
-    public Recipe addRecipeToLibrary(Recipe recipe) {
+    public Recipe addRecipe(Recipe recipe) {
 
         String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +
             "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
@@ -77,7 +77,7 @@ public class JdbcRecipeDao implements RecipeDao {
         String sql = "UPDATE recipes_library\n" +
                 "SET user_id = ?, title = ?, ingredient_list = ?,\n" +
                 "\tinstructions = ?, summary = ?, duration = ?,\n" +
-                "\tdiet_category = ?, dietary_restictions = ?,\n" +
+                "\tdiet_category = ?, dietary_restrictions = ?,\n" +
                 "\trecipe_source_url = ?, image_path = ?\n" +
                 "WHERE recipe_id = ?;";
 
@@ -105,7 +105,7 @@ public class JdbcRecipeDao implements RecipeDao {
 //        String instructions = rowSet.getString("instructions");
         String summary = rowSet.getString("summary");
         int duration = rowSet.getInt("duration");
-//        String dietCategory = rowSet.getString("diet_category");
+//        String dietCategories = rowSet.getString("diet_categories");
 //        String dietaryRestrictions = rowSet.getString("dietary_restrictions");
         String source = rowSet.getString("recipe_source_url");
         String image = rowSet.getString("image_path");

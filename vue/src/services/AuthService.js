@@ -5,9 +5,8 @@ const http = axios.create({
 })
 
 export default {
-
   login(user) {
-    return axios.post('/login', user)
+    return axios.post('/login', user);
   },
 
   register(user) {
@@ -41,5 +40,4 @@ export default {
   deleteMyRecipe(){
     return axios.delete()
   }
-
 }
