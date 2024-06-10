@@ -41,9 +41,13 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
     public RecipeService() {
     }
 
-    public void addRecipeToLibrary(Recipe recipe) {
+    // Possibly won't need a separate method for adding a recipe in the Recipe Service?
+    // Can possibly be handled by viewRecipeDetails + addRecipe (check RecipeController for example)
 
-    }
+//    public void addRecipeToLibrary(Recipe recipe) {
+//        Recipe recipeToAdd = viewRecipeDetails(recipe);
+
+//    }
 
     public Recipe viewRecipeDetails(Recipe recipe) {
         String url = this.apiURL + "/" + recipe.getRecipeId() + this.recipeInfoEndpoint + this.key;
@@ -103,7 +107,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
 
         }
          catch (JsonProcessingException e) {
-            System.out.println("Something went wrong.");
+            e.printStackTrace();
         }
 
         return recipe;
