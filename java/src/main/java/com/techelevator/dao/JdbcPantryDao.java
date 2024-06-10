@@ -33,13 +33,15 @@ public class JdbcPantryDao implements PantryDao {
         List<Pantry> pantryList = new ArrayList<>();
         int userId = userDao.findIdByUsername(principal.getName());
 
-        String sql = "SELECT ingredient_id, user_id\n" +
+        String sql = "SELECT ingredient_id\n" +
                 "FROM pantry\n" +
                 "WHERE user_id = ?;";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
 
         while(rowSet.next()) {
+
+
             pantryList.add(mapPantryFromRow(rowSet));
 
         }

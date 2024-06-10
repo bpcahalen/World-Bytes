@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS recipes_library;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -20,8 +20,9 @@ CREATE TABLE recipes_library (
 	instructions text,
 	summary text,
 	duration numeric,                       -- time in minutes for recipe
+	servings numeric,                       -- serving size
 	diet_categories varchar(50),			-- will hold multiple categories, such as keto or gluten free
-	dietary_restrictions varchar(50), 		-- restrictions "nuts", "etc."
+	occasions varchar(50), 		            -- will include stuff like holidays, etc.
 	recipe_source_url varchar(200),
 	image_path varchar(200),
 	CONSTRAINT PK_recipe_id PRIMARY KEY (recipe_id),
@@ -42,7 +43,7 @@ CREATE TABLE recipes_library (
 --	recipe_list varchar(300),				-- List of recipe IDs used in the meal plan
 --	description text,						-- Meal plan description
 --	duration int, 							-- Duration of the meal plan; must be greater than 0
---	diet_categories varchar(100),				-- List of any diet categories, i.e. keto, etc.
+--	diet_categories varchar(100),			-- List of any diet categories, i.e. keto, etc.
 --	dietary_restrictions varchar(100),		-- List of any dietary restrictions
 --	CONSTRAINT PK_meal_plan_id PRIMARY KEY (meal_plan_id),
 --	CONSTRAINT CK_duration CHECK (duration >= 0)
