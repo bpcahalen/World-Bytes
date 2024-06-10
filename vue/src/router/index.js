@@ -19,11 +19,11 @@ import RecipeView from '../views/RecipeView.vue';
  */
 const routes = [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: HomeView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
@@ -55,7 +55,7 @@ const routes = [
     name: 'account',
     component: AccountView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   },
   {
