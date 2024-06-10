@@ -18,8 +18,8 @@
                         <input type:text id="name">
                     </div>
                     <div id="timeSearch">
-                        <label for="time">Time(in mins): </label>
-                        <select id="time">
+                        <label for="duration">Time(in mins): </label>
+                        <select id="duration">
                             <option value="0">0</option>
                             <option value="15">15</option>
                             <option value="30">30</option>
@@ -27,9 +27,13 @@
                             <option value="60">60</option>
                         </select>
                     </div>
-                    <div id="occasion">
-                        <label for="occasion">   Occasion: </label>
-                        <input type:text id="occasion">
+                    <div id="description">
+                        <label for="description">Description: </label>
+                        <input type:text id="description">
+                    </div>
+                    <div id="dietary">
+                        <label for="dietary">Diet Type: </label>
+                        <input type:text id="dietary">
                     </div>
                 </div>
             </div>
@@ -40,8 +44,8 @@
                         <input type:text id="name" v-model="filteredRecipe.name">
                     </div>
                     <div id="timeSearch">
-                        <label for="time">Time(in mins): </label>
-                        <select id="time" v-model="filteredRecipe.time">
+                        <label for="duration">Time(in mins): </label>
+                        <select id="duration" v-model="filteredRecipe.duration">
                             <option value="0">0</option>
                             <option value="15">15</option>
                             <option value="30">30</option>
@@ -50,12 +54,16 @@
                         </select>
                     </div>
                     <div id="occasion">
-                        <label for="occasion">   Occasion: </label>
+                        <label for="occasion">Occasion: </label>
                         <input type:text id="occasion" v-model="filteredRecipe.category">
+                    </div>
+                    <div id="dietary">
+                        <label for="dietary">Diet Type: </label>
+                        <input type:text id="dietary">
                     </div>
                 </div>
                 <div>
-                    <Recipes :recipes="filteredList" />
+                    <Recipes :recipes="filteredRecipeList" />
                 </div>
             </div>
             <div id="groceryList" v-show="choice === 'Grocery List'">
@@ -82,13 +90,15 @@ export default {
            choice : "My Plans",
            filteredRecipe : {
                 name : "",
-                time : "",
-                category : ""
+                duration : "",
+                category : "",
+                dietary : ""
            },
            filteredPlan : {
                 name : "",
-                length : "",
-                description : ""
+                duration : "",
+                description : "",
+                dietary : ""
            },
            myRecipes : [],
            myPlans : []
@@ -117,7 +127,7 @@ export default {
 
     },
     computed: {
-        filteredList() {
+        filteredRecipeList() {
             let filterRecipe = this.myRecipes;
             if(this.filteredRecipe.name != ""){
                 filterRecipe = filterRecipe.filter(recipe => 
@@ -129,13 +139,20 @@ export default {
             if(this.filteredRecipe.category != ""){
                 filterRecipe = filterRecipe.filter(recipe => 
                 recipe.category
-                .toLowerCase
+                .toLowerCase()
                 .includes(this.filteredRecipe.category.toLowerCase())
                 )
             }
             if(this.filteredRecipe.time != 0){
                 filterRecipe = filterRecipe.filter(recipe => 
                 recipe.time <= this.filteredRecipe.time
+                )
+            }
+            if(this.filteredRecipe.dietary != ""){
+                filterRecipe = filterRecipe.filter(recipe => 
+                recipe.dietary 
+                .toLowerCase()
+                .includes(this.filteredRecipe.dietary.toLowerCase())
                 )
             }
             return filterRecipe;
@@ -223,7 +240,7 @@ ul :hover{
     height: 35px;
     width: 75vw;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -238,6 +255,5 @@ ul :hover{
 
 #occasion{
     display: inline-block;
-    margin-left: 20px;
 }
 </style>

@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+const http = axios.create({
+  baseURL: "http://localhost:9000"
+})
+
 export default {
 
   login(user) {
@@ -9,25 +13,25 @@ export default {
   register(user) {
     return axios.post('/register', user)
   },
-
-  myRecipes(){
-    return axios.get('/library')
-  },
-
-  myPlans(user){
-    return axios.get(`/plans/${user.id}`)
-  },
   
-  recipes(){
-    return axios.get('/recipes')
+  getRecipes(){
+    return http.get('/recipes')
   },
 
-  recipeDetails(user){
+  getRecipeDetails(user){
     return axios.get(`/recipes/${user.id}/information`)
   },
 
-  recipeById(id){
+  getRecipeById(id){
     return axios.get(`/recipes/${id}`)
+  },
+
+  getMyRecipes(){
+    return axios.get('/library')
+  },
+
+  getMyPlans(user){
+    return axios.get(`/plans/${user.id}`)
   },
 
   addMyRecipe(){
