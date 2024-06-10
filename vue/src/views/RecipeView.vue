@@ -25,64 +25,65 @@
             </div>
         </div>
         <div>
-            <Recipes :recipes="recipes" />
+            <recipesDesign :recipes="recipes" />
         </div>
     </div>
 </template>
 
 <script>
-import Recipes from '../components/recipe.vue';
-import authService from '../services/AuthService';
+import recipesDesign from '../components/recipe.vue';
+import recipeService from '../services/RecipeService';
 
 export default {
     components: {
-        Recipes
+        recipesDesign
     },
     data() {
         return {
             recipes: [],
-            filter : {
-                name : "",
-                time : "",
-                category : "",
-                dietary : ""
+            filter: {
+                name: "",
+                time: "",
+                category: "",
+                dietary: ""
             }
         }
     },
     methods: {
-        getRecipes() {
-            authService.getRecipes().then(response => {
+        
+    },
+    created(){
+        recipeService.getRecipes().then(response => {
                 this.recipes = response.data;
-            });
-        }
+            })
     },
     computed: {
         filteredList() {
             let filterRecipe = this.filter;
-            if(this.filter.name != ""){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.name
-                .toLowerCase()
-                .includes(this.filter.name.toLowerCase())
+            if (this.filter.name != "") {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.name
+                        .toLowerCase()
+                        .includes(this.filter.name.toLowerCase())
                 );
             }
-            if(this.filter.category != ""){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.category
-                .toLowerCase()
-                .includes(this.filter.category.toLowerCase())
+            if (this.filter.category != "") {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.category
+                        .toLowerCase()
+                        .includes(this.filter.category.toLowerCase())
                 )
             }
-            if(this.filter.time != 0){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.time <= this.filter.time
+            if (this.filter.time != 0) {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.time <= this.filter.time
                 )
             }
-            if(this.filter.dietary != ""){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.dietary 
-                .toLowerCase()
-                .includes(this.filter.dietary.toLowerCase())
+            if (this.filter.dietary != "") {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.dietary
+                        .toLowerCase()
+                        .includes(this.filter.dietary.toLowerCase())
                 )
             }
             return filterRecipe;
@@ -93,7 +94,7 @@ export default {
 </script>
 
 <style>
-#recipeList{
+#recipeList {
     background-color: blue;
 }
 

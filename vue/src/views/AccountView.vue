@@ -11,7 +11,7 @@
             </ul>
         </div>
         <div id="details">
-            <div id="myPlans" v-show="choice === 'My Plans'">
+            <div id="myPlansView" v-show="choice === 'My Plans View'">
                 <div id="searchBar">
                     <div id="nameSearch">
                         <label for="name">Recipe Name: </label>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div id="myRecipes" v-show="choice === 'My Recipes'">
+            <div id="myRecipesView" v-show="choice === 'My Recipes View'">
                 <div id="searchBar">
                     <div id="nameSearch">
                         <label for="name" >Recipe Name: </label>
@@ -79,7 +79,7 @@
 
 <script>
 import Recipes from '../components/recipe.vue';
-import authService from '../services/AuthService';
+import recipeService from '../services/RecipeService';
 
 export default {
     components: {
@@ -108,19 +108,19 @@ export default {
     methods: {
         getUserSelection(e){
                 this.choice = e.target.innerText;
-                if(this.choice != "My Recipes"){
+                if(this.choice != "My Recipes View"){
                     this.filteredRecipe.name = "";
                     this.filteredRecipe.category = "";
                     this.filteredRecipe.time = "";
                 }
-                if(this.choice != "My Plans"){
+                if(this.choice != "My Plans View"){
                     this.filteredPlan.name = "";
                     this.filteredPlan.length = "";
                     this.filteredPlan.description = "";
                 }
         },
         getRecipes(){
-            authService.myRecipes.then(response => {
+            recipeService.getMyRecipes.then(response => {
                 this.myRecipes = response.data;
             });
         }
