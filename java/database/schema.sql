@@ -42,7 +42,7 @@ CREATE TABLE recipes_library (
 --	recipe_list varchar(300),				-- List of recipe IDs used in the meal plan
 --	description text,						-- Meal plan description
 --	duration int, 							-- Duration of the meal plan; must be greater than 0
---	diet_category varchar(100),				-- List of any diet categories, i.e. keto, etc.
+--	diet_categories varchar(100),				-- List of any diet categories, i.e. keto, etc.
 --	dietary_restrictions varchar(100),		-- List of any dietary restrictions
 --	CONSTRAINT PK_meal_plan_id PRIMARY KEY (meal_plan_id),
 --	CONSTRAINT CK_duration CHECK (duration >= 0)

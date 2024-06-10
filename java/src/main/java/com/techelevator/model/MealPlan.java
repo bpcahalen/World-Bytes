@@ -6,10 +6,11 @@ public class MealPlan {
 
     //Instance Variables
     private int mealPlanId;
-    private List<Integer> recipeList;
     private String title;
+    private List<Integer> recipeList;
+    private String description;
     private int duration;
-    private String type;
+    private  List<String> dietCategories;
     private String dietaryRestrictions;
 
 
@@ -27,8 +28,20 @@ public class MealPlan {
         return recipeList;
     }
 
+    public List<Integer> getRecipeList() {
+        return recipeList;
+    }
+
     public void setRecipeList(List<Integer> recipeList) {
         this.recipeList = recipeList;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription (String description) {
+        this.description = description;
     }
 
     public String getTitle() {
@@ -47,12 +60,12 @@ public class MealPlan {
         this.duration = duration;
     }
 
-    public String getType() {
-        return type;
+    public List<String> getDietCategories() {
+        return dietCategories;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDietCategories(List<String> dietCategories) {
+        this.dietCategories = dietCategories;
     }
 
     public String getDietaryRestrictions() {

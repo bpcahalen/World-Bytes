@@ -6,50 +6,34 @@ export default {
   },
 
   register(user) {
-    return axios.post('/register', user);
+    return axios.post('/register', user)
   },
 
-  getMealPlans() {
-    return axios.get('/meal-plans');
+  myRecipes(){
+    return axios.get('/library')
   },
 
-  getRecipes() {
-    return axios.get('/recipes');
+  myPlans(user){
+    return axios.get(`/plans/${user.id}`)
+  },
+  
+  recipes(){
+    return axios.get('/recipes')
   },
 
-  getRecipeDetails(recipeId) {
-    return axios.get(`/recipes/${recipeId}`);
+  recipeDetails(user){
+    return axios.get(`/recipes/${user.id}/information`)
   },
 
-  getGroceryList() {
-    return axios.get('/grocery-list');
+  recipeById(id){
+    return axios.get(`/recipes/${id}`)
   },
 
-  createMealPlan(mealPlan) {
-    return axios.post('/meal-plans', mealPlan);
+  addMyRecipe(){
+    return axios.post('/library')
   },
 
-  updateMealPlan(mealPlanId, mealPlan) {
-    return axios.put(`/meal-plans/${mealPlanId}`, mealPlan);
-  },
-
-  deleteMealPlan(mealPlanId) {
-    return axios.delete(`/meal-plans/${mealPlanId}`);
-  },
-
-  addRecipe(recipe) {
-    return axios.post('/recipes', recipe);
-  },
-
-  updateRecipe(recipeId, recipe) {
-    return axios.put(`/recipes/${recipeId}`, recipe);
-  },
-
-  deleteRecipe(recipeId) {
-    return axios.delete(`/recipes/${recipeId}`);
-  },
-
-  updateGroceryList(groceryList) {
-    return axios.put('/grocery-list', groceryList);
+  deleteMyRecipe(){
+    return axios.delete()
   }
-};
+}
