@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     fetchDefaultRecipes() {
-      const apiKey = 'YOUR_SPOONACULAR_API_KEY';  // Replace with your Spoonacular API key
+      const apiKey = 'YOUR_SPOONACULAR_API_KEY'; 
       const apiUrl = 'https://api.spoonacular.com/recipes/random';
       
       axios.get(apiUrl, {
@@ -84,7 +84,7 @@ export default {
     },
     searchRecipes() {
       if (this.searchQuery.trim()) {
-        const apiKey = 'YOUR_SPOONACULAR_API_KEY';  // Replace with your Spoonacular API key
+        const apiKey = 'YOUR_SPOONACULAR_API_KEY'; 
         const apiUrl = 'https://api.spoonacular.com/recipes/complexSearch';
         
         axios.get(apiUrl, {
