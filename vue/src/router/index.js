@@ -54,7 +54,7 @@ const routes = [
     name: 'account',
     component: AccountView,
     meta: {
-      requiresAuth: false
+      requiresAuth: true
     }
   }
 ];
