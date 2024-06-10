@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <form v-on:submit.prevent="$store.state.logo">
+    <form v-on:submit.prevent="login">
       <h1 >Please Sign In <img src="../photos/walter_smiling.png"/></h1>
       
       <div role="alert" v-if="invalidCredentials">
@@ -17,7 +17,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="user.password" required />
       </div>
-      <div id="submit">
+      <div id="subBtn">
       <button type="submit">Sign in</button>
       </div>
       <p>
@@ -74,6 +74,8 @@ export default {
  align-items: center;
  background-color: #369cdb;
  font-family: 'Varela Round', sans-serif;
+ cursor: url('../photos/walter_smiling.png'), auto;
+ 
 }
 
 form{
@@ -123,7 +125,7 @@ input:hover{
   background-color: #fcf9f9;
 }
 
-#submit{
+#subBtn{
   display: flex;
   justify-content: center;
 }

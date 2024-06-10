@@ -1,4 +1,4 @@
-k<template>
+<template>
   <div id="capstone-app">
     <div id="nav">
       <!-- <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp; -->
@@ -14,6 +14,7 @@ k<template>
 body{
   margin: 0;
 }
+
 
 </style>
 
