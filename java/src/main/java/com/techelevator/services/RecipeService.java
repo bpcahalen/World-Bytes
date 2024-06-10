@@ -45,11 +45,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
 
     }
 
-    public Recipe viewRecipeDetails() {
-        Recipe recipe = new Recipe();
-        recipe.setRecipeId(715415);
-        recipe.setTitle("Red Lentil Soup with Chicken and Turnips");
-        recipe.setImage("https://img.spoonacular.com/recipes/715415-556x370.jpg");
+    public Recipe viewRecipeDetails(Recipe recipe) {
         String url = this.apiURL + "/" + recipe.getRecipeId() + this.recipeInfoEndpoint + this.key;
 
         // Setting up httpEntity and restTemplate
