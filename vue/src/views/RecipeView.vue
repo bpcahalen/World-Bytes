@@ -1,4 +1,7 @@
 <template>
+    <!-- <div class="alert" v-show="$store.state.success" id="alert">
+        <div> <strong>Success!</strong> Recipe has been added to your library! </div>
+    </div> -->
     <div id="recipeList">
         <header id="navigation">
             <nav>
@@ -6,6 +9,7 @@
                 <router-link to="/account">Account</router-link>
                 <router-link to="/recipes">Recipes</router-link>
                 <router-link to="/meal-plans">Meal Plans</router-link>
+                <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
             </nav>
         </header>
         <h1 class="recipeTitle">Recipes</h1>
@@ -82,7 +86,7 @@ export default {
                     dietary: "none",
                     servings: 2
                 },
-            ],
+],
             filter: {
                 name: "",
                 time: "",
@@ -258,4 +262,13 @@ footer .socials a:hover {
 #waltFooter{
   height: 55px;
 }
+
+/* .alert{
+    padding: 2px;
+    background-color: limegreen;
+    color: black;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+} */
 </style>

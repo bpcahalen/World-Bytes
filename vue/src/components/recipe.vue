@@ -9,9 +9,9 @@
         </div>
         <h2>{{ recipe.title }}</h2>
         <div class="recipeOptions ">
-            <div class="addBtn" id="addButton" @click="addToMyLib()" @mouseover="makeBounce($event)" @mouseout="killBounce($event)">
-                <fa icon="utensils" class="addRecipe"></fa>
-            </div>
+            <button class="addBtn" id="addButton" @click="test()" @mouseover="makeBounce($event)" @mouseout="killBounce($event)">
+                <fa icon="utensils" class="addRecipe" id="icon"></fa>
+            </button>
         </div>
     </div>
 </template>
@@ -25,22 +25,23 @@ export default {
         addToMyLib(){
             authService.addToMyRecipe(this.recipe).then(response => {
                 if (response.status == 200) {
-                    this.makeBounce();
+                    alert("Recipe successfully")
                 }
             })
+        },
+        test(){
+            alert("Recipe successfully")
         },
         makeBounce(event, target){
             if(event.target.id === "addButton"){
                 event.target.classList.add("fa-bounce");
             } 
-            else {
-                event.target.addButton.classList.add("fa-bounce")
+            else if(event.target.id === "icon") {
+                event.target.parentElement.classList.add("fa-bounce");
             }
         },
         killBounce(event){
-            if(event.target.id === "addButton"){
                 event.target.classList.remove("fa-bounce");
-            }
         }
     }
 };
