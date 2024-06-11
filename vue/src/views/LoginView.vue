@@ -1,7 +1,7 @@
 <template>
   <div id="login">
-    <form v-on:submit.prevent="login">
-      <h1 >Please Sign In <img src="../photos/walter_smiling.png"/></h1>
+    <form v-on:submit.prevent="login" @keyup.enter="login">
+      <h1 class="loginTitle">Please Sign In <img src="../photos/walter_smiling.png"/></h1>
       
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
@@ -93,7 +93,7 @@ form{
   height: 100%;
 }
 
-h1{
+.loginTitle{
   font-family: Merienda;
   display: flex;
   color: #00b35c;

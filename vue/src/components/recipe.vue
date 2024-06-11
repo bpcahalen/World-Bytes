@@ -1,50 +1,132 @@
 <template>
     <div id="recipe" v-for="recipe in recipes" :key="recipe.id">
-        <img :src="recipe.image" class="photo"> 
+        <div class="picture">
+            <img :src="recipe.image" class="photo">
+        </div>
         <div id="info">
-            <h3>{{ recipe.category }}  Recipe</h3>
-            <h3>Time: {{ recipe.duration }} </h3>
+            <h3>Servings: {{ recipe.servings }}</h3>
+            <h3>Duration: {{ recipe.duration }} </h3>
         </div>
         <h2>{{ recipe.title }}</h2>
+        <div class="recipeOptions ">
+            <button class="addBtn" id="addButton" @click="test()" @mouseover="makeBounce($event)" @mouseout="killBounce($event)">
+                <fa icon="utensils" class="addRecipe" id="icon"></fa>
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
+import authService from '../services/AuthService';
+
 export default {
-    props: ['recipes']
+    props: ['recipes'],
+    methods : {
+        addToMyLib(){
+            authService.addToMyRecipe(this.recipe).then(response => {
+                if (response.status == 200) {
+                    alert("Recipe successfully")
+                }
+            })
+        },
+        test(){
+            alert("Recipe successfully")
+        },
+        makeBounce(event, target){
+            if(event.target.id === "addButton"){
+                event.target.classList.add("fa-bounce");
+            } 
+            else if(event.target.id === "icon") {
+                event.target.parentElement.classList.add("fa-bounce");
+            }
+        },
+        killBounce(event){
+                event.target.classList.remove("fa-bounce");
+        }
+    }
 };
 </script>
 
 <style>
-#recipe {
-    border: black solid 2px;
-    display: inline-block;
-    background-color: antiquewhite;
-    margin: 20px 35px;
-    padding: 5px;
-    width: 350px;
-    height: 350px;
-}
-
-#info{
+#info {
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
-    font-size: small;
-    color: #00b35c;
-    border-top:black solid 2px;
+    font-size: 25px;
+    color: grey;
 }
 
-.photo{
+.picture {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-h2{
+.photo {
+    width: 70%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    ;
+}
+
+h2 {
     display: flex;
     justify-content: center;
-    font-size: 25px;
-    flex-wrap: wrap;
+    align-items: center;
+    font-size: 35px;
+    margin: 0;
 }
-</style>
+
+#recipe {
+    display: inline-block;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    flex: 1 30%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 80%;
+}
+
+.recipeOptions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.recipeOptions :hover {
+    cursor: pointer;
+    background-color: #00b35c;
+    animation: pulse 1s vertical infinite;
+    color: white;
+}
+
+.addBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: #369cdb;
+}
+
+.addRecipe{
+    height: 20px;
+    width: 20px;
+}
+
+/* .fa-bounce{
+    animation-iteration-count: 1;
+} */
+
+@keyframes button {
+    from {
+        bottom: 0px;
+    }
+
+    to {
+        bottom: 5px;
+    }
+}</style>

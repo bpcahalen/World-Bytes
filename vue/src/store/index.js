@@ -6,6 +6,7 @@ export function createStore(currentToken, currentUser) {
     state: {
       token: currentToken || '',
       user: currentUser || {},
+      success : false,
       // mealPlans: [],
       // recipes: [],
       // groceryList: []
