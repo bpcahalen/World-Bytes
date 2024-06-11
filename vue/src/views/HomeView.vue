@@ -41,11 +41,11 @@
       </section>
     </main>
     <footer>
-      <p>&copy; 2024 Meal Planning App. All rights reserved.</p>
+      <p>&copy; 2024 Meal Planning App. All rights reserved.<img id="waltFooter" src="../photos/walter_smiling.png"/></p>
       <div class="socials">
-        <a href="https://facebook.com" target="_blank">Facebook</a>
-        <a href="https://twitter.com" target="_blank">Twitter</a>
-        <a href="https://instagram.com" target="_blank">Instagram</a>
+        <a href="https://facebook.com" target="_blank">Facebook <fa :icon="['fab', 'facebook']"/></a>
+        <a href="https://twitter.com" target="_blank">Twitter <fa :icon="['fab', 'twitter']"/></a>
+        <a href="https://instagram.com" target="_blank">Instagram <fa :icon="['fab', 'instagram']"/></a>
       </div>
     </footer>
   </div>
@@ -203,4 +203,6 @@ footer .socials a {
 footer .socials a:hover {
   text-decoration: underline;
 }
+
+
 </style>

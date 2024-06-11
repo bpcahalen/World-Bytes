@@ -1,6 +1,6 @@
 <template>
   <div id="register" class="text-center">
-    <form v-on:submit.prevent="register" class="register-form">
+    <form v-on:submit.prevent="register" @keyup.enter="register" class="register-form">
       <h1 class="form-title">Create Account <img src="../photos/walter_smiling.png"/></h1>
       <div role="alert" v-if="registrationErrors" class="alert alert-danger">
         {{ registrationErrorMsg }}
