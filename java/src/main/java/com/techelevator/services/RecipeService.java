@@ -41,16 +41,8 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
     public RecipeService() {
     }
 
-    // Possibly won't need a separate method for adding a recipe in the Recipe Service?
-    // Can possibly be handled by viewRecipeDetails + addRecipe (check RecipeController for example)
-
-//    public void addRecipeToLibrary(Recipe recipe) {
-//        Recipe recipeToAdd = viewRecipeDetails(recipe);
-
-//    }
-
-    public Recipe viewRecipeDetails(Recipe recipe) {
-        String url = this.apiURL + "/" + recipe.getRecipeId() + this.recipeInfoEndpoint + this.key;
+    public Recipe getRecipeDetails(int recipeId) {
+        String url = this.apiURL + "/" + recipeId + this.recipeInfoEndpoint + this.key;
 
         // Setting up httpEntity and restTemplate
         HttpEntity<String> httpEntity = new HttpEntity<>("");
@@ -68,15 +60,21 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
                 String.class
         );
 
+        Recipe recipe = new Recipe();
+        recipe.setRecipeId(recipeId);
+
         // Mapping the response data to the recipe model and catching potential exceptions
         try {
             // Pulling the data straight from the jsonNode due to how the retrieved data is formatted
             jsonNode = objectMapper.readTree(response.getBody());
 
-            // ID, title, and image are already set
+            // ID was set above
+            recipe.setTitle(jsonNode.path("title").asText());
             recipe.setSummary(jsonNode.path("summary").asText());
             recipe.setDuration(jsonNode.path("readyInMinutes").asInt());
+            recipe.setServings(jsonNode.path("servings").asInt());
             recipe.setSource(jsonNode.path("sourceUrl").asText());
+            recipe.setImage(jsonNode.path("image").asText());
 
             List<Ingredient> ingredientList = new ArrayList<>();
             for (int i = 0; i < jsonNode.path("extendedIngredients").size(); i++) {
@@ -99,11 +97,14 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
             }
             recipe.setDietCategories(dietCategories);
 
-//            List<String> dietaryRestrictions = new ArrayList<>();
-//            for (int i = 0; i < jsonNode.path("diets").size(); i++) {
-//                dietaryRestrictions.add(jsonNode.path("diets").path(i).asText());
-//            }
-//            recipe.setDietaryRestrictions(dietaryRestrictions);
+            List<String> occasions = new ArrayList<>();
+            for (int i = 0; i < jsonNode.path("occasions").size(); i++) {
+                occasions.add(jsonNode.path("occasions").path(i).asText());
+            }
+            for (int i = 0; i < jsonNode.path("dishTypes").size(); i++) {
+                occasions.add(jsonNode.path("dishTypes").path(i).asText());
+            }
+            recipe.setOccasions(occasions);
 
         }
          catch (JsonProcessingException e) {
@@ -148,7 +149,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
         );
 
         // Setting up list that will be hold recipes
-        List<Recipe> recipeDisplays = new ArrayList<>();
+        List<Recipe> recipes = new ArrayList<>();
 
         // Mapping the response data to the recipe model and catching potential exceptions
         try {
@@ -158,31 +159,55 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
 
             // For loop to add recipes to the list; only accepting the id, title, and image currently
             for (int i=0; i < root.size(); i++) {
-                int id = root.path(i).path("id").asInt();
-                String title = root.path(i).path("title").asText();
-                String image = root.path(i).path("image").asText();
+                Recipe recipe = new Recipe();
+                recipe.setRecipeId(root.path(i).path("id").asInt());
+                recipe.setTitle(root.path(i).path("title").asText());
+                recipe.setSummary(root.path(i).path("summary").asText());
+                recipe.setDuration(root.path(i).path("readyInMinutes").asInt());
+                recipe.setServings(root.path(i).path("servings").asInt());
+                recipe.setSource(root.path(i).path("sourceUrl").asText());
+                recipe.setImage(root.path(i).path("image").asText());
 
-                recipeDisplays.add(mapResponseEntityToRecipeForDisplay(id, title, image));
+                // need to do ingredientList, instructions, and dietCategories, and occasions
+
+                List<Ingredient> ingredientList = new ArrayList<>();
+                for (int j = 0; j < root.path(i).path("extendedIngredients").size(); j++) {
+                    Ingredient ingredient = new Ingredient();
+                    ingredient.setIngredientId(root.path(i).path("extendedIngredients").path(j).path("id").asInt());
+                    ingredient.setIngredientName(root.path(i).path("extendedIngredients").path(j).path("nameClean").asText());
+                    ingredientList.add(ingredient);
+                }
+                recipe.setIngredientList(ingredientList);
+
+                List<String> instructions = new ArrayList<>();
+                for (int j = 0; j < root.path(i).path("analyzedInstructions").path(0).path("steps").size(); j++) {
+                    instructions.add(root.path(i).path("analyzedInstructions").path(0).path("steps").path(j).path("step").asText());
+                }
+                recipe.setInstructions(instructions);
+
+                List<String> dietCategories = new ArrayList<>();
+                for (int j = 0; j < root.path(i).path("diets").size(); j++) {
+                    dietCategories.add(root.path(i).path("diets").path(j).asText());
+                }
+                recipe.setDietCategories(dietCategories);
+
+                List<String> occasions = new ArrayList<>();
+                for (int j = 0; j < root.path(i).path("occasions").size(); j++) {
+                    occasions.add(root.path(i).path("occasions").path(j).asText());
+                }
+                for (int j = 0; j < root.path(i).path("dishTypes").size(); j++) {
+                    occasions.add(root.path(i).path("dishTypes").path(j).asText());
+                }
+                recipe.setOccasions(occasions);
+
+                recipes.add(recipe);
             }
 
         } catch (JsonProcessingException e) {
             System.out.println("Something went wrong.");
         }
 
-        return recipeDisplays;
-    }
-
-
-    /**
-     * Maps an API response entity to a Recipe object
-     * @return A recipe object including all of the information passed into the method
-     */
-    public Recipe mapResponseEntityToRecipeForDisplay(int recipeId, String title, String image) {
-        Recipe recipe = new Recipe();
-        recipe.setRecipeId(recipeId);
-        recipe.setTitle(title);
-        recipe.setImage(image);
-        return recipe;
+        return recipes;
     }
 
     // Extra cases; not implemented

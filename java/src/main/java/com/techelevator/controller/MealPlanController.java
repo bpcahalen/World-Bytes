@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mealplans")
+@RequestMapping("/mealPlans")
 @CrossOrigin
 public class MealPlanController {
 

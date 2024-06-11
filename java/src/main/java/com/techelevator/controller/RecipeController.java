@@ -28,15 +28,15 @@ public class RecipeController {
     }
 
     //API calls go here
-    @GetMapping
-    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
+    @GetMapping(path = "?query={searchQuery}")
+    public List<Recipe> searchRecipesByKeyword(@PathVariable String searchQuery) {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
-    @GetMapping(path = "{recipeId}/information")
-    public Recipe viewRecipeDetails(@RequestBody Recipe recipe) {
-        return recipeService.viewRecipeDetails(recipe);
-    }
+//    @GetMapping(path = "{recipeId}/information")
+//    public Recipe viewRecipeDetails(@PathVariable int recipeId) {
+//        return recipeService.getRecipeDetails(recipeId);
+//    }
 
     @GetMapping(path = "/library")
     public List<Recipe> getAllMyRecipes(Principal principal) {
@@ -50,8 +50,13 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/library")
     public void addRecipe(@RequestBody Recipe recipe) {
-        Recipe recipeToAdd = recipeService.viewRecipeDetails(recipe);
-        recipeDao.addRecipe(recipeToAdd);
+        Recipe recipeToAdd = new Recipe();
+        if (recipe.getUserId() == 0) {
+            recipeToAdd = recipeService.getRecipeDetails(recipe.getRecipeId());
+            recipeDao.addRecipe(recipeToAdd);
+        } else {
+            recipeDao.addRecipe(recipeToAdd);
+        }
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)

@@ -2,7 +2,6 @@ package com.techelevator.dao;
 
 
 import com.techelevator.exception.DaoException;
-import com.techelevator.model.Ingredient;
 import com.techelevator.model.Recipe;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,7 +37,7 @@ public class JdbcRecipeDao implements RecipeDao {
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
 
         while (rowSet.next()) {
-//            recipeList.add(mapRecipeFromRowSet(rowSet));
+            recipeList.add(mapRecipeFromRowSet(rowSet));
         }
 
         return recipeList;
@@ -51,23 +50,60 @@ public class JdbcRecipeDao implements RecipeDao {
 
         String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +
             "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
-            "\t\t\t\t\t\t\tdiet_category, dietary_restrictions,\n" +
+            "\t\t\t\t\t\t\tdiet_categories, dietary_restrictions,\n" +
             "\t\t\t\t\t\t   recipe_source_url, image_path)\n" +
             "VALUES(?,?,?,?,?,?,?,?,?,?)\n" +
             "RETURNING recipe_id;";
 
+        String ingredientListString = "";
+        for (int i = 0; i < recipe.getIngredientList().size(); i++) {
+            if (i == recipe.getIngredientList().size() - 1) { // check to see if it's the last entry
+                ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName();
+            } else {
+                ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName() + ",";
+            }
+        }
+
+        String instructionsString = "";
+        for (int i = 0; i < recipe.getInstructions().size(); i++) {
+            if (i == recipe.getInstructions().size() - 1) { // check to see if it's the last entry
+                instructionsString += recipe.getInstructions().get(i);
+            } else {
+                instructionsString += recipe.getInstructions().get(i) + "||";
+            }
+        }
+
+        String dietCategoriesString = "";
+        for (int i = 0; i < recipe.getDietCategories().size(); i++) {
+            if (i == recipe.getDietCategories().size() - 1) { // check to see if it's the last entry
+                dietCategoriesString += recipe.getDietCategories().get(i);
+            } else {
+                dietCategoriesString += recipe.getDietCategories().get(i) + "||";
+            }
+        }
+
+        String dietRestrictionsString = "";
+        for (int i = 0; i < recipe.getOccasions().size(); i++) {
+            if (i == recipe.getOccasions().size() - 1) { // check to see if it's the last entry
+                dietRestrictionsString += recipe.getOccasions().get(i);
+            } else {
+                dietRestrictionsString += recipe.getOccasions().get(i) + "||";
+            }
+        }
+
         try {
-            int recipeId = jdbcTemplate.queryForObject(sql, int.class,
-                recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
-                recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
-                recipe.getDietCategories(), recipe.getDietaryRestrictions(), recipe.getSource(),
-                recipe.getImage());
+            int recipeId = jdbcTemplate.queryForObject(sql, int.class, recipe.getUserId(), recipe.getTitle(),
+                    ingredientListString, instructionsString, recipe.getSummary(), recipe.getDuration(),
+                    dietCategoriesString, dietRestrictionsString, recipe.getSource(), recipe.getImage());
 
             recipe.setRecipeId(recipeId);
 
         } catch(DaoException ex) {
             System.out.println("Something went wrong: " + ex.getMessage());
+        } catch(NullPointerException ex) {
+
         }
+
         return recipe;
     }
 
@@ -84,7 +120,7 @@ public class JdbcRecipeDao implements RecipeDao {
         try {
             jdbcTemplate.update(sql, recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
                     recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
-                    recipe.getDietCategories(), recipe.getDietaryRestrictions(), recipe.getSource(),
+                    recipe.getDietCategories(), recipe.getOccasions(), recipe.getSource(),
                     recipe.getImage(), recipe.getRecipeId());
 
         } catch (DaoException ex) {
