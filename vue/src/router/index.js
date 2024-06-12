@@ -8,7 +8,11 @@ import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import AccountView from '../views/AccountView.vue';
 import RecipeView from '../views/RecipeView.vue';
+<<<<<<< HEAD
 import RecipeDetailsView from '../views/RecipeDetailsView.vue';
+=======
+import MealPlanView from '../views/MealPlanView.vue';
+>>>>>>> f7e853a436f802f920e8b95e8b013552c7c020d0
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -60,6 +64,7 @@ const routes = [
     }
   },
   {
+<<<<<<< HEAD
     path: '/recipes',
     name: 'recipes',
     component: RecipeView,
@@ -74,6 +79,22 @@ const routes = [
     meta: {
       requiresAuth: false
     }
+=======
+  path: '/recipes',
+  name: 'recipes',
+  component: RecipeView,
+  meta: {
+    requiresAuth: true
+  }
+  },
+  {
+  path: '/meal-plans',
+  name: 'mealPlans',
+  component: MealPlanView,
+  meta: {
+    requiresAuth: true
+  }
+>>>>>>> f7e853a436f802f920e8b95e8b013552c7c020d0
   }
 ];
 

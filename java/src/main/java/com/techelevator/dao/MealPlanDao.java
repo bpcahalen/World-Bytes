@@ -11,6 +11,8 @@ import java.util.List;
 public interface MealPlanDao {
 
     List<MealPlan> getAllMyMealPlans(int userId);
-
+    MealPlan getMealPlanDetails(int mealPlanId);
     MealPlan createMealPlan(MealPlan mealPlan);
+    void updateMealPlan(MealPlan mealPlan);
+    void deleteMealPlan(int mealPlanId);
 }

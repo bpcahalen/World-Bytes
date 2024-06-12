@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Recipe {
 
-    // Instance Variables
+    // Instance Variables - need to add data safeguard annotations
     private int recipeId;
     private int userId;
     private String title;
@@ -12,8 +12,9 @@ public class Recipe {
     private List<String> instructions;
     private String summary;
     private int duration;
+    private int servings;
     private List<String> dietCategories;
-    private List<String> dietaryRestrictions;
+    private List<String> occasions; // comprised of both "occasions" and "dishTypes" from the API
     private String source;
     private String image;
 
@@ -79,6 +80,14 @@ public class Recipe {
         this.duration = duration;
     }
 
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
     public List<String> getDietCategories() {
         return dietCategories;
     }
@@ -87,12 +96,12 @@ public class Recipe {
         this.dietCategories = dietCategories;
     }
 
-    public List<String> getDietaryRestrictions() {
-        return dietaryRestrictions;
+    public List<String> getOccasions() {
+        return occasions;
     }
 
-    public void setDietaryRestrictions(List<String> dietaryRestrictions) {
-        this.dietaryRestrictions = dietaryRestrictions;
+    public void setOccasions(List<String> occasions) {
+        this.occasions = occasions;
     }
 
     public String getSource() {

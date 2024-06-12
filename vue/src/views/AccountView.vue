@@ -1,25 +1,34 @@
 <template>
     <div id="account">
-        <img src="../photos/world_byte.png"/>
-        <h1>{{  choice }}</h1>
+        <header id="naviagtion">
+            <nav>
+                <router-link to="/">Home</router-link>
+                <router-link to="/account">Account</router-link>
+                <router-link to="/recipes">Recipes</router-link>
+                <router-link to="/meal-plans">Meal Plans</router-link>
+                <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+            </nav>
+        </header>
+        <img src="../photos/world_byte.png" />
+        <h1 class="title">{{ choice }}</h1>
         <div id="menu">
             <ul>
                 <li @click="getUserSelection($event)">My Plans</li>
-                <li  @click="getUserSelection($event)">My Recipes</li>
-                <li  @click="getUserSelection($event)">Grocery List</li>
-                <li  @click="getUserSelection($event)">Account Info</li>
+                <li @click="getUserSelection($event)">My Recipes</li>
+                <li @click="getUserSelection($event)">Grocery List</li>
+                <li @click="getUserSelection($event)">Account Info</li>
             </ul>
         </div>
         <div id="details">
-            <div id="myPlansView" v-show="choice === 'My Plans View'">
+            <div id="myPlans" v-show="choice === 'My Plans'">
                 <div id="searchBar">
-                    <div id="nameSearch">
+                    <div class="nameSearch">
                         <label for="name">Recipe Name: </label>
-                        <input type:text id="name">
+                        <input type:text placeholder="Search by name...">
                     </div>
-                    <div id="timeSearch">
+                    <div class="timeSearch">
                         <label for="duration">Time(in mins): </label>
-                        <select id="duration">
+                        <select>
                             <option value="0">0</option>
                             <option value="15">15</option>
                             <option value="30">30</option>
@@ -27,25 +36,27 @@
                             <option value="60">60</option>
                         </select>
                     </div>
-                    <div id="description">
-                        <label for="description">Description: </label>
-                        <input type:text id="description">
-                    </div>
-                    <div id="dietary">
+                    <div class="dietary">
                         <label for="dietary">Diet Type: </label>
-                        <input type:text id="dietary">
+                        <input type:text placeholder="Search by diet...">
                     </div>
                 </div>
+                <div>
+                    <Recipes :recipes="filteredPlanList" />
+                </div>
+                <div class="addLink">
+                    <routerLink to="/meal-plans">Create a Meal Plan</routerLink>
+                </div>
             </div>
-            <div id="myRecipesView" v-show="choice === 'My Recipes View'">
+            <div id="myRecipes" v-show="choice === 'My Recipes'">
                 <div id="searchBar">
-                    <div id="nameSearch">
-                        <label for="name" >Recipe Name: </label>
-                        <input type:text id="name" v-model="filteredRecipe.name">
+                    <div class="nameSearch">
+                        <label for="name">Recipe Name: </label>
+                        <input type:text v-model="filteredRecipe.name" placeholder="Search by name...">
                     </div>
-                    <div id="timeSearch">
+                    <div class="timeSearch">
                         <label for="duration">Time(in mins): </label>
-                        <select id="duration" v-model="filteredRecipe.duration">
+                        <select v-model="filteredRecipe.duration">
                             <option value="0">0</option>
                             <option value="15">15</option>
                             <option value="30">30</option>
@@ -53,33 +64,47 @@
                             <option value="60">60</option>
                         </select>
                     </div>
-                    <div id="occasion">
-                        <label for="occasion">Occasion: </label>
-                        <input type:text id="occasion" v-model="filteredRecipe.category">
-                    </div>
-                    <div id="dietary">
+                    <div class="dietary">
                         <label for="dietary">Diet Type: </label>
-                        <input type:text id="dietary">
+                        <input type:text placeholder="Search by diet...">
                     </div>
                 </div>
                 <div>
                     <Recipes :recipes="filteredRecipeList" />
                 </div>
+                <div class="addLink">
+                    <routerLink to="/recipes">Add Recipes to Your Library</routerLink>
+                </div>
             </div>
             <div id="groceryList" v-show="choice === 'Grocery List'">
-                grocery list will go here
+                <p>Grocery List Here</p>
             </div>
             <div id="accountInfo" v-if="choice === 'Account Info'">
-                <p>Username: {{ $store.state.user.username}}</p> 
-                <!-- <p>Password: {{ $store.state.user }}</p> -->
+                <p id="user"> <strong>Username:</strong>  {{ $store.state.user.username }}</p>
+                <!-- <p id="password"> <strong>Password:</strong> {{ $store.state.user }}</p> -->
             </div>
         </div>
+        <footer>
+            <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter"
+                    src="../photos/walter_smiling.png" /></p>
+            <div class="socials">
+                <a href="https://facebook.com" target="_blank">Facebook
+                    <fa :icon="['fab', 'facebook']" />
+                </a>
+                <a href="https://twitter.com" target="_blank">Twitter
+                    <fa :icon="['fab', 'twitter']" />
+                </a>
+                <a href="https://instagram.com" target="_blank">Instagram
+                    <fa :icon="['fab', 'instagram']" />
+                </a>
+            </div>
+        </footer>
     </div>
 </template>
 
 <script>
 import Recipes from '../components/recipe.vue';
-import recipeService from '../services/RecipeService';
+import authService from '../services/AuthService';
 
 export default {
     components: {
@@ -87,75 +112,91 @@ export default {
     },
     data() {
         return {
-           choice : "My Plans",
-           filteredRecipe : {
-                name : "",
-                duration : "",
-                category : "",
-                dietary : ""
-           },
-           filteredPlan : {
-                name : "",
-                duration : "",
-                description : "",
-                dietary : ""
-           },
-           myRecipes : [],
-           myPlans : []
+            choice: "My Plans",
+            filteredRecipe: {
+                name: "",
+                duration: "",
+                dietary: ""
+            },
+            filteredPlan: {
+                name: "",
+                duration: "",
+                dietary: ""
+            },
+            myRecipes: [],
+            myPlans: []
 
         }
     },
     methods: {
-        getUserSelection(e){
-                this.choice = e.target.innerText;
-                if(this.choice != "My Recipes View"){
-                    this.filteredRecipe.name = "";
-                    this.filteredRecipe.category = "";
-                    this.filteredRecipe.time = "";
-                }
-                if(this.choice != "My Plans View"){
-                    this.filteredPlan.name = "";
-                    this.filteredPlan.length = "";
-                    this.filteredPlan.description = "";
-                }
-        },
-        getRecipes(){
-            recipeService.getMyRecipes.then(response => {
-                this.myRecipes = response.data;
-            });
+        getUserSelection(e) {
+            this.choice = e.target.innerText;
+            if (this.choice != "My Recipes") {
+                this.filteredRecipe.name = "";
+                this.filteredRecipe.dietary = "";
+                this.filteredRecipe.duration = "";
+            }
+            if (this.choice != "My Plans") {
+                this.filteredPlan.name = "";
+                this.filteredPlan.duration = "";
+                this.filteredPlan.dietary = "";
+            }
         }
-
+    },
+    created() {
+        authService.getMyRecipes().then(response => {
+            this.myRecipes = response.data;
+        }),
+            authService.getMyPlans(this.$store.state.user).then(response => {
+                this.myPlans = response.data;
+            })
     },
     computed: {
         filteredRecipeList() {
             let filterRecipe = this.myRecipes;
-            if(this.filteredRecipe.name != ""){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.name
-                .toLowerCase()
-                .includes(this.filteredRecipe.name.toLowerCase())
+            if (this.filteredRecipe.name != "") {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.name
+                        .toLowerCase()
+                        .includes(this.filteredRecipe.name.toLowerCase())
                 );
             }
-            if(this.filteredRecipe.category != ""){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.category
-                .toLowerCase()
-                .includes(this.filteredRecipe.category.toLowerCase())
+            if (this.filteredRecipe.time != 0) {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.time <= this.filteredRecipe.time
                 )
             }
-            if(this.filteredRecipe.time != 0){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.time <= this.filteredRecipe.time
-                )
-            }
-            if(this.filteredRecipe.dietary != ""){
-                filterRecipe = filterRecipe.filter(recipe => 
-                recipe.dietary 
-                .toLowerCase()
-                .includes(this.filteredRecipe.dietary.toLowerCase())
+            if (this.filteredRecipe.dietary != "") {
+                filterRecipe = filterRecipe.filter(recipe =>
+                    recipe.dietary
+                        .toLowerCase()
+                        .includes(this.filteredRecipe.dietary.toLowerCase())
                 )
             }
             return filterRecipe;
+        },
+        filteredPlanList() {
+            let filterPlan = this.myPlans;
+            if (this.filteredPlan.name != "") {
+                filterPlan = filterPlan.filter(recipe =>
+                    recipe.name
+                        .toLowerCase()
+                        .includes(this.filteredPlan.name.toLowerCase())
+                );
+            }
+            if (this.filteredPlan.time != 0) {
+                filterPlan = filterPlan.filter(recipe =>
+                    recipe.time <= this.filteredPlan.time
+                )
+            }
+            if (this.filteredPlan.dietary != "") {
+                filterPlan = filterPlan.filter(recipe =>
+                    recipe.dietary
+                        .toLowerCase()
+                        .includes(this.filteredPlan.dietary.toLowerCase())
+                )
+            }
+            return filterPlan;
         }
     }
 
@@ -164,96 +205,176 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@600&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
 
 #account {
     display: grid;
     grid-template-columns: 0.2fr 1.5fr .2fr;
     grid-template-areas:
+        "nav nav nav"
         "image title ."
         "menu details ."
+        "footer footer footer"
     ;
-    grid-template-rows: 1fr 4fr;
+    grid-template-rows: .1fr 1fr 4fr .5fr;
     height: 100vh;
     background-color: #369cdb;
 }
 
-img{
+header {
+    grid-area: nav;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #369cdb;
+    padding: 10px 20px;
+    width: 96vw;
+}
+
+img {
     grid-area: image;
     height: 200px;
 }
 
-h1{
+.title {
     grid-area: title;
     display: flex;
     justify-self: center;
     align-items: center;
     font-family: Merienda;
     margin: 0;
-    font-size: 50px;
+    font-size: 75px;
     padding-right: 15px;
 }
 
+.addLink {
+    margin-top: 30px;
+}
 
-li{
+.addLink a {
+    color: #369cdb;
+    text-decoration: none;
+    font-size: 15px;
+    font-style: italic;
+    padding: 8px;
+    border: #369cdb solid 2px;
+    font-family: Varela Round;
+    border-radius: 8px;
+}
+
+.addLink :hover {
+    color: black;
+    background-color: #00b35c;
+    border: black solid 2px;
+}
+
+li {
     list-style: none;
     margin: 20px 10px 0px;
     text-decoration: underline;
     display: flex;
     flex-grow: .06;
+    font-family: Varela Round;
+    font-size: 19px;
 }
 
 
 
-ul{
+ul {
     display: flex;
     flex-direction: column;
 }
 
-ul :hover{
+ul :hover {
     background-color: #2892d4;
     cursor: pointer;
     color: white;
 }
 
 
-#menu{
+#menu {
     grid-area: menu;
     display: flex;
     justify-content: space-between;
 }
 
-#details{
+#details {
     grid-area: details;
     background-color: white;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     padding: 20px 40px;
-    border-top: black solid 2px;
-    border-left: black solid 2px;
-    border-right: black solid 2px;
+    border: black solid 2px;
     width: 75vw;
+    border-radius: 4px;
 }
 
-#searchBar{
-    background-color: lightgrey;
-    height: 35px;
+#searchBar {
+    height: 60px;
     width: 75vw;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    align-items: center;
+    font-family: Varela Round;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.nameSearch {
+    width: 300px;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-#nameSearch{
-    display:inline-block;
+.nameSearch label {
+    margin: 10px;
 }
 
-#timeSearch{
-    display: inline-block;
-    margin-left: 20px;
+input {
+    width: 150px;
+    border-radius: 4px;
 }
 
-#occasion{
-    display: inline-block;
+.timeSearch {
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timeSearch label {
+    margin: 10px;
+}
+
+.dietary {
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dietary label {
+    margin: 10px;
+
+}
+
+#groceryList{
+    display: flex;
+    justify-content: flex-start;
+}
+
+#user{
+    font-size: 25px;
+}
+
+/* #password{
+    font-size: 25px;
+} */
+
+footer {
+    grid-area: footer;
 }
 </style>

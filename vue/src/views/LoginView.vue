@@ -1,8 +1,8 @@
 <template>
   <div id="login">
-    <form v-on:submit.prevent="login">
-      <h1 >Please Sign In <img src="../photos/walter_smiling.png"/></h1>
-      
+    <form v-on:submit.prevent="login" @keypress.enter.prevent="login">
+      <h1 class="loginTitle">Please Sign In <img src="../photos/walter_smiling.png" /></h1>
+
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -15,13 +15,21 @@
       </div>
       <div class="form-input-group">
         <label for="password">Password:</label>
-        <input type="password" id="password" v-model="user.password" required />
+        <input v-if="showPassword" type="text" id="password" v-model="user.password" required />
+        <input v-else type="password" id="password" v-model="user.password" required />
+        <button class="seePassword" @click="toggleShow">
+          <span>
+            <fa v-if="showPassword" icon="eye"/>
+            <fa v-else icon="eye-slash"/>
+          </span>
+        </button>
       </div>
       <div id="subBtn">
-      <button type="submit">Sign in</button>
+        <button class="submitBtn" type="submit" >Sign in</button>
       </div>
       <p>
-      <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
+        <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link>
+      </p>
     </form>
   </div>
 </template>
@@ -37,7 +45,8 @@ export default {
         username: "",
         password: ""
       },
-      invalidCredentials: false
+      invalidCredentials: false,
+      showPassword: false
     };
   },
   methods: {
@@ -58,6 +67,9 @@ export default {
             this.invalidCredentials = true;
           }
         });
+    },
+    toggleShow() {
+      this.showPassword = !this.showPassword;
     }
   }
 };
@@ -66,20 +78,20 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@600&family=Varela+Round&display=swap');
 
-#login{
+#login {
   height: 100vh;
   width: 100vw;
- display:flex;
- justify-content: center;
- align-items: center;
- background-color: #369cdb;
- font-family: 'Varela Round', sans-serif;
- cursor: url('../photos/walter_smiling.png'), auto;
- 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #369cdb;
+  font-family: 'Varela Round', sans-serif;
+  cursor: url('../photos/walter_smiling.png'), auto;
+
 }
 
-form{
-  background-color:  white;
+form {
+  background-color: white;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -93,7 +105,7 @@ form{
   height: 100%;
 }
 
-h1{
+.loginTitle {
   font-family: Merienda;
   display: flex;
   color: #00b35c;
@@ -101,39 +113,41 @@ h1{
   align-items: center;
 }
 
-img{
+img {
   height: 132px;
   margin-left: 30px;
 }
 
-label{
+label {
   display: block;
   margin-bottom: 0.5rem;
 }
 
-input{
+input {
   border-radius: 4px;
   border-width: .5px;
+  max-width: 300px;
   width: 100%;
   border: 1px solid #ccc;
   padding: 8px;
   box-sizing: border-box;
   display: inline-block;
+  font-size: 18px;
 }
 
-input:hover{
+input:hover {
   background-color: #fcf9f9;
 }
 
-#subBtn{
+#subBtn {
   display: flex;
   justify-content: center;
 }
 
-button{
+.submitBtn {
   border-radius: 4px;
   border: none;
-  background-color: #00b35c; 
+  background-color: #00b35c;
   color: white;
   padding-top: 9px;
   padding-bottom: 9px;
@@ -143,24 +157,33 @@ button{
   cursor: pointer;
 }
 
-button:hover{
+.submitBtn:hover {
   background-color: #007f4b;
 }
+
 .form-input-group {
   margin-bottom: 1rem;
   width: 100%;
 }
 
-p{
+p {
   padding-top: 4px;
 }
 
-a, :visited{
+a,
+:visited {
   color: #00b35c;
   text-decoration: none;
 }
 
-a:hover{
+a:hover {
   text-decoration: underline;
 }
+
+.seePassword{
+  width: 39px;
+  height: 39px;
+  padding: 0px 6px;
+}
+
 </style>
