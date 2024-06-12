@@ -15,14 +15,14 @@ CREATE TABLE users (
 CREATE TABLE recipes_library (
 	recipe_id SERIAL,
 	user_id int NOT NULL,
-	title varchar(50) NOT NULL,
-	ingredient_list varchar(100),       	-- holds all relevant ingredient IDs
+	title text NOT NULL,
+	ingredient_list text,       	-- holds all relevant ingredient IDs
 	instructions text,
 	summary text,
 	duration numeric,                       -- time in minutes for recipe
 	servings numeric,                       -- serving size
-	diet_categories varchar(50),			-- will hold multiple categories, such as keto or gluten free
-	occasions varchar(50), 		            -- will include stuff like holidays, etc.
+	diet_categories text,			-- will hold multiple categories, such as keto or gluten free
+	occasions text, 		            -- will include stuff like holidays, etc.
 	recipe_source_url varchar(200),
 	image_path varchar(200),
 	CONSTRAINT PK_recipe_id PRIMARY KEY (recipe_id),
