@@ -7,11 +7,27 @@
             <h3>Servings: {{ recipe.servings }}</h3>
             <h3>Duration: {{ recipe.duration }} </h3>
         </div>
-        <h2>{{ recipe.title }}</h2>
+        <h2>{{ truncate(recipe.title, 20) }}</h2>
         <div class="recipeOptions ">
-            <button class="addBtn" id="addButton" @click="test()" @mouseover="makeBounce($event)" @mouseout="killBounce($event)">
-                <fa icon="utensils" class="addRecipe" id="icon"></fa>
-            </button>
+            <div class="option" id="moreInfo">
+                <div class="change">
+                    <router-link to="/meal-plans"><button class="addBtn" id="infoButton" @click="getInfo()"
+                            @mouseover="makeBeat($event)" @mouseout="killBeat($event)">
+                            <fa icon="book" class="addRecipe" id="icon2"></fa>
+                        </button>
+                    </router-link>
+                </div>
+                <p class="words">More Info</p>
+            </div>
+            <div class="option" id="add">
+                <div class="change">
+                    <button class="addBtn" id="addButton" @click="test()" @mouseover="makeBounce($event)"
+                        @mouseout="killBounce($event)">
+                        <fa icon="utensils" class="addRecipe" id="icon"></fa>
+                    </button>
+                </div>
+                <p class="words">Add to Library</p>
+            </div>
         </div>
     </div>
 </template>
@@ -21,27 +37,52 @@ import authService from '../services/AuthService';
 
 export default {
     props: ['recipes'],
-    methods : {
-        addToMyLib(){
+    methods: {
+        addToMyLib() {
             authService.addToMyRecipe(this.recipe).then(response => {
                 if (response.status == 200) {
-                    alert("Recipe successfully")
+                    alert("Recipe added successfully")
                 }
             })
         },
-        test(){
-            alert("Recipe successfully")
+        test() {
+            alert("Recipe added successfully")
         },
-        makeBounce(event, target){
-            if(event.target.id === "addButton"){
+        makeBounce(event) {
+            if (event.target.id === "addButton") {
                 event.target.classList.add("fa-bounce");
-            } 
-            else if(event.target.id === "icon") {
+            }
+            else if (event.target.id === "icon") {
                 event.target.parentElement.classList.add("fa-bounce");
             }
         },
-        killBounce(event){
-                event.target.classList.remove("fa-bounce");
+        killBounce(event) {
+            event.target.classList.remove("fa-bounce");
+        },
+        makeBeat(event) {
+            if (event.target.id === "infoButton") {
+                event.target.classList.add("fa-bounce");
+            }
+            else if (event.target.id === "icon2") {
+                event.target.parentElement.classList.add("fa-bounce");
+            }
+        },
+        killBeat(event) {
+            event.target.classList.remove("fa-bounce");
+        },
+        truncate(input, num) {
+            if (input.length > num) {
+                let title = "";
+                for (let i = 0; i < num; i++) {
+                    title += input[i];
+                }
+
+                title += "..."
+                return title;
+            } else {
+                return input;
+            }
+
         }
     }
 };
@@ -51,7 +92,7 @@ export default {
 #info {
     display: flex;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: space-between;
     font-size: 25px;
     color: grey;
 }
@@ -66,8 +107,7 @@ export default {
     width: 70%;
     height: auto;
     border-radius: 8px;
-    margin-bottom: 10px;
-    ;
+    margin: 10px 0px 10px 0px;
 }
 
 h2 {
@@ -75,7 +115,14 @@ h2 {
     justify-content: center;
     align-items: center;
     font-size: 35px;
-    margin: 0;
+    margin: 5px 0px 15px 0px;
+    font-family: Merienda;
+}
+
+h3{
+    font-family: Varela Round;
+    font-size: 20px;
+    margin: 5px 15px 10px 15px;
 }
 
 #recipe {
@@ -83,23 +130,23 @@ h2 {
     background: white;
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 10px;
-    margin: 10px;
+    padding: 10px 0px;
+    margin: 20px;
     flex: 1 30%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 80%;
+    max-width: 420px;
+    max-height: 500px;
 }
 
 .recipeOptions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 }
 
-.recipeOptions :hover {
+.change :hover {
     cursor: pointer;
     background-color: #00b35c;
-    animation: pulse 1s vertical infinite;
     color: white;
 }
 
@@ -112,21 +159,22 @@ h2 {
     background-color: #369cdb;
 }
 
-.addRecipe{
+.addRecipe {
     height: 20px;
     width: 20px;
 }
 
-/* .fa-bounce{
-    animation-iteration-count: 1;
-} */
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 10px 0px 10px;
+}
 
-@keyframes button {
-    from {
-        bottom: 0px;
-    }
-
-    to {
-        bottom: 5px;
-    }
-}</style>
+.words {
+    font-size: 15px;
+    color: black;
+    margin: 3px;
+    cursor: default;
+}
+</style>

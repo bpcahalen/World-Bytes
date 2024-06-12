@@ -5,7 +5,7 @@ import router from './router'
 import axios from 'axios'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUtensils } from '@fortawesome/free-solid-svg-icons'
+import { faUtensils, faBook, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons'
 // import { faSquarePlus } from '@fortawesome/free-regular-svg-icons'
 
@@ -19,7 +19,7 @@ npm i --save @fortawesome/vue-fontawesome@prerelease
 */
 
 
-library.add(faUtensils, faFacebook, faInstagram, faTwitter );
+library.add(faUtensils, faFacebook, faInstagram, faTwitter, faBook, faEye, faEyeSlash );
 
 /* sets the base url for server API communication with axios */
 axios.defaults.baseURL = import.meta.env.VITE_REMOTE_API;

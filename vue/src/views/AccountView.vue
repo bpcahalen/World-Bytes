@@ -77,11 +77,11 @@
                 </div>
             </div>
             <div id="groceryList" v-show="choice === 'Grocery List'">
-                grocery list will go here
+                <p>Grocery List Here</p>
             </div>
             <div id="accountInfo" v-if="choice === 'Account Info'">
-                <p>Username: {{ $store.state.user.username }}</p>
-                <!-- <p>Password: {{ $store.state.user }}</p> -->
+                <p id="user"> <strong>Username:</strong>  {{ $store.state.user.username }}</p>
+                <!-- <p id="password"> <strong>Password:</strong> {{ $store.state.user }}</p> -->
             </div>
         </div>
         <footer>
@@ -303,7 +303,7 @@ ul :hover {
     grid-area: details;
     background-color: white;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     padding: 20px 40px;
     border: black solid 2px;
@@ -361,6 +361,20 @@ input {
 
 }
 
+#groceryList{
+    display: flex;
+    justify-content: flex-start;
+}
+
+#user{
+    font-size: 25px;
+}
+
+/* #password{
+    font-size: 25px;
+} */
+
 footer {
     grid-area: footer;
-}</style>
+}
+</style>
