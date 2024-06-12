@@ -29,8 +29,8 @@ export default {
     return axios.get(`/plans/${user.id}`)
   },
 
-  addToMyRecipe(recipe){
-    return axios.post('/recipes/library', recipe)
+  addToMyRecipe(recipe, user){
+    return axios.post('/recipes/library', recipe, user)
   },
 
   deleteMyRecipe(){

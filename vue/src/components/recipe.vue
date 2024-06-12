@@ -21,7 +21,7 @@
             </div>
             <div class="option" id="add">
                 <div class="change">
-                    <button class="addBtn" id="addButton" @click="addToMyLib(recipe)" @mouseover="makeBounce($event)"
+                    <button class="addBtn" id="addButton" @click="addToMyLib(recipe, $store.state.user)" @mouseover="makeBounce($event)"
                         @mouseout="killBounce($event)">
                         <fa icon="utensils" class="addRecipe" id="icon"></fa>
                     </button>
@@ -38,8 +38,8 @@ import authService from '../services/AuthService';
 export default {
     props: ['recipes'],
     methods: {
-        addToMyLib(recipe) {
-            authService.addToMyRecipe(recipe).then(response => {
+        addToMyLib(recipe, user) {
+            authService.addToMyRecipe(recipe, user).then(response => {
                 if (response.status == 200) {
                     alert("Recipe added successfully")
                 }
