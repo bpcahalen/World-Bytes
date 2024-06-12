@@ -29,8 +29,9 @@ public class RecipeController {
 
     //API calls go here
     @GetMapping
-//            (path = "?query={searchQuery}")
-    public List<Recipe> searchRecipesByKeyword(@RequestParam("query") String searchQuery) {
+    // Search did not work properly, removing for now
+    //(path = "?query={searchQuery}")
+    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
