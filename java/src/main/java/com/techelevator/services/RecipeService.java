@@ -171,11 +171,20 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
                 // need to do ingredientList, instructions, and dietCategories, and occasions
 
                 List<Ingredient> ingredientList = new ArrayList<>();
-                for (int j = 0; j < root.path(i).path("extendedIngredients").size(); j++) {
+                for (int j = 0; j < root.path(i).path("analyzedInstructions").path(0).path("steps").size(); j++) {
                     Ingredient ingredient = new Ingredient();
-                    ingredient.setIngredientId(root.path(i).path("extendedIngredients").path(j).path("id").asInt());
-                    ingredient.setIngredientName(root.path(i).path("extendedIngredients").path(j).path("nameClean").asText());
-                    ingredientList.add(ingredient);
+                    for (int k = 0; k < root.path(i).path("analyzedInstructions").path(0).path("steps").path("ingredients").size(); k++) {
+                        int ingredientId = root.path(i).path("analyzedInstructions").path(0).path("steps").path("ingredients").path(k).path("id").asInt();
+                        String ingredientName = root.path(i).path("analyzedInstructions").path(0).path("steps").path("ingredients").path(k).path("name").asText();
+
+                        if (ingredientId <= 0) {
+                            break;
+                        }
+
+                        ingredient.setIngredientId(ingredientId);
+                        ingredient.setIngredientName(ingredientName);
+                        ingredientList.add(ingredient);
+                    }
                 }
                 recipe.setIngredientList(ingredientList);
 

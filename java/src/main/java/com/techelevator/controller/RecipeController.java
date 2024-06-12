@@ -57,8 +57,9 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/library")
     public void addRecipe(Principal principal, @RequestBody Recipe recipe) {
-        if (!recipeDao.checkDatabaseForRecipe(recipe.getRecipeId())) {
-            recipeDao.addRecipe(recipe);
+        Recipe recipeToAdd = recipeService.getRecipeDetails(recipe.getRecipeId());
+        if (!recipeDao.checkDatabaseForRecipe(recipeToAdd.getRecipeId())) {
+            recipeDao.addRecipe(recipeToAdd);
         }
         recipeDao.setRecipeToUser(userDao.findIdByUsername(principal.getName()), recipe.getRecipeId());
     }

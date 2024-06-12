@@ -2,13 +2,16 @@ package com.techelevator.dao;
 
 
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.Ingredient;
 import com.techelevator.model.Recipe;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,15 +35,18 @@ public class JdbcRecipeDao implements RecipeDao {
         List<Integer> recipeIdList = new ArrayList<>();
 
         String sql = "SELECT recipe_id\n" +
-                "FROM recipes_user\n" +
+                "FROM recipes_users\n" +
                 "WHERE user_id = ?;";
 
-        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
-
-        int counter = 0;
-        while (rowSet.next()) {
-            recipeIdList.add(rowSet.getInt(counter));
-            counter++;
+        try {
+            SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
+            int counter = 1;
+            while (rowSet.next()) {
+                recipeIdList.add(rowSet.getInt(counter));
+                counter++;
+            }
+        } catch (DaoException ex) {
+            System.out.println("Something went wrong: " + ex.getMessage());
         }
 
         return recipeIdList;
@@ -71,7 +77,7 @@ public class JdbcRecipeDao implements RecipeDao {
             if (i == recipe.getIngredientList().size() - 1) { // check to see if it's the last entry
                 ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName();
             } else {
-                ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName() + "||";
+                ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName() + "#";
             }
         }
 
@@ -80,7 +86,7 @@ public class JdbcRecipeDao implements RecipeDao {
             if (i == recipe.getInstructions().size() - 1) { // check to see if it's the last entry
                 instructionsString += recipe.getInstructions().get(i);
             } else {
-                instructionsString += recipe.getInstructions().get(i) + "||";
+                instructionsString += recipe.getInstructions().get(i) + "#";
             }
         }
 
@@ -89,7 +95,7 @@ public class JdbcRecipeDao implements RecipeDao {
             if (i == recipe.getDietCategories().size() - 1) { // check to see if it's the last entry
                 dietCategoriesString += recipe.getDietCategories().get(i);
             } else {
-                dietCategoriesString += recipe.getDietCategories().get(i) + "||";
+                dietCategoriesString += recipe.getDietCategories().get(i) + "#";
             }
         }
 
@@ -98,7 +104,7 @@ public class JdbcRecipeDao implements RecipeDao {
             if (i == recipe.getOccasions().size() - 1) { // check to see if it's the last entry
                 occasionsString += recipe.getOccasions().get(i);
             } else {
-                occasionsString += recipe.getOccasions().get(i) + "||";
+                occasionsString += recipe.getOccasions().get(i) + "#";
             }
         }
 
@@ -130,13 +136,15 @@ public class JdbcRecipeDao implements RecipeDao {
     public boolean checkDatabaseForRecipe(int recipeId) {
         String sql = "SELECT recipe_id FROM recipes_library WHERE recipe_id = ?;";
         int databaseRecipeId = 0;
-        try {
-            databaseRecipeId = jdbcTemplate.queryForObject(sql, int.class, recipeId);
-        } catch (DaoException ex) {
-            System.out.println("Something went wrong: " + ex.getMessage());
-        }
 
-        return databaseRecipeId == recipeId;
+        try {
+            jdbcTemplate.queryForObject(sql, int.class, recipeId);
+        } catch (DaoException ex) {
+            return false;
+        } catch (EmptyResultDataAccessException ex) {
+            return false;
+        }
+        return true;
     }
 
     // PUT
@@ -180,42 +188,55 @@ public class JdbcRecipeDao implements RecipeDao {
     private Recipe mapRecipeFromRowSet(SqlRowSet rowSet) {
         Recipe recipe = new Recipe();
 
-        int recipeId = rowSet.getInt("recipe_id");
-        String title = rowSet.getString("title");
-        String ingredientsString = rowSet.getString("ingredient_list");
-        String instructionsString = rowSet.getString("instructions");
-        String summary = rowSet.getString("summary");
-        int duration = rowSet.getInt("duration");
-        int servings = rowSet.getInt("servings");
-        String dietCategoriesString = rowSet.getString("diet_categories");
-        String occasionsString = rowSet.getString("occasions");
-        String source = rowSet.getString("recipe_source_url");
-        String image = rowSet.getString("image_path");
+        if (rowSet.next()) {
+            int recipeId = rowSet.getInt("recipe_id");
+            String title = rowSet.getString("title");
+            String ingredientsString = rowSet.getString("ingredient_list");
+            String instructionsString = rowSet.getString("instructions");
+            String summary = rowSet.getString("summary");
+            int duration = rowSet.getInt("duration");
+            int servings = rowSet.getInt("servings");
+            String dietCategoriesString = rowSet.getString("diet_categories");
+            String occasionsString = rowSet.getString("occasions");
+            String source = rowSet.getString("recipe_source_url");
+            String image = rowSet.getString("image_path");
 
-        recipe.setRecipeId(recipeId);
-        recipe.setTitle(title);
-        recipe.setSummary(summary);
-        recipe.setDuration(duration);
-        recipe.setServings(servings);
-        recipe.setSource(source);
-        recipe.setImage(image);
+            recipe.setRecipeId(recipeId);
+            recipe.setTitle(title);
+            recipe.setSummary(summary);
+            recipe.setDuration(duration);
+            recipe.setServings(servings);
+            recipe.setSource(source);
+            recipe.setImage(image);
 
-        String[] ingredientsArray = ingredientsString.split("||");
-        for (String ingredient : ingredientsArray) {
+            if (!ingredientsString.isEmpty()) {
+                String[] ingredientsArray = ingredientsString.split("#");
+                List<Ingredient> ingredientsList = new ArrayList<>();
+                for (String ingredient : ingredientsArray) {
+                    String[] ingredientComponents = ingredient.split(":");
+                    ingredientsList.add(new Ingredient(Integer.parseInt(ingredientComponents[0]), ingredientComponents[1]));
+                }
+                recipe.setIngredientList(ingredientsList);
+            }
 
+            if (!instructionsString.isEmpty()) {
+                String[] instructionsArray = instructionsString.split("#");
+                List<String> instructionsList = new ArrayList<>(Arrays.asList(instructionsArray));
+                recipe.setInstructions(instructionsList);
+            }
+
+            if (!dietCategoriesString.isEmpty()) {
+                String[] dietCategoriesArray = dietCategoriesString.split("#");
+                List<String> dietCategoriesList = new ArrayList<>(Arrays.asList(dietCategoriesArray));
+                recipe.setDietCategories(dietCategoriesList);
+            }
+
+            if (!occasionsString.isEmpty()) {
+                String[] occasionsArray = occasionsString.split("#");
+                List<String> occasionsList = new ArrayList<>(Arrays.asList(occasionsArray));
+                recipe.setOccasions(occasionsList);
+            }
         }
-
-        String[] instructionsArray = instructionsString.split("||");
-        List<String> instructionsList = new ArrayList<>(Arrays.asList(instructionsArray));
-        recipe.setInstructions(instructionsList);
-
-        String[] dietCategoriesArray = dietCategoriesString.split("||");
-        List<String> dietCategoriesList = new ArrayList<>(Arrays.asList(dietCategoriesArray));
-        recipe.setDietCategories(dietCategoriesList);
-
-        String[] occasionsArray = occasionsString.split("||");
-        List<String> occasionsList = new ArrayList<>(Arrays.asList(occasionsArray));
-        recipe.setOccasions(occasionsList);
 
         return recipe;
     }
