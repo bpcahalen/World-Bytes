@@ -21,12 +21,12 @@
             </div>
             <div class="option" id="add">
                 <div class="change">
-                    <button class="addBtn" id="addButton" @click="addToMyLib(recipe)" @mouseover="makeBounce($event)"
+                    <button class="addBtn" id="addButton" @click="removeFromLib(recipe)" @mouseover="makeBounce($event)"
                         @mouseout="killBounce($event)">
-                        <fa icon="utensils" class="addRecipe" id="icon"></fa>
+                        <fa icon="trash" class="addRecipe" id="icon"></fa>
                     </button>
                 </div>
-                <p class="words">Add to Library</p>
+                <p class="words">Remove from Library</p>
             </div>
         </div>
     </div>
@@ -38,9 +38,9 @@ import authService from '../services/AuthService';
 export default {
     props: ['recipes'],
     methods: {
-        addToMyLib(recipe) {
-            authService.addToMyRecipe(recipe).then(response => {
-                if (response.status == 200 || response.status == 201) {
+        removeFromLib(recipe) {
+            authService.addToMyRecipe(recipe.recipeId).then(response => {
+                if (response.status == 200) {
                     alert("Recipe added successfully")
                 }
             })

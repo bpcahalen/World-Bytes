@@ -152,7 +152,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: #369cdb;
-  padding: 10px 20px;
+  padding: 10px 20px 40px 20px;
 }
 
 .logo {
@@ -160,7 +160,8 @@ header {
 }
 
 nav a {
-  margin: 0 10px;
+  margin: 0 20px;
+  font-size: 35px;
   color: white;
   text-decoration: none;
 }
