@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import recipeService from '../services/RecipeService';
+import recipeService from '../services/AuthService';
 
 export default {
   data() {
