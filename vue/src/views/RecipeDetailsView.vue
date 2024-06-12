@@ -1,14 +1,16 @@
 <template>
     <div class="recipe-details">
       <h1>{{ recipe.title }}</h1>
-      <img :src="recipe.image" :alt="recipe.title" />
-      <p>{{ recipe.description }}</p>
-      <p><strong>Time to make:</strong> {{ recipe.time }} minutes</p>
+      <img :src="recipe.image" :alt="recipe.title" class="recipe-image"/>
+      <p><strong>Duration:</strong> {{ recipe.duration }} minutes</p>
+      <p><strong>Category:</strong> {{ recipe.category }}</p>
+      <p><strong>Dietary:</strong> {{ recipe.dietary }}</p>
+      <p><strong>Servings:</strong> {{ recipe.servings }}</p>
     </div>
   </template>
   
   <script>
-  import recipeService from '../services/RecipeService';
+  import recipeService from '../services/AuthService';
   
   export default {
     data() {
@@ -44,6 +46,10 @@
   
   .recipe-details h1 {
     margin-top: 0;
+  }
+  
+  .recipe-details p {
+    margin: 10px 0;
   }
   </style>
   
