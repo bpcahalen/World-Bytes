@@ -92,7 +92,7 @@ public class JdbcRecipeDao implements RecipeDao {
         }
 
         try {
-            jdbcTemplate.queryForObject(sql, int.class, recipe.getRecipeId(), recipe.getUserId(), recipe.getTitle(),
+            jdbcTemplate.update(sql, recipe.getRecipeId(), recipe.getUserId(), recipe.getTitle(),
                     ingredientListString, instructionsString, recipe.getSummary(), recipe.getDuration(), recipe.getServings(),
                     dietCategoriesString, occasionsString, recipe.getSource(), recipe.getImage());
 

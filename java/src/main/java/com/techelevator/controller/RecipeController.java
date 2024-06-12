@@ -31,7 +31,6 @@ public class RecipeController {
     @GetMapping
     // Search did not work properly, removing for now
     public List<Recipe> searchRecipesByKeyword(String searchQuery) {
-
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
@@ -52,14 +51,8 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/library")
     public void addRecipe(Principal principal, @RequestBody Recipe recipe) {
-        recipe.setUserId(userDao.findIdByUsername(principal.getName()));
+//        recipe.setUserId(userDao.findIdByUsername(principal.getName()));
         recipeDao.addRecipe(recipe);
-//        if (recipe.getUserId() == 0) {
-//            recipeToAdd = recipeService.getRecipeDetails(recipe.getRecipeId());
-//            recipeDao.addRecipe(recipeToAdd);
-//        } else {
-//            recipeDao.addRecipe(recipeToAdd);
-//        }
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
