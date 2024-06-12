@@ -30,7 +30,7 @@ public class RecipeController {
     //API calls go here
     @GetMapping
     // Search did not work properly, removing for now
-    public List<Recipe> searchRecipesByKeyword(@PathVariable String searchQuery) {
+    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
 
         return recipeService.getRecipesByKeyword(searchQuery);
     }

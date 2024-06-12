@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import recipeService from '../services/RecipeService';
+import authService from '../services/AuthService';
 
 export default {
   data() {
@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     getRecipes() {
-      recipeService.getRecipes().then(response => {
+      authService.getRecipes().then(response => {
         this.recipes = response.data;
       }).catch(error => {
         console.error('Error fetching recipes:', error);
@@ -92,7 +92,7 @@ export default {
     },
     searchRecipes() {
       if (this.filter.name.trim()) {
-        recipeService.getRecipes().then(response => {
+        authService.getRecipes().then(response => {
           this.recipes = response.data.filter(recipe =>
             recipe.title.toLowerCase().includes(this.filter.name.toLowerCase())
           );

@@ -18,7 +18,7 @@ export default {
   },
 
   getRecipeById(id){
-    return axios.get(`/recipes/${id}`)
+    return axios.get(`/recipes/${id}/information`)
   },
 
   getMyRecipes(){

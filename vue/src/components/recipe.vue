@@ -11,7 +11,7 @@
         <div class="recipeOptions ">
             <div class="option" id="moreInfo">
                 <div class="change">
-                    <router-link to="/meal-plans"><button class="addBtn" id="infoButton" @click="getInfo()"
+                    <router-link :to= "{name : 'RecipeDetails', params: { id : recipe.recipeId}}" ><button class="addBtn" id="infoButton" @click="getInfo()"
                             @mouseover="makeBeat($event)" @mouseout="killBeat($event)">
                             <fa icon="book" class="addRecipe" id="icon2"></fa>
                         </button>
@@ -44,7 +44,7 @@ export default {
                     alert("Recipe added successfully")
                 }
             })
-        },
+        }, 
         test() {
             alert("Recipe added successfully")
         },
