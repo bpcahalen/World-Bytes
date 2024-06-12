@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,8 +42,13 @@ public class RecipeController {
 
     @GetMapping(path = "/library")
     public List<Recipe> getAllMyRecipes(Principal principal) {
+        List<Recipe> recipeList = new ArrayList<>();
         int userId = userDao.findIdByUsername(principal.getName());
-        return recipeDao.getAllMyRecipes(userId);
+        List<Integer> recipeIdList = recipeDao.getAllMyRecipeIds(userId);
+        for (Integer recipeId : recipeIdList) {
+            recipeList.add(recipeDao.getRecipe(recipeId));
+        }
+        return recipeList;
     }
 
 
@@ -51,8 +57,10 @@ public class RecipeController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/library")
     public void addRecipe(Principal principal, @RequestBody Recipe recipe) {
-//        recipe.setUserId(userDao.findIdByUsername(principal.getName()));
-        recipeDao.addRecipe(recipe);
+        if (!recipeDao.checkDatabaseForRecipe(recipe.getRecipeId())) {
+            recipeDao.addRecipe(recipe);
+        }
+        recipeDao.setRecipeToUser(userDao.findIdByUsername(principal.getName()), recipe.getRecipeId());
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)

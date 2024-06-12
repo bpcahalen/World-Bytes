@@ -10,9 +10,13 @@ import java.util.List;
 @Component
 public interface RecipeDao {
 
-    List<Recipe> getAllMyRecipes(int userId);
+    List<Integer> getAllMyRecipeIds(int userId);
+    Recipe getRecipe(int recipeId);
 
     Recipe addRecipe(Recipe recipe);
+
+    void setRecipeToUser(int userId, int recipeId);
+    boolean checkDatabaseForRecipe(int recipeId);
 
     void updateRecipeInLibrary(Recipe recipe);
 

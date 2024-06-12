@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -27,20 +28,30 @@ public class JdbcRecipeDao implements RecipeDao {
 
     // GET
     @Override
-    public List<Recipe> getAllMyRecipes(int userId) {
-        List<Recipe> recipeList = new ArrayList<>();
+    public List<Integer> getAllMyRecipeIds(int userId) {
+        List<Integer> recipeIdList = new ArrayList<>();
 
-        String sql = "SELECT *\n" +
-                "FROM recipes\n" +
+        String sql = "SELECT recipe_id\n" +
+                "FROM recipes_user\n" +
                 "WHERE user_id = ?;";
 
         SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
 
+        int counter = 0;
         while (rowSet.next()) {
-            recipeList.add(mapRecipeFromRowSet(rowSet));
+            recipeIdList.add(rowSet.getInt(counter));
+            counter++;
         }
 
-        return recipeList;
+        return recipeIdList;
+    }
+
+    public Recipe getRecipe(int recipeId) {
+        String sql = "SELECT * FROM recipes_library WHERE recipe_id = ?";
+
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, recipeId);
+
+        return mapRecipeFromRowSet(rowSet);
     }
 
     /* Handles adding recipe to database */
@@ -49,18 +60,18 @@ public class JdbcRecipeDao implements RecipeDao {
     @Override
     public Recipe addRecipe(Recipe recipe) {
 
-        String sql = "INSERT INTO recipes_library(recipe_id, user_id, title, ingredient_list,\n" +
+        String sql = "INSERT INTO recipes_library(recipe_id, title, ingredient_list,\n" +
             "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
             "\t\t\t\t\t\t\tservings, diet_categories, occasions,\n" +
             "\t\t\t\t\t\t   recipe_source_url, image_path)\n" +
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?);";
 
         String ingredientListString = "";
         for (int i = 0; i < recipe.getIngredientList().size(); i++) {
             if (i == recipe.getIngredientList().size() - 1) { // check to see if it's the last entry
                 ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName();
             } else {
-                ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName() + ",";
+                ingredientListString += recipe.getIngredientList().get(i).getIngredientId() + ":" + recipe.getIngredientList().get(i).getIngredientName() + "||";
             }
         }
 
@@ -92,7 +103,7 @@ public class JdbcRecipeDao implements RecipeDao {
         }
 
         try {
-            jdbcTemplate.update(sql, recipe.getRecipeId(), recipe.getUserId(), recipe.getTitle(),
+            jdbcTemplate.update(sql, recipe.getRecipeId(), recipe.getTitle(),
                     ingredientListString, instructionsString, recipe.getSummary(), recipe.getDuration(), recipe.getServings(),
                     dietCategoriesString, occasionsString, recipe.getSource(), recipe.getImage());
 
@@ -106,19 +117,41 @@ public class JdbcRecipeDao implements RecipeDao {
         return recipe;
     }
 
+    public void setRecipeToUser(int userId, int recipeId) {
+        String sql = "INSERT INTO recipes_users VALUES(?, ?);";
+
+        try {
+            jdbcTemplate.update(sql, userId, recipeId);
+        } catch (DaoException ex) {
+            System.out.println("Something went wrong: " + ex.getMessage());
+        }
+    }
+
+    public boolean checkDatabaseForRecipe(int recipeId) {
+        String sql = "SELECT recipe_id FROM recipes_library WHERE recipe_id = ?;";
+        int databaseRecipeId = 0;
+        try {
+            databaseRecipeId = jdbcTemplate.queryForObject(sql, int.class, recipeId);
+        } catch (DaoException ex) {
+            System.out.println("Something went wrong: " + ex.getMessage());
+        }
+
+        return databaseRecipeId == recipeId;
+    }
+
     // PUT
     @Override
     public void updateRecipeInLibrary(Recipe recipe) {
 
         String sql = "UPDATE recipes_library\n" +
-                "SET user_id = ?, title = ?, ingredient_list = ?,\n" +
+                "SET title = ?, ingredient_list = ?,\n" +
                 "\tinstructions = ?, summary = ?, duration = ?, servings = ?,\n" +
                 "\tdiet_category = ?, occasions = ?,\n" +
                 "\trecipe_source_url = ?, image_path = ?\n" +
                 "WHERE recipe_id = ?;";
 
         try {
-            int rowsAffected = jdbcTemplate.update(sql, int.class, recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
+            int rowsAffected = jdbcTemplate.update(sql, int.class, recipe.getTitle(), recipe.getIngredientList(),
                     recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(), recipe.getServings(),
                     recipe.getDietCategories(), recipe.getOccasions(), recipe.getSource(),
                     recipe.getImage(), recipe.getRecipeId());
@@ -148,30 +181,41 @@ public class JdbcRecipeDao implements RecipeDao {
         Recipe recipe = new Recipe();
 
         int recipeId = rowSet.getInt("recipe_id");
-        int userId = rowSet.getInt("user_id");
         String title = rowSet.getString("title");
-//        String ingredientList = rowSet.getString("ingredient_list");
-//        String instructions = rowSet.getString("instructions");
+        String ingredientsString = rowSet.getString("ingredient_list");
+        String instructionsString = rowSet.getString("instructions");
         String summary = rowSet.getString("summary");
         int duration = rowSet.getInt("duration");
         int servings = rowSet.getInt("servings");
-//        String dietCategories = rowSet.getString("diet_categories");
-//        String occasions = rowSet.getString("occasions");
+        String dietCategoriesString = rowSet.getString("diet_categories");
+        String occasionsString = rowSet.getString("occasions");
         String source = rowSet.getString("recipe_source_url");
         String image = rowSet.getString("image_path");
 
         recipe.setRecipeId(recipeId);
-        recipe.setUserId(userId);
         recipe.setTitle(title);
-//        recipe.setIngredientList(ingredientList);
-//        recipe.setInstructions(instructions);
         recipe.setSummary(summary);
         recipe.setDuration(duration);
         recipe.setServings(servings);
-//        recipe.setDietCategory(dietCategory);
-//        recipe.setOccasions(occasions);
         recipe.setSource(source);
         recipe.setImage(image);
+
+        String[] ingredientsArray = ingredientsString.split("||");
+        for (String ingredient : ingredientsArray) {
+
+        }
+
+        String[] instructionsArray = instructionsString.split("||");
+        List<String> instructionsList = new ArrayList<>(Arrays.asList(instructionsArray));
+        recipe.setInstructions(instructionsList);
+
+        String[] dietCategoriesArray = dietCategoriesString.split("||");
+        List<String> dietCategoriesList = new ArrayList<>(Arrays.asList(dietCategoriesArray));
+        recipe.setDietCategories(dietCategoriesList);
+
+        String[] occasionsArray = occasionsString.split("||");
+        List<String> occasionsList = new ArrayList<>(Arrays.asList(occasionsArray));
+        recipe.setOccasions(occasionsList);
 
         return recipe;
     }
