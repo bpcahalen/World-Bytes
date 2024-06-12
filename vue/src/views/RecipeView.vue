@@ -59,58 +59,64 @@ export default {
     data() {
         return {
             recipes: [
-                // {
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Gnocchi",
-                //     duration: 60,
-                //     category: "Dinner",
-                //     dietary: "none",
-                //     servings: 4
-                // },
-                // {
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Pie",
-                //     duration: 30,
-                //     category: "Dessert",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "iced tea",
-                //     duration: 60,
-                //     category: "Dinner",
-                //     dietary: "none",
-                //     servings: 4
-                // },
-                // {
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Pie",
-                //     duration: 30,
-                //     category: "Dessert",
-                //     dietary: "none",
-                //     servings: 2
-                // }
+                {
+                    recipeId: 1,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                    duration: 30,
+                    category: "Lunch",
+                    dietary: "none",
+                    servings: 2
+                },
+                {
+                    recipeId: 2,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Gnocchi",
+                    duration: 60,
+                    category: "Dinner",
+                    dietary: "none",
+                    servings: 4
+                },
+                {
+                    recipeId: 3,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Pie",
+                    duration: 30,
+                    category: "Dessert",
+                    dietary: "none",
+                    servings: 2
+                },
+                {
+                    recipeId: 4,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Chicken alfredo",
+                    duration: 30,
+                    category: "Lunch",
+                    dietary: "none",
+                    servings: 2
+                },
+                {
+                    recipeId: 5,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "iced tea",
+                    duration: 60,
+                    category: "Dinner",
+                    dietary: "none",
+                    servings: 4
+                },
+                {
+                    recipeId: 6,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Pie",
+                    duration: 30,
+                    category: "Dessert",
+                    dietary: "none",
+                    servings: 2
+                }
 ],
             filter: {
                 name: "",
-                time: "",
+                duration: "",
                 category: "",
                 dietary: ""
             }
@@ -141,9 +147,9 @@ export default {
                         .includes(this.filter.category.toLowerCase())
                 )
             }
-            if (this.filter.time != 0) {
+            if (this.filter.duration != 0) {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.duration <= this.filter.time
+                    recipe.duration <= this.filter.duration
                 )
             }
             if (this.filter.dietary != "") {

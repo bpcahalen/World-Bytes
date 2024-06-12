@@ -10,9 +10,11 @@
             </nav>
         </header>
       <h1>{{ recipe.title }}</h1>
-      <img :src="recipe.image" :alt="recipe.title" />
-      <p>{{ recipe.description }}</p>
-      <p><strong>Time to make:</strong> {{ recipe.duration }} minutes</p>
+      <img :src="recipe.image" :alt="recipe.title" class="recipe-image"/>
+      <p><strong>Duration:</strong> {{ recipe.duration }} minutes</p>
+      <p><strong>Category:</strong> {{ recipe.category }}</p>
+      <p><strong>Dietary:</strong> {{ recipe.dietary }}</p>
+      <p><strong>Servings:</strong> {{ recipe.servings }}</p>
       <footer>
       <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter" src="../photos/walter_smiling.png"/></p>
       <div class="socials">
@@ -61,6 +63,10 @@
   
   .recipe-details h1 {
     margin-top: 0;
+  }
+  
+  .recipe-details p {
+    margin: 10px 0;
   }
   </style>
   

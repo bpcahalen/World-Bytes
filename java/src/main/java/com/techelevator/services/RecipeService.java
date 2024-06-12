@@ -123,7 +123,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
      * @return List of Recipe objects that align with the provided keyword
      */
     public List<Recipe> getRecipesByKeyword(String searchQuery) {
-        String url = this.apiURL + this.generalEndpoint + this.key + this.necessaryParameters;
+        String url = this.apiURL + this.generalEndpoint + this.key + this.necessaryParameters + this.detailedParameters;
 
         // If there is no searchQuery, it will return a random assortment of Recipes
         if (searchQuery == null) {

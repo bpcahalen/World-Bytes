@@ -69,20 +69,20 @@ const routes = [
     }
   },
   {
-    path: '/recipes/:id',
-    name: 'RecipeDetails',
+    path: '/recipes/:id/information',
+    name: 'recipeDetails',
     component: RecipeDetailsView,
     meta: {
       requiresAuth: false
     }
   },
   {
-  path: '/meal-plans',
-  name: 'mealPlans',
-  component: MealPlanView,
-  meta: {
-    requiresAuth: true
-  }
+    path: '/meal-plans',
+    name: 'mealPlans',
+    component: MealPlanView,
+    meta: {
+      requiresAuth: true
+    }
   }
 ];
 

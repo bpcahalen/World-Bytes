@@ -13,10 +13,6 @@ export default {
     return axios.get('/recipes')
   },
 
-  getRecipeDetails(user){
-    return axios.get(`/recipes/${user.id}/information`)
-  },
-
   getRecipeById(id){
     return axios.get(`/recipes/${id}/information`)
   },
