@@ -30,7 +30,7 @@ export default {
   },
 
   addToMyRecipe(recipe){
-    return axios.post('/library', recipe.id)
+    return axios.post('/recipes/library', recipe)
   },
 
   deleteMyRecipe(){

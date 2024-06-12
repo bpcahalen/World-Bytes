@@ -4,10 +4,12 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.MealPlan;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -43,6 +45,25 @@ public class JdbcMealPlanDao implements MealPlanDao{
         return mealPlanList;
     }
 
+    // retrieves info for a selected meal plan on an account.
+    // Will need refactoring once we determine the nature of the meal plan (for both front and back)
+    @Override
+    public MealPlan getMealPlanDetails(int mealPlanId) {
+
+        MealPlan myMealPlan = new MealPlan();
+
+        String sql = "SELECT *\n" +
+                "FROM meal_plan\n" +
+                "WHERE meal_plan_id = ?;";
+
+        SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, mealPlanId);
+
+        if(rowSet.next()) {
+            myMealPlan = mapMealPlanFromRowSet(rowSet);
+        }
+        return myMealPlan;
+    }
+
     // Need MealPlan tables active before this will function
     @Override
     public MealPlan createMealPlan(MealPlan mealPlan) {
@@ -63,6 +84,39 @@ public class JdbcMealPlanDao implements MealPlanDao{
         }
 
         return mealPlan;
+    }
+
+    @Override
+    public void updateMealPlan(MealPlan mealPlan) {
+
+        String sql = "UPDATE meal_plan\n" +
+                "SET title = ?, recipe_list = ?, description = ?,\n" +
+                "\tduration = ?, diet_categories = ?, dietary_restrictions = ?\n" +
+                "WHERE meal_plan_id = ?;";
+
+        try {
+
+            int rowsAffected = jdbcTemplate.update(sql, int.class, mealPlan.getTitle(),
+                    mealPlan.getRecipeList(), mealPlan.getDescription(), mealPlan.getDuration(),
+                    mealPlan.getDietCategories(), mealPlan.getDietaryRestrictions(),
+                    mealPlan.getMealPlanId());
+
+            if(rowsAffected <= 0) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Could not find the Meal Plan!");
+            }
+
+        } catch(DaoException ex) {
+            throw new DaoException("Something went wrong! error: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteMealPlan(int mealPlanId) {
+        String sql = "DELETE FROM meal_plan\n" +
+                "WHERE meal_plan_id = ?;";
+
+        jdbcTemplate.update(sql, mealPlanId);
     }
 
 

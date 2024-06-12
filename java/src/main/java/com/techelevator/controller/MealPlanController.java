@@ -33,11 +33,29 @@ public class MealPlanController {
         return getAllMyMealPlans(principal);
     }
 
+    @GetMapping("/{mealPlanId}")
+    public MealPlan getMealPlanDetails(int mealPlanId){
+        return getMealPlanDetails(mealPlanId);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{mealPlanId}")
     public MealPlan createMealPlan(MealPlan mealPlan, @PathVariable int mealPlanId) {
         mealPlan.setMealPlanId(mealPlanId);
 
         return mealPlanDao.createMealPlan(mealPlan);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{mealPlanId}")
+    public void updateMealPlan(@RequestBody MealPlan mealPlan, @PathVariable int mealPlanId) {
+        mealPlan.setMealPlanId(mealPlanId);
+        mealPlanDao.updateMealPlan(mealPlan);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping("/{mealPlanId}")
+    public void deleteMealPlan(@PathVariable int mealPlanId) {
+        mealPlanDao.deleteMealPlan(mealPlanId);
     }
 }

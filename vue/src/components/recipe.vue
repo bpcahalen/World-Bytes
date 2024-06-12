@@ -7,7 +7,7 @@
             <h3>Servings: {{ recipe.servings }}</h3>
             <h3>Duration: {{ recipe.duration }} </h3>
         </div>
-        <h2>{{ truncate(recipe.title, 20) }}</h2>
+        <h2>{{ truncate(recipe.title, 18) }}</h2>
         <div class="recipeOptions ">
             <div class="option" id="moreInfo">
                 <div class="change">
@@ -21,7 +21,7 @@
             </div>
             <div class="option" id="add">
                 <div class="change">
-                    <button class="addBtn" id="addButton" @click="test()" @mouseover="makeBounce($event)"
+                    <button class="addBtn" id="addButton" @click="addToMyLib(recipe)" @mouseover="makeBounce($event)"
                         @mouseout="killBounce($event)">
                         <fa icon="utensils" class="addRecipe" id="icon"></fa>
                     </button>
@@ -38,8 +38,8 @@ import authService from '../services/AuthService';
 export default {
     props: ['recipes'],
     methods: {
-        addToMyLib() {
-            authService.addToMyRecipe(this.recipe).then(response => {
+        addToMyLib(recipe) {
+            authService.addToMyRecipe(recipe).then(response => {
                 if (response.status == 200) {
                     alert("Recipe added successfully")
                 }

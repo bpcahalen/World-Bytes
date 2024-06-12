@@ -28,8 +28,11 @@ public class RecipeController {
     }
 
     //API calls go here
-    @GetMapping(path = "?query={searchQuery}")
-    public List<Recipe> searchRecipesByKeyword(@PathVariable String searchQuery) {
+    @GetMapping
+    // Search did not work properly, removing for now
+    //(path = "?query={searchQuery}")
+    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
+
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
@@ -66,7 +69,17 @@ public class RecipeController {
         recipeDao.updateRecipeInLibrary(recipe);
     }
 
+
+    @DeleteMapping("/library/{recipeId}")
+    public void deleteRecipeFromLibrary(@PathVariable int recipeId) {
+        recipeDao.deleteRecipeFromLibrary(recipeId);
+    }
+
+
+
+
     // Extra cases; not implemented
+
     //    @GetMapping(path = "/")
 //    public List<Recipe> searchRecipesByIngredients(Principal principal, String[] ingredients) {
 //        return recipeService.getRecipesByIngredients(ingredients);

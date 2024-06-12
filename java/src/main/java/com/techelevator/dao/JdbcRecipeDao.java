@@ -46,11 +46,12 @@ public class JdbcRecipeDao implements RecipeDao {
     /* Handles adding recipe to database */
 
     // POST for creating new recipe
+    @Override
     public Recipe addRecipe(Recipe recipe) {
 
         String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +
             "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
-            "\t\t\t\t\t\t\tdiet_categories, dietary_restrictions,\n" +
+            "\t\t\t\t\t\t\tdiet_categories, occasions,\n" +
             "\t\t\t\t\t\t   recipe_source_url, image_path)\n" +
             "VALUES(?,?,?,?,?,?,?,?,?,?)\n" +
             "RETURNING recipe_id;";
@@ -82,19 +83,19 @@ public class JdbcRecipeDao implements RecipeDao {
             }
         }
 
-        String dietRestrictionsString = "";
+        String occasionsString = "";
         for (int i = 0; i < recipe.getOccasions().size(); i++) {
             if (i == recipe.getOccasions().size() - 1) { // check to see if it's the last entry
-                dietRestrictionsString += recipe.getOccasions().get(i);
+                occasionsString += recipe.getOccasions().get(i);
             } else {
-                dietRestrictionsString += recipe.getOccasions().get(i) + "||";
+                occasionsString += recipe.getOccasions().get(i) + "||";
             }
         }
 
         try {
             int recipeId = jdbcTemplate.queryForObject(sql, int.class, recipe.getUserId(), recipe.getTitle(),
                     ingredientListString, instructionsString, recipe.getSummary(), recipe.getDuration(),
-                    dietCategoriesString, dietRestrictionsString, recipe.getSource(), recipe.getImage());
+                    dietCategoriesString, occasionsString, recipe.getSource(), recipe.getImage());
 
             recipe.setRecipeId(recipeId);
 
@@ -108,25 +109,39 @@ public class JdbcRecipeDao implements RecipeDao {
     }
 
     // PUT
+    @Override
     public void updateRecipeInLibrary(Recipe recipe) {
 
         String sql = "UPDATE recipes_library\n" +
                 "SET user_id = ?, title = ?, ingredient_list = ?,\n" +
-                "\tinstructions = ?, summary = ?, duration = ?,\n" +
-                "\tdiet_category = ?, dietary_restrictions = ?,\n" +
+                "\tinstructions = ?, summary = ?, duration = ?, servings = ?,\n" +
+                "\tdiet_category = ?, occasions = ?,\n" +
                 "\trecipe_source_url = ?, image_path = ?\n" +
                 "WHERE recipe_id = ?;";
 
         try {
-            jdbcTemplate.update(sql, recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
-                    recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(),
+            int rowsAffected = jdbcTemplate.update(sql, int.class, recipe.getUserId(), recipe.getTitle(), recipe.getIngredientList(),
+                    recipe.getInstructions(), recipe.getSummary(), recipe.getDuration(), recipe.getServings(),
                     recipe.getDietCategories(), recipe.getOccasions(), recipe.getSource(),
                     recipe.getImage(), recipe.getRecipeId());
+
+            if(rowsAffected <= 0) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Recipe not found");
+            }
 
         } catch (DaoException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Recipe not found, error: " + ex.getMessage());
         }
+    }
+
+    @Override
+    public void deleteRecipeFromLibrary(int recipeId) {
+        String sql = "DELETE FROM recipes_library\n" +
+                "WHERE recipe_id = ?;";
+
+        jdbcTemplate.update(sql, recipeId);
     }
 
 
@@ -141,8 +156,9 @@ public class JdbcRecipeDao implements RecipeDao {
 //        String instructions = rowSet.getString("instructions");
         String summary = rowSet.getString("summary");
         int duration = rowSet.getInt("duration");
+        int servings = rowSet.getInt("servings");
 //        String dietCategories = rowSet.getString("diet_categories");
-//        String dietaryRestrictions = rowSet.getString("dietary_restrictions");
+//        String occasions = rowSet.getString("occasions");
         String source = rowSet.getString("recipe_source_url");
         String image = rowSet.getString("image_path");
 
@@ -153,8 +169,9 @@ public class JdbcRecipeDao implements RecipeDao {
 //        recipe.setInstructions(instructions);
         recipe.setSummary(summary);
         recipe.setDuration(duration);
+        recipe.setServings(servings);
 //        recipe.setDietCategory(dietCategory);
-//        recipe.setDietaryRestrictions(dietaryRestrictions);
+//        recipe.setOccasions(occasions);
         recipe.setSource(source);
         recipe.setImage(image);
 
