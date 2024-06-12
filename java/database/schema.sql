@@ -14,19 +14,24 @@ CREATE TABLE users (
 -- Saved recipes by users
 CREATE TABLE recipes_library (
 	recipe_id SERIAL,
-	user_id int NOT NULL,
 	title text NOT NULL,
-	ingredient_list text,       	-- holds all relevant ingredient IDs
+	ingredient_list text,               	-- holds all relevant ingredient IDs
 	instructions text,
 	summary text,
 	duration numeric,                       -- time in minutes for recipe
 	servings numeric,                       -- serving size
-	diet_categories text,			-- will hold multiple categories, such as keto or gluten free
-	occasions text, 		            -- will include stuff like holidays, etc.
+	diet_categories text,		        	-- will hold multiple categories, such as keto or gluten free
+	occasions text, 		                -- will include stuff like holidays, etc.
 	recipe_source_url varchar(200),
 	image_path varchar(200),
-	CONSTRAINT PK_recipe_id PRIMARY KEY (recipe_id),
-	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+	CONSTRAINT PK_recipe_id PRIMARY KEY (recipe_id)
+);
+
+CREATE TABLE recipes_users (
+    recipe_id NOT NULL,
+    user_id NOT NULL,
+    CONSTRAINT FK_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes_library(recipe_id),
+    CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 ---- Ingredient list which users will be able to add to their pantry and/or shopping cart
