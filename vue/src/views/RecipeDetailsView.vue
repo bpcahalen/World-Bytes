@@ -1,5 +1,15 @@
 <template>
     <div class="recipe-details">
+    <header>
+      <img src="../photos/world_byte.png" alt="Logo" class="logo" />
+      <nav>
+        <router-link to="/">Home</router-link>
+        <router-link to="/account">Account</router-link>
+        <router-link to="/recipes">Recipes</router-link>
+        <router-link to="/meal-plans">Meal Plans</router-link>
+        <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+      </nav>
+    </header>
       <h1>{{ recipe.title }}</h1>
       <img :src="recipe.image" :alt="recipe.title" class="recipe-image"/>
       <p><strong>Duration:</strong> {{ recipe.duration }} minutes</p>
@@ -31,7 +41,6 @@
   
   <style scoped>
   .recipe-details {
-    max-width: 600px;
     margin: auto;
     padding: 20px;
     background: #fff;
