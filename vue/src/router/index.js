@@ -8,6 +8,7 @@ import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import AccountView from '../views/AccountView.vue';
 import RecipeView from '../views/RecipeView.vue';
+import RecipeDetailsView from '../views/RecipeDetailsView.vue';
 
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
@@ -23,7 +24,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
@@ -59,12 +60,20 @@ const routes = [
     }
   },
   {
-  path: '/recipes',
-  name: 'recipes',
-  component: RecipeView,
-  meta: {
-    requiresAuth: false
-  }
+    path: '/recipes',
+    name: 'recipes',
+    component: RecipeView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/recipes/:id',
+    name: 'RecipeDetails',
+    component: RecipeDetailsView,
+    meta: {
+      requiresAuth: false
+    }
   }
 ];
 

@@ -15,14 +15,26 @@
       
       <section class="recipes">
         <h2>Our Recipes</h2>
-        <input type="text" v-model="searchQuery" placeholder="Search for recipes..." @input="searchRecipes" />
+        <div class="search-bar">
+          <input
+            type="text"
+            v-model="filter.name"
+            placeholder="Search for recipes..."
+            @keyup.enter="searchRecipes"
+          />
+          <button @click="searchRecipes">Search</button>
+        </div>
         <div class="recipe-list">
-          <div class="recipe-card" v-for="recipe in recipes" :key="recipe.id">
+          <div v-for="recipe in filteredList" :key="recipe.id" class="recipe-card">
+            <img :src="recipe.image" :alt="recipe.title" class="recipe-image" />
             <h3>{{ recipe.title }}</h3>
-            <img :src="recipe.image" :alt="recipe.title" class="recipe-image"/>
           </div>
         </div>
-        <router-link to="/recipes" class="see-more">See more recipes</router-link>
+        <div class="see-more">
+          <router-link to="/recipes" class="see-more-button" @mouseover="expandButton" @mouseleave="shrinkButton">
+            See More
+          </router-link>
+        </div>
       </section>
       
       <section class="about-meals">
@@ -52,58 +64,77 @@
 </template>
 
 <script>
-import axios from 'axios';
+import recipeService from '../services/RecipeService';
 
 export default {
   data() {
     return {
       recipes: [],
-      searchQuery: '',
+      filter: {
+        name: "",
+        time: "",
+        category: "",
+        dietary: ""
+      }
     };
   },
   created() {
-    this.fetchDefaultRecipes();
+    this.getRecipes();
   },
   methods: {
-    fetchDefaultRecipes() {
-      const apiKey = 'd9db55cd6bf247eb8dba11df7fceb331'; 
-      const apiUrl = 'https://api.spoonacular.com/recipes/random';
-      
-      axios.get(apiUrl, {
-        params: {
-          apiKey: apiKey,
-          number: 10
-        }
-      })
-      .then(response => {
-        this.recipes = response.data.recipes;
-      })
-      .catch(error => {
-        console.error("There was an error fetching the default recipes:", error);
+    getRecipes() {
+      recipeService.getRecipes().then(response => {
+        this.recipes = response.data;
+      }).catch(error => {
+        console.error('Error fetching recipes:', error);
       });
     },
     searchRecipes() {
-      if (this.searchQuery.trim()) {
-        const apiKey = 'd9db55cd6bf247eb8dba11df7fceb331'; 
-        const apiUrl = 'https://api.spoonacular.com/recipes/complexSearch';
-        
-        axios.get(apiUrl, {
-          params: {
-            apiKey: apiKey,
-            query: this.searchQuery
-          }
-        })
-        .then(response => {
-          this.recipes = response.data.results;
-        })
-        .catch(error => {
-          console.error("There was an error searching for recipes:", error);
+      if (this.filter.name.trim()) {
+        recipeService.getRecipes().then(response => {
+          this.recipes = response.data.filter(recipe =>
+            recipe.title.toLowerCase().includes(this.filter.name.toLowerCase())
+          );
+        }).catch(error => {
+          console.error('Error searching recipes:', error);
         });
       } else {
-        this.fetchDefaultRecipes();
+        this.getRecipes();
       }
     },
+    expandButton(event) {
+      event.target.style.transform = 'scale(1.1)';
+    },
+    shrinkButton(event) {
+      event.target.style.transform = 'scale(1)';
+    }
   },
+  computed: {
+    filteredList() {
+      let filteredRecipes = this.recipes;
+      if (this.filter.name) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.title.toLowerCase().includes(this.filter.name.toLowerCase())
+        );
+      }
+      if (this.filter.category) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.category.toLowerCase().includes(this.filter.category.toLowerCase())
+        );
+      }
+      if (this.filter.time) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.time <= this.filter.time
+        );
+      }
+      if (this.filter.dietary) {
+        filteredRecipes = filteredRecipes.filter(recipe =>
+          recipe.dietary.toLowerCase().includes(this.filter.dietary.toLowerCase())
+        );
+      }
+      return filteredRecipes;
+    }
+  }
 };
 </script>
 
@@ -150,12 +181,28 @@ section {
   margin-bottom: 20px;
 }
 
-.recipes input {
-  display: block;
-  margin-bottom: 10px;
+.recipes .search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.recipes .search-bar input {
+  flex-grow: 1;
   padding: 10px;
-  width: 100%;
-  max-width: 400px;
+}
+
+.recipes .search-bar button {
+  padding: 10px 20px;
+  background-color: #369cdb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.recipes .search-bar button:hover {
+  background-color: #287bb5;
 }
 
 .recipe-list {
@@ -180,10 +227,13 @@ section {
 }
 
 .see-more {
-  display: block;
-  margin-top: 10px;
   text-align: right;
+  margin-top: 10px;
+}
+
+.see-more-button {
   color: #369cdb;
+  text-decoration: none;
 }
 
 footer {
