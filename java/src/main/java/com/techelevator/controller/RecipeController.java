@@ -30,16 +30,15 @@ public class RecipeController {
     //API calls go here
     @GetMapping
     // Search did not work properly, removing for now
-    //(path = "?query={searchQuery}")
-    public List<Recipe> searchRecipesByKeyword(String searchQuery) {
+    public List<Recipe> searchRecipesByKeyword(@PathVariable String searchQuery) {
 
         return recipeService.getRecipesByKeyword(searchQuery);
     }
 
-//    @GetMapping(path = "{recipeId}/information")
-//    public Recipe viewRecipeDetails(@PathVariable int recipeId) {
-//        return recipeService.getRecipeDetails(recipeId);
-//    }
+    @GetMapping(path = "{recipeId}/information")
+    public Recipe viewRecipeDetails(@PathVariable int recipeId) {
+        return recipeService.getRecipeDetails(recipeId);
+    }
 
     @GetMapping(path = "/library")
     public List<Recipe> getAllMyRecipes(Principal principal) {
