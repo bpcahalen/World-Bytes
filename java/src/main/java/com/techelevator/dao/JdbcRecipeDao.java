@@ -49,12 +49,11 @@ public class JdbcRecipeDao implements RecipeDao {
     @Override
     public Recipe addRecipe(Recipe recipe) {
 
-        String sql = "INSERT INTO recipes_library(user_id, title, ingredient_list,\n" +
+        String sql = "INSERT INTO recipes_library(recipe_id, user_id, title, ingredient_list,\n" +
             "\t\t\t\t\t\t\tinstructions, summary, duration,\n" +
-            "\t\t\t\t\t\t\tdiet_categories, occasions,\n" +
+            "\t\t\t\t\t\t\tservings, diet_categories, occasions,\n" +
             "\t\t\t\t\t\t   recipe_source_url, image_path)\n" +
-            "VALUES(?,?,?,?,?,?,?,?,?,?)\n" +
-            "RETURNING recipe_id;";
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?,?);";
 
         String ingredientListString = "";
         for (int i = 0; i < recipe.getIngredientList().size(); i++) {
@@ -93,11 +92,10 @@ public class JdbcRecipeDao implements RecipeDao {
         }
 
         try {
-            int recipeId = jdbcTemplate.queryForObject(sql, int.class, recipe.getUserId(), recipe.getTitle(),
-                    ingredientListString, instructionsString, recipe.getSummary(), recipe.getDuration(),
+            jdbcTemplate.queryForObject(sql, int.class, recipe.getRecipeId(), recipe.getUserId(), recipe.getTitle(),
+                    ingredientListString, instructionsString, recipe.getSummary(), recipe.getDuration(), recipe.getServings(),
                     dietCategoriesString, occasionsString, recipe.getSource(), recipe.getImage());
 
-            recipe.setRecipeId(recipeId);
 
         } catch(DaoException ex) {
             System.out.println("Something went wrong: " + ex.getMessage());

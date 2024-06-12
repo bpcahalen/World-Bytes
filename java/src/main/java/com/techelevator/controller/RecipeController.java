@@ -51,14 +51,15 @@ public class RecipeController {
     // then using recipeDao.addRecipe, post the info into our database as a new recipe
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/library")
-    public void addRecipe(@RequestBody Recipe recipe) {
-        Recipe recipeToAdd = new Recipe();
-        if (recipe.getUserId() == 0) {
-            recipeToAdd = recipeService.getRecipeDetails(recipe.getRecipeId());
-            recipeDao.addRecipe(recipeToAdd);
-        } else {
-            recipeDao.addRecipe(recipeToAdd);
-        }
+    public void addRecipe(Principal principal, @RequestBody Recipe recipe) {
+        recipe.setUserId(userDao.findIdByUsername(principal.getName()));
+        recipeDao.addRecipe(recipe);
+//        if (recipe.getUserId() == 0) {
+//            recipeToAdd = recipeService.getRecipeDetails(recipe.getRecipeId());
+//            recipeDao.addRecipe(recipeToAdd);
+//        } else {
+//            recipeDao.addRecipe(recipeToAdd);
+//        }
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
