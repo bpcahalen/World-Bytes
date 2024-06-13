@@ -5,7 +5,7 @@
         </div>
         <div id="info">
             <h3>Servings: {{ recipe.servings }}</h3>
-            <h3>Duration: {{ recipe.duration }} </h3>
+            <h3>Duration: {{ recipe.duration }} mins </h3>
         </div>
         <h2>{{ truncate(recipe.title, 18) }}</h2>
         <div class="recipeOptions ">
