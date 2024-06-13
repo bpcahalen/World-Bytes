@@ -40,10 +40,8 @@ public class JdbcRecipeDao implements RecipeDao {
 
         try {
             SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
-            int counter = 1;
             while (rowSet.next()) {
-                recipeIdList.add(rowSet.getInt(counter));
-                counter++;
+                recipeIdList.add(rowSet.getInt("recipe_id"));
             }
         } catch (DaoException ex) {
             System.out.println("Something went wrong: " + ex.getMessage());
