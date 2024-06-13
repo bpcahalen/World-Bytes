@@ -39,11 +39,14 @@ export default {
     props: ['recipes'],
     methods: {
         removeFromLib(recipe) {
-            authService.addToMyRecipe(recipe.recipeId).then(response => {
+            confirm("Are you sure you want to delete this recipe from your library?")
+            if(confirm){
+                authService.deleteMyRecipe(recipe.recipeId).then(response => {
                 if (response.status == 200) {
                     alert("Recipe added successfully")
                 }
             })
+            }
         }, 
         test() {
             alert("Recipe added successfully")

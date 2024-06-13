@@ -187,7 +187,7 @@ export default {
         getUserSelection(e) {
             this.choice = e.target.innerText;
             if (this.choice != "My Recipes") {
-                this.filteredRecipe.name = "";
+                this.filteredRecipe.title = "";
                 this.filteredRecipe.dietary = "";
                 this.filteredRecipe.duration = "";
             }
@@ -213,7 +213,7 @@ export default {
                 filterRecipe = filterRecipe.filter(recipe =>
                     recipe.title
                         .toLowerCase()
-                        .includes(this.filteredRecipe.name.toLowerCase())
+                        .includes(this.filteredRecipe.title.toLowerCase())
                 );
             }
             if (this.filteredRecipe.duration != 0) {
