@@ -175,7 +175,7 @@ public class JdbcRecipeDao implements RecipeDao {
 
     @Override
     public void deleteRecipeFromLibrary(int recipeId) {
-        String sql = "DELETE FROM recipes_library\n" +
+        String sql = "DELETE FROM recipes_users\n" +
                 "WHERE recipe_id = ?;";
 
         jdbcTemplate.update(sql, recipeId);
