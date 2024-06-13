@@ -126,7 +126,7 @@ public class RecipeService { // Recipe Service; in progress switching to Spoonac
         String url = this.apiURL + this.generalEndpoint + this.key + this.necessaryParameters + this.detailedParameters;
 
         // If there is no searchQuery, it will return a random assortment of Recipes
-        if (searchQuery == null) {
+        if (searchQuery.equals("random")) {
             url += this.randomParameter;
         } else {
             url += "&query=" + searchQuery;
