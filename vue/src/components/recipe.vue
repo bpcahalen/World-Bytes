@@ -21,7 +21,7 @@
             </div>
             <div class="option" id="add">
                 <div class="change">
-                    <button class="addBtn" id="addButton" @click="test()" @mouseover="makeBounce($event)"
+                    <button class="addBtn" id="addButton" @click="addToMyLib(recipe)" @mouseover="makeBounce($event)"
                         @mouseout="killBounce($event)">
                         <fa icon="utensils" class="addRecipe" id="icon"></fa>
                     </button>
@@ -45,7 +45,7 @@ export default {
     methods: {
         addToMyLib(recipe) {
             authService.addToMyRecipe(recipe).then(response => {
-                if (response.status == 200 || response.status == 201) {
+                if (response.status == 201) {
                     alert("Recipe added successfully")
                 }
             })

@@ -68,6 +68,9 @@
                         <label for="dietary">Diet Type: </label>
                         <input type:text v-model="filteredRecipe.dietary" placeholder="Search by diet...">
                     </div>
+                    <div>
+                <button @click="clear" class="clearButton">Clear</button>
+            </div>
                 </div>
                 <div>
                     <Recipes :recipes="filteredRecipeList" />
@@ -123,67 +126,17 @@ export default {
                 duration: "",
                 dietary: ""
             },
-            myRecipes: [
-                // {
-                //     recipeId: 1,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 1,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 1,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "paleo",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 1,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 1,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "vegan",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 2,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Gnocchi",
-                //     duration: 60,
-                //     category: "Dinner",
-                //     dietary: "none",
-                //     servings: 4
-                // }
-            ],
+            // myRecipes: [],
             myPlans: []
 
         }
     },
     methods: {
+        clear() {
+            this.filteredRecipe.title = "";
+                this.filteredRecipe.dietary = "";
+                this.filteredRecipe.duration = "";
+        },
         getUserSelection(e) {
             this.choice = e.target.innerText;
             if (this.choice != "My Recipes") {
@@ -191,16 +144,26 @@ export default {
                 this.filteredRecipe.dietary = "";
                 this.filteredRecipe.duration = "";
             }
-            if (this.choice != "My Plans") {
-                this.filteredPlan.name = "";
-                this.filteredPlan.duration = "";
-                this.filteredPlan.dietary = "";
+            // if (this.choice != "My Plans") {
+            //     this.filteredPlan.name = "";
+            //     this.filteredPlan.duration = "";
+            //     this.filteredPlan.dietary = "";
+            // }
+        },
+        sortThroughDiet(object){
+            let string = "";
+
+            for(let i = 0; i < object.length; i++){
+                string = object[i]
+                if(string.toLowerCase().includes(this.filteredRecipe.dietary.toLowerCase())){
+                    return string;
+                }
             }
         }
     },
     created() {
         authService.getMyRecipes().then(response => {
-            this.myRecipes = response.data;
+            this.$store.state.myRecipes = response.data;
         }).catch(error => {
           console.error('Error searching recipes:', error)})
             // authService.getMyPlans(this.$store.state.user).then(response => {
@@ -209,7 +172,7 @@ export default {
     },
     computed: {
         filteredRecipeList() {
-            let filterRecipe = this.myRecipes;
+            let filterRecipe = this.$store.state.myRecipes;
             if (this.filteredRecipe.title != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
                     recipe.title
@@ -224,9 +187,7 @@ export default {
             }
             if (this.filteredRecipe.dietary != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.dietary
-                        .toLowerCase()
-                        .includes(this.filteredRecipe.dietary.toLowerCase())
+                    this.sortThroughDiet(recipe.dietCategories)
                 )
             }
             return filterRecipe;
@@ -273,7 +234,7 @@ export default {
         "menu details ."
         "footer footer footer"
     ;
-    grid-template-rows: .1fr 1fr 4fr .5fr;
+    grid-template-rows: .1fr .1fr 4fr .1fr;
     background-color: #369cdb;
 }
 
@@ -332,6 +293,7 @@ li {
     flex-grow: .06;
     font-family: Varela Round;
     font-size: 19px;
+    height: 2px;
 }
 
 

@@ -154,12 +154,24 @@ export default {
             });
 
         },
-        sortThrough(object){
+        sortThroughOccasions(object){
             let string = "";
 
             for(let i = 0; i < object.length; i++){
                 string = object[i]
-                return string
+                if(string.toLowerCase().includes(this.filter.category.toLowerCase())){
+                    return string;
+                }
+            }
+        },
+        sortThroughDiet(object){
+            let string = "";
+
+            for(let i = 0; i < object.length; i++){
+                string = object[i]
+                if(string.toLowerCase().includes(this.filter.dietary.toLowerCase())){
+                    return string;
+                }
             }
         }
     },
@@ -182,7 +194,7 @@ export default {
             }
             if (this.filter.category != "") {
                 filterRecipe = filterRecipe.filter(recipe => 
-                    this.sortThrough(recipe.occasions).toLowerCase().includes(this.filter.category.toLowerCase())
+                    this.sortThroughOccasions(recipe.occasions)
                 )
 
                 
@@ -194,9 +206,7 @@ export default {
             }
             if (this.filter.dietary != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.dietCategories.Array[0]
-                        .toLowerCase()
-                        .includes(this.filter.dietary.toLowerCase())
+                    this.sortThroughDiet(recipe.dietCategories)
                 )
             }
             return filterRecipe;
@@ -232,6 +242,8 @@ export default {
     width: 100px;
     height: 50px;
     cursor: pointer;
+    font-family: Varela Round;
+    border-radius: 5px;
 }
 
 .header {

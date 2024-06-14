@@ -11,8 +11,8 @@
         <div class="recipeOptions ">
             <div class="option" id="moreInfo">
                 <div class="change">
-                    <router-link :to= "{name : 'recipeDetails', params: { id : recipe.recipeId}}" ><button class="addBtn" id="infoButton" @click="getInfo()"
-                            @mouseover="makeBeat($event)" @mouseout="killBeat($event)">
+                    <router-link :to="{ name: 'recipeDetails', params: { id: recipe.recipeId } }"><button class="addBtn"
+                            id="infoButton" @click="getInfo()" @mouseover="makeBeat($event)" @mouseout="killBeat($event)">
                             <fa icon="book" class="addRecipe" id="icon2"></fa>
                         </button>
                     </router-link>
@@ -40,14 +40,16 @@ export default {
     methods: {
         removeFromLib(recipe) {
             confirm("Are you sure you want to delete this recipe from your library?")
-            if(confirm){
+            if (confirm) {
                 authService.deleteMyRecipe(recipe.recipeId).then(response => {
-                if (response.status == 200) {
-                    alert("Recipe removed from Library")
-                }
-            })
+                    if (response.status == 200) {
+                        authService.getMyRecipes().then(response => {
+                            this.$store.state.myRecipes = response.data;
+                        })
+                    }
+                })
             }
-        }, 
+        },
         test() {
             alert("Recipe added successfully")
         },
@@ -122,7 +124,7 @@ h2 {
     font-family: Merienda;
 }
 
-h3{
+h3 {
     font-family: Varela Round;
     font-size: 20px;
     margin: 5px 15px 10px 15px;
