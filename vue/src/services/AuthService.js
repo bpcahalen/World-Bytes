@@ -9,8 +9,8 @@ export default {
     return axios.post('/register', user)
   },
   
-  getRecipes(){
-    return axios.get('/recipes')
+  getRecipes(keyword){
+    return axios.get(`/recipes/${keyword}`)
   },
 
   getRecipeById(id){

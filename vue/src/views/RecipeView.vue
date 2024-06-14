@@ -1,11 +1,16 @@
 <template>
-    <div id="recipeList">
-        <header id="navigation">
+    <div id="recipeList" @keypress.enter.prevent="searchByKeyword()">
+        <header id="navigation" class="header">
+            <div>
+                <span class="searchWords">Search Recipes By Keyword: </span>
+                <input placeholder="Search recipes..." class="keyword" v-model="keyword" />
+                <button class="searchButton" @click="searchByKeyword()">Search</button>
+            </div>
             <nav>
                 <router-link to="/">Home</router-link>
                 <router-link to="/account">Account</router-link>
                 <router-link to="/recipes">Recipes</router-link>
-                <router-link to="/meal-plans">Meal Plans</router-link>
+                <!-- <router-link to="/meal-plans">Meal Plans</router-link> -->
                 <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
             </nav>
         </header>
@@ -17,7 +22,7 @@
             </div>
             <div id="timeSearch">
                 <label for="time">Time(in mins): </label>
-                <select id="time" v-model="filter.time">
+                <select id="time" v-model="filter.duration">
                     <option value="0">0</option>
                     <option value="15">15</option>
                     <option value="30">30</option>
@@ -33,18 +38,28 @@
                 <label for="dietary">Diet Type: </label>
                 <input type:text id="dietary" v-model="filter.dietary" placeholder="Search by diet...">
             </div>
+            <div>
+                <button @click="clear" class="clearButton">Clear</button>
+            </div>
         </div>
         <div class="main">
             <recipesDesign :recipes="filteredList" />
         </div>
         <footer>
-      <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter" src="../photos/walter_smiling.png"/></p>
-      <div class="socials">
-                <a href="https://facebook.com" target="_blank">Facebook <fa :icon="['fab', 'facebook']" /></a>
-                <a href="https://twitter.com" target="_blank">Twitter <fa :icon="['fab', 'twitter']" /></a>
-                <a href="https://instagram.com" target="_blank">Instagram <fa :icon="['fab', 'instagram']" /></a>
+            <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter"
+                    src="../photos/walter_smiling.png" /></p>
+            <div class="socials">
+                <a href="https://facebook.com" target="_blank">Facebook
+                    <fa :icon="['fab', 'facebook']" />
+                </a>
+                <a href="https://twitter.com" target="_blank">Twitter
+                    <fa :icon="['fab', 'twitter']" />
+                </a>
+                <a href="https://instagram.com" target="_blank">Instagram
+                    <fa :icon="['fab', 'instagram']" />
+                </a>
             </div>
-    </footer>
+        </footer>
     </div>
 </template>
 
@@ -59,76 +74,93 @@ export default {
     data() {
         return {
             recipes: [
-                // {
-                //     recipeId: 1,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 2,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Gnocchi",
-                //     duration: 60,
-                //     category: "Dinner",
-                //     dietary: "none",
-                //     servings: 4
-                // },
-                // {
-                //     recipeId: 3,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Pie",
-                //     duration: 30,
-                //     category: "Dessert",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 4,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Chicken alfredo",
-                //     duration: 30,
-                //     category: "Lunch",
-                //     dietary: "none",
-                //     servings: 2
-                // },
-                // {
-                //     recipeId: 5,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "iced tea",
-                //     duration: 60,
-                //     category: "Dinner",
-                //     dietary: "none",
-                //     servings: 4
-                // },
-                // {
-                //     recipeId: 6,
-                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                //     title: "Pie",
-                //     duration: 30,
-                //     category: "Dessert",
-                //     dietary: "none",
-                //     servings: 2
-                // }
-],
+                {
+                    recipeId: 1,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                    duration: 30,
+                    occasions: ['lunch', 'snack'],
+                    dietCategories: "none",
+                    servings: 2
+                },
+                {
+                    recipeId: 2,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Gnocchi",
+                    duration: 60,
+                    occasions: ["Dinner", 'snack'],
+                    dietCategories: ["none"],
+                    servings: 4
+                },
+                {
+                    recipeId: 3,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Pie",
+                    duration: 30,
+                    occasions: ["Dessert", 'snack'],
+                    dietCategories: ["Vegan"],
+                    servings: 2
+                },
+                {
+                    recipeId: 4,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Chicken alfredo",
+                    duration: 30,
+                    occasions: ["Lunch", 'snack'],
+                    dietCategories: ["none"],
+                    servings: 2
+                },
+                {
+                    recipeId: 5,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "iced tea",
+                    duration: 60,
+                    occasions: ["Dinner", 'snack'],
+                    dietCategories: ["vegetarian"],
+                    servings: 4
+                },
+                {
+                    recipeId: 6,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Pie",
+                    duration: 30,
+                    occasions: ["Dessert", 'snack'],
+                    dietCategories: ["pescatarian"],
+                    servings: 2
+                }
+            ],
             filter: {
                 name: "",
                 duration: "",
                 category: "",
                 dietary: ""
-            }
+            },
+            keyword: ""
         }
     },
     methods: {
-        
+        clear() {
+            this.filter.name = "",
+                this.filter.duration = "",
+                this.filter.category = "",
+                this.filter.dietary = ""
+        },
+        searchByKeyword() {
+            authService.getRecipes(this.keyword).then(response => {
+                this.recipes = response.data
+                this.keyword = ""
+            }).catch(error => {
+                console.error('Error searching recipes:', error)
+            });
+
+        }
     },
-    created(){
-        authService.getRecipes().then(response => {
-                this.recipes = response.data;
-            })
+    created() {
+        authService.getRecipes("random").then(response => {
+            this.recipes = response.data;
+        }).catch(error => {
+            console.error('Error searching recipes:', error)
+        })
     },
     computed: {
         filteredList() {
@@ -142,9 +174,12 @@ export default {
             }
             if (this.filter.category != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.category
+                    recipe.occasions.forEach(type =>
+                    type
                         .toLowerCase()
                         .includes(this.filter.category.toLowerCase())
+                    // return meal
+                )
                 )
             }
             if (this.filter.duration != 0) {
@@ -154,7 +189,7 @@ export default {
             }
             if (this.filter.dietary != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.dietary
+                    recipe.dietCategories[0]
                         .toLowerCase()
                         .includes(this.filter.dietary.toLowerCase())
                 )
@@ -171,6 +206,47 @@ export default {
     background-color: #369cdb;
 }
 
+.searchButton {
+    margin: 10px;
+    padding: 5px;
+    font-size: 18px;
+    width: 100px;
+    background-color: #00b35c;
+    color: white;
+    cursor: pointer;
+}
+
+.searchButton:hover {
+    background-color: green;
+}
+
+.clearButton {
+    margin: 10px;
+    padding: 8px;
+    font-size: 25px;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.searchWords {
+    margin: 0 20px;
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+}
+
+.keyword {
+    padding: 5px;
+    font-size: 20px;
+    width: 250px;
+}
+
 .nav {
     background-color: white;
     height: 125px;
@@ -184,27 +260,27 @@ export default {
 }
 
 nav a {
-  margin: 0 20px;
-  font-size: 35px;
-  color: white;
-  text-decoration: none;
+    margin: 0 20px;
+    font-size: 35px;
+    color: white;
+    text-decoration: none;
 }
 
 nav a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
-.recipeTitle{
-  font-family: Merienda;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 25px;
-  font-size : 75px;
-  margin-top : 0;
+.recipeTitle {
+    font-family: Merienda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-size: 75px;
+    margin-top: 0;
 }
 
-.main{
+.main {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -214,42 +290,42 @@ label {
     display: inline;
 }
 
-#nameSearch{
+#nameSearch {
     width: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#nameSearch label{
-    margin : 10px;
+#nameSearch label {
+    margin: 10px;
 }
 
 #nameSearch input {
-  padding: 5px;
-  font-size: 20px;
-  width: 190px;
+    padding: 5px;
+    font-size: 20px;
+    width: 190px;
 }
 
-#timeSearch{
+#timeSearch {
     width: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#timeSearch label{
+#timeSearch label {
     margin: 10px;
     width: 165px;
 }
 
-select{
+select {
     width: 50px;
     height: 30px;
 }
 
 
-#occasion{
+#occasion {
     width: 300px;
     display: flex;
     justify-content: center;
@@ -263,11 +339,11 @@ select{
 
 #occasion input {
     padding: 5px;
-  font-size: 20px;
-  width: 180px;
+    font-size: 20px;
+    width: 180px;
 }
 
-#dietary{
+#dietary {
     width: 400px;
     display: flex;
     justify-content: center;
@@ -280,35 +356,33 @@ select{
 
 #dietary input {
     padding: 5px;
-  font-size: 20px;
-  width: 225px;
+    font-size: 20px;
+    width: 225px;
 }
 
 footer {
-  padding: 20px;
-  background-color: #369cdb;
-  color: white;
-  text-align: center;
-  font-size: 25px;
+    padding: 20px;
+    background-color: #369cdb;
+    color: white;
+    text-align: center;
+    font-size: 25px;
 }
 
-footer p{
-    margin-top : 0;
+footer p {
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
 footer .socials a {
-  margin: 0 10px;
-  color: white;
-  text-decoration: none;
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
 }
 
 footer .socials a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
-#waltFooter{
-  height: 55px;
-}
-
-</style>
+#waltFooter {
+    height: 55px;
+}</style>

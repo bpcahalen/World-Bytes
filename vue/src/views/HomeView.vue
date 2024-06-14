@@ -6,7 +6,7 @@
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>
         <router-link to="/recipes">Recipes</router-link>
-        <router-link to="/meal-plans">Meal Plans</router-link>
+        <!-- <router-link to="/meal-plans">Meal Plans</router-link> -->
         <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       </nav>
     </header>

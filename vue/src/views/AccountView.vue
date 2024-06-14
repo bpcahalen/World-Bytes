@@ -5,7 +5,7 @@
                 <router-link to="/">Home</router-link>
                 <router-link to="/account">Account</router-link>
                 <router-link to="/recipes">Recipes</router-link>
-                <router-link to="/meal-plans">Meal Plans</router-link>
+                <!-- <router-link to="/meal-plans">Meal Plans</router-link> -->
                 <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
             </nav>
         </header>
@@ -13,9 +13,9 @@
         <h1 class="title">{{ choice }}</h1>
         <div id="menu">
             <ul>
-                <li @click="getUserSelection($event)">My Plans</li>
+                <!-- <li @click="getUserSelection($event)">My Plans</li> -->
                 <li @click="getUserSelection($event)">My Recipes</li>
-                <li @click="getUserSelection($event)">Grocery List</li>
+                <!-- <li @click="getUserSelection($event)">Grocery List</li> -->
                 <li @click="getUserSelection($event)">Account Info</li>
             </ul>
         </div>
@@ -81,7 +81,7 @@
             </div>
             <div id="accountInfo" v-if="choice === 'Account Info'">
                 <p id="user"> <strong>Username:</strong> {{ $store.state.user.username }}</p>
-                <!-- <p id="password"> <strong>Password:</strong> {{ $store.state.user }}</p> -->
+                <!-- <p id="idNum"> <strong>ID: </strong> {{ $store.state.user.id }}</p> -->
             </div>
         </div>
         <footer>
@@ -112,7 +112,7 @@ export default {
     },
     data() {
         return {
-            choice: "My Plans",
+            choice: "My Recipes",
             filteredRecipe: {
                 title: "",
                 duration: "",
@@ -201,7 +201,8 @@ export default {
     created() {
         authService.getMyRecipes().then(response => {
             this.myRecipes = response.data;
-        })
+        }).catch(error => {
+          console.error('Error searching recipes:', error)})
             // authService.getMyPlans(this.$store.state.user).then(response => {
             //     this.myPlans = response.data;
             // })
@@ -427,7 +428,7 @@ select{
     justify-content: flex-start;
 }
 
-#user {
+#user, #idNum {
     font-size: 25px;
 }
 
