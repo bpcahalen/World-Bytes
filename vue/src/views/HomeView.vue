@@ -28,7 +28,7 @@
           <div v-for="recipe in filteredList" :key="recipe.id" class="recipe-card">
             <img :src="recipe.image" :alt="recipe.title" class="recipe-image" />
             <h3>{{ recipe.title }}</h3>
-            <router-link :to="`/recipes/${recipe.id}/information`">View Details</router-link>
+            <router-link :to="`/recipes/${recipe.recipeId}/information`">View Details</router-link>
           </div>
         </div>
         <div class="see-more">
