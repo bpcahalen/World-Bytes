@@ -1,7 +1,7 @@
 <template>
   <div class="recipe-details">
     <header>
-    <img src="../photos/world_byte.png" alt="Logo" class="logo" />
+      <img src="../photos/world_byte.png" alt="Logo" class="logo" />
       <nav>
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>
@@ -12,19 +12,20 @@
     </header>
     <main>
       <h1>{{ recipe.title }}</h1>
-      <img :src="recipe.image" :alt="recipe.title" class="recipe-image"/>
+      <img :src="recipe.image" :alt="recipe.title" class="recipe-image" />
       <p><strong>Duration:</strong> {{ recipe.duration }} minutes</p>
       <p><strong>Category:</strong> {{ eachThing(recipe.occasions) }}</p>
       <p><strong>Dietary:</strong> {{ eachThing(recipe.dietCategories) }} </p>
       <p><strong>Servings:</strong> {{ recipe.servings }}</p>
     </main>
     <footer>
-      <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter" src="../photos/walter_smiling.png"/></p>
+      <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter" src="../photos/walter_smiling.png" />
+      </p>
       <div class="socials">
         <a href="https://facebook.com" target="_blank">Facebook</a>
         <a href="https://twitter.com" target="_blank">Twitter</a>
         <a href="https://instagram.com" target="_blank">Instagram</a>
-        </div>
+      </div>
     </footer>
   </div>
 </template>
@@ -36,15 +37,7 @@ import authService from '../services/AuthService';
 export default {
   data() {
     return {
-      recipe: {
-        recipeId: 1,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                    duration: 30,
-                    occasions: ['lunch', 'snack', 'app'],
-                    dietCategories: ["none"],
-                    servings: 2
-      }
+      recipe: {}
     };
   },
   created() {
@@ -56,14 +49,14 @@ export default {
     });
   },
   methods: {
-    eachThing(object){
+    eachThing(object) {
       let string = object[0];
 
-      if(object.length > 1){
-      for(let i = 1; i < object.length; i++){
-        string += ", " + object[i] 
+      if (object.length > 1) {
+        for (let i = 1; i < object.length; i++) {
+          string += ", " + object[i]
+        }
       }
-    }
 
       return string
     }

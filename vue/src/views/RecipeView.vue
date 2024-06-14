@@ -74,60 +74,60 @@ export default {
     data() {
         return {
             recipes: [
-                {
-                    recipeId: 1,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                    duration: 30,
-                    occasions: ['lunch', 'snack'],
-                    dietCategories: "none",
-                    servings: 2
-                },
-                {
-                    recipeId: 2,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Gnocchi",
-                    duration: 60,
-                    occasions: ["Dinner", 'snack'],
-                    dietCategories: ["none"],
-                    servings: 4
-                },
-                {
-                    recipeId: 3,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Pie",
-                    duration: 30,
-                    occasions: ["Dessert", 'snack'],
-                    dietCategories: ["Vegan"],
-                    servings: 2
-                },
-                {
-                    recipeId: 4,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Chicken alfredo",
-                    duration: 30,
-                    occasions: ["Lunch", 'snack'],
-                    dietCategories: ["none"],
-                    servings: 2
-                },
-                {
-                    recipeId: 5,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "iced tea",
-                    duration: 60,
-                    occasions: ["Dinner", 'snack'],
-                    dietCategories: ["vegetarian"],
-                    servings: 4
-                },
-                {
-                    recipeId: 6,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Pie",
-                    duration: 30,
-                    occasions: ["Dessert", 'snack'],
-                    dietCategories: ["pescatarian"],
-                    servings: 2
-                }
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     occasions: ['lunch', 'snack'],
+                //     dietCategories: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 2,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Gnocchi",
+                //     duration: 60,
+                //     occasions: ["Dinner", 'snack'],
+                //     dietCategories: ["none"],
+                //     servings: 4
+                // },
+                // {
+                //     recipeId: 3,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Pie",
+                //     duration: 30,
+                //     occasions: ["Dessert", 'snack'],
+                //     dietCategories: ["Vegan"],
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 4,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo",
+                //     duration: 30,
+                //     occasions: ["Lunch", 'snack'],
+                //     dietCategories: ["none"],
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 5,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "iced tea",
+                //     duration: 60,
+                //     occasions: ["Dinner", 'snack'],
+                //     dietCategories: ["vegetarian"],
+                //     servings: 4
+                // },
+                // {
+                //     recipeId: 6,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Pie",
+                //     duration: 30,
+                //     occasions: ["Dessert", 'snack'],
+                //     dietCategories: ["pescatarian"],
+                //     servings: 2
+                // }
             ],
             filter: {
                 name: "",
@@ -156,7 +156,7 @@ export default {
         }
     },
     created() {
-        authService.getRecipes("random").then(response => {
+        authService.getRecipes("chicken").then(response => {
             this.recipes = response.data;
         }).catch(error => {
             console.error('Error searching recipes:', error)
@@ -173,14 +173,11 @@ export default {
                 );
             }
             if (this.filter.category != "") {
-                filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.occasions.forEach(type =>
-                    type
-                        .toLowerCase()
-                        .includes(this.filter.category.toLowerCase())
-                    // return meal
-                )
-                )
+                filterRecipe = filterRecipe.filter(recipe => {
+                    for(let i = 0; i < recipe.occasions.length; i++){
+                        recipe.occasions[i].toLowerCase().includes(this.filter.category.toLowerCase())
+                    }
+                })
             }
             if (this.filter.duration != 0) {
                 filterRecipe = filterRecipe.filter(recipe =>
