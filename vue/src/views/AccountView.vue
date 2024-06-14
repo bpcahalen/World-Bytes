@@ -52,7 +52,7 @@
                 <div id="searchBar">
                     <div class="nameSearch">
                         <label for="name">Recipe Name: </label>
-                        <input type:text v-model="filteredRecipe.name" placeholder="Search by name...">
+                        <input type:text v-model="filteredRecipe.title" placeholder="Search by name...">
                     </div>
                     <div class="timeSearch">
                         <label for="duration">Time(in mins): </label>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="dietary">
                         <label for="dietary">Diet Type: </label>
-                        <input type:text placeholder="Search by diet...">
+                        <input type:text v-model="filteredRecipe.dietary" placeholder="Search by diet...">
                     </div>
                 </div>
                 <div>
@@ -80,7 +80,7 @@
                 <p>Grocery List Here</p>
             </div>
             <div id="accountInfo" v-if="choice === 'Account Info'">
-                <p id="user"> <strong>Username:</strong>  {{ $store.state.user.username }}</p>
+                <p id="user"> <strong>Username:</strong> {{ $store.state.user.username }}</p>
                 <!-- <p id="password"> <strong>Password:</strong> {{ $store.state.user }}</p> -->
             </div>
         </div>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import Recipes from '../components/recipe.vue';
+import Recipes from '../components/myRecipe.vue';
 import authService from '../services/AuthService';
 
 export default {
@@ -114,7 +114,7 @@ export default {
         return {
             choice: "My Plans",
             filteredRecipe: {
-                name: "",
+                title: "",
                 duration: "",
                 dietary: ""
             },
@@ -123,7 +123,62 @@ export default {
                 duration: "",
                 dietary: ""
             },
-            myRecipes: [],
+            myRecipes: [
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "paleo",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "vegan",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 2,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Gnocchi",
+                //     duration: 60,
+                //     category: "Dinner",
+                //     dietary: "none",
+                //     servings: 4
+                // }
+            ],
             myPlans: []
 
         }
@@ -132,7 +187,7 @@ export default {
         getUserSelection(e) {
             this.choice = e.target.innerText;
             if (this.choice != "My Recipes") {
-                this.filteredRecipe.name = "";
+                this.filteredRecipe.title = "";
                 this.filteredRecipe.dietary = "";
                 this.filteredRecipe.duration = "";
             }
@@ -146,24 +201,24 @@ export default {
     created() {
         authService.getMyRecipes().then(response => {
             this.myRecipes = response.data;
-        }),
-            authService.getMyPlans(this.$store.state.user).then(response => {
-                this.myPlans = response.data;
-            })
+        })
+            // authService.getMyPlans(this.$store.state.user).then(response => {
+            //     this.myPlans = response.data;
+            // })
     },
     computed: {
         filteredRecipeList() {
             let filterRecipe = this.myRecipes;
-            if (this.filteredRecipe.name != "") {
+            if (this.filteredRecipe.title != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.name
+                    recipe.title
                         .toLowerCase()
-                        .includes(this.filteredRecipe.name.toLowerCase())
+                        .includes(this.filteredRecipe.title.toLowerCase())
                 );
             }
-            if (this.filteredRecipe.time != 0) {
+            if (this.filteredRecipe.duration != 0) {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.time <= this.filteredRecipe.time
+                    recipe.duration <= this.filteredRecipe.duration
                 )
             }
             if (this.filteredRecipe.dietary != "") {
@@ -218,7 +273,6 @@ export default {
         "footer footer footer"
     ;
     grid-template-rows: .1fr 1fr 4fr .5fr;
-    height: 100vh;
     background-color: #369cdb;
 }
 
@@ -228,7 +282,7 @@ header {
     justify-content: flex-end;
     align-items: center;
     background-color: #369cdb;
-    padding: 10px 20px;
+    padding: 10px 20px 40px 20px;
     width: 96vw;
 }
 
@@ -315,15 +369,15 @@ ul :hover {
     height: 60px;
     width: 75vw;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     font-family: Varela Round;
-    font-size: 15px;
+    font-size: 30px;
     font-weight: bold;
 }
 
 .nameSearch {
-    width: 300px;
+    width: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -334,12 +388,19 @@ ul :hover {
 }
 
 input {
-    width: 150px;
+    width: 200px;
     border-radius: 4px;
+    padding: 5px;
+    font-size: 20px;;
+}
+
+select{
+    width: 50px;
+    height: 30px;
 }
 
 .timeSearch {
-    width: 250px;
+    width: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -350,7 +411,7 @@ input {
 }
 
 .dietary {
-    width: 300px;
+    width: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -361,18 +422,14 @@ input {
 
 }
 
-#groceryList{
+#groceryList {
     display: flex;
     justify-content: flex-start;
 }
 
-#user{
+#user {
     font-size: 25px;
 }
-
-/* #password{
-    font-size: 25px;
-} */
 
 footer {
     grid-area: footer;

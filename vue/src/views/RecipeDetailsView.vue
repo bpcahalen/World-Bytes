@@ -1,7 +1,7 @@
 <template>
   <div class="recipe-details">
     <header>
-      <img src="../photos/world_byte.png" alt="Logo" class="logo" />
+    <img src="../photos/world_byte.png" alt="Logo" class="logo" />
       <nav>
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>
@@ -24,11 +24,12 @@
         <a href="https://facebook.com" target="_blank">Facebook</a>
         <a href="https://twitter.com" target="_blank">Twitter</a>
         <a href="https://instagram.com" target="_blank">Instagram</a>
-      </div>
+        </div>
     </footer>
   </div>
 </template>
 
+  
 <script>
 import authService from '../services/AuthService';
 
@@ -49,6 +50,7 @@ export default {
 };
 </script>
 
+  
 <style scoped>
 .recipe-details {
   margin: auto;
@@ -112,3 +114,4 @@ footer .socials a:hover {
   text-decoration: underline;
 }
 </style>
+  

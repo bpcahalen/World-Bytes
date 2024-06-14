@@ -1,5 +1,6 @@
 BEGIN TRANSACTION;
 
+DROP TABLE IF EXISTS recipes_users;
 DROP TABLE IF EXISTS recipes_library;
 DROP TABLE IF EXISTS users;
 
@@ -28,10 +29,10 @@ CREATE TABLE recipes_library (
 );
 
 CREATE TABLE recipes_users (
-    recipe_id NOT NULL,
-    user_id NOT NULL,
-    CONSTRAINT FK_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes_library(recipe_id),
-    CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+    user_id integer NOT NULL,
+    recipe_id integer NOT NULL,
+    CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
+    CONSTRAINT FK_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes_library(recipe_id)
 );
 
 ---- Ingredient list which users will be able to add to their pantry and/or shopping cart

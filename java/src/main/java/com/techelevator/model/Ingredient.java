@@ -6,8 +6,15 @@ public class Ingredient {
     private int ingredientId;
     private String ingredientName;
 
-    // Getters and Setters
+    public Ingredient() {
+    }
 
+    public Ingredient(int ingredientId, String ingredientName) {
+        this.ingredientId = ingredientId;
+        this.ingredientName = ingredientName;
+    }
+
+    // Getters and Setters
     public int getIngredientId() {
         return ingredientId;
     }

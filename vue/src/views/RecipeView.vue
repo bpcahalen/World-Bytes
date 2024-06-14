@@ -59,60 +59,60 @@ export default {
     data() {
         return {
             recipes: [
-                {
-                    recipeId: 1,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Chicken alfredo with some parmesan encrustated cauliflower",
-                    duration: 30,
-                    category: "Lunch",
-                    dietary: "none",
-                    servings: 2
-                },
-                {
-                    recipeId: 2,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Gnocchi",
-                    duration: 60,
-                    category: "Dinner",
-                    dietary: "none",
-                    servings: 4
-                },
-                {
-                    recipeId: 3,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Pie",
-                    duration: 30,
-                    category: "Dessert",
-                    dietary: "none",
-                    servings: 2
-                },
-                {
-                    recipeId: 4,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Chicken alfredo",
-                    duration: 30,
-                    category: "Lunch",
-                    dietary: "none",
-                    servings: 2
-                },
-                {
-                    recipeId: 5,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "iced tea",
-                    duration: 60,
-                    category: "Dinner",
-                    dietary: "none",
-                    servings: 4
-                },
-                {
-                    recipeId: 6,
-                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-                    title: "Pie",
-                    duration: 30,
-                    category: "Dessert",
-                    dietary: "none",
-                    servings: 2
-                }
+                // {
+                //     recipeId: 1,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 2,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Gnocchi",
+                //     duration: 60,
+                //     category: "Dinner",
+                //     dietary: "none",
+                //     servings: 4
+                // },
+                // {
+                //     recipeId: 3,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Pie",
+                //     duration: 30,
+                //     category: "Dessert",
+                //     dietary: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 4,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Chicken alfredo",
+                //     duration: 30,
+                //     category: "Lunch",
+                //     dietary: "none",
+                //     servings: 2
+                // },
+                // {
+                //     recipeId: 5,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "iced tea",
+                //     duration: 60,
+                //     category: "Dinner",
+                //     dietary: "none",
+                //     servings: 4
+                // },
+                // {
+                //     recipeId: 6,
+                //     image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                //     title: "Pie",
+                //     duration: 30,
+                //     category: "Dessert",
+                //     dietary: "none",
+                //     servings: 2
+                // }
 ],
             filter: {
                 name: "",
@@ -173,21 +173,21 @@ export default {
 
 .nav {
     background-color: white;
-    height: 70px;
+    height: 125px;
     width: 100vw;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     font-family: Varela Round;
-    font-size: 15px;
+    font-size: 25px;
     font-weight: bold;
 }
 
 nav a {
-  margin: 0 10px;
+  margin: 0 20px;
+  font-size: 35px;
   color: white;
   text-decoration: none;
-  font-size: 20px
 }
 
 nav a:hover {
@@ -214,13 +214,8 @@ label {
     display: inline;
 }
 
-input {
-  padding: 4px;
-  max-width: 150px;
-}
-
 #nameSearch{
-    width: 300px;
+    width: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -228,6 +223,12 @@ input {
 
 #nameSearch label{
     margin : 10px;
+}
+
+#nameSearch input {
+  padding: 5px;
+  font-size: 20px;
+  width: 190px;
 }
 
 #timeSearch{
@@ -239,7 +240,14 @@ input {
 
 #timeSearch label{
     margin: 10px;
+    width: 165px;
 }
+
+select{
+    width: 50px;
+    height: 30px;
+}
+
 
 #occasion{
     width: 300px;
@@ -250,10 +258,17 @@ input {
 
 #occasion label {
     margin: 10px;
+    width: 120px;
+}
+
+#occasion input {
+    padding: 5px;
+  font-size: 20px;
+  width: 180px;
 }
 
 #dietary{
-    width: 300px;
+    width: 400px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -261,6 +276,12 @@ input {
 
 #dietary label {
     margin: 10px;
+}
+
+#dietary input {
+    padding: 5px;
+  font-size: 20px;
+  width: 225px;
 }
 
 footer {

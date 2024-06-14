@@ -6,7 +6,6 @@ public class Recipe {
 
     // Instance Variables - need to add data safeguard annotations
     private int recipeId;
-    private int userId;
     private String title;
     private List<Ingredient> ingredientList;
     private List<String> instructions;
@@ -30,14 +29,6 @@ public class Recipe {
 
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getTitle() {

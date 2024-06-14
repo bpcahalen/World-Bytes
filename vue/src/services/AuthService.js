@@ -18,18 +18,18 @@ export default {
   },
 
   getMyRecipes(){
-    return axios.get('/library')
+    return axios.get('/recipes/library')
   },
 
   getMyPlans(user){
     return axios.get(`/plans/${user.id}`)
   },
 
-  addToMyRecipe(recipe, user){
-    return axios.post('/recipes/library', recipe, user)
+  addToMyRecipe(recipe){
+    return axios.post('/recipes/library', recipe)
   },
 
-  deleteMyRecipe(){
-    return axios.delete()
+  deleteMyRecipe(id){
+    return axios.delete(`/recipes/library/${id}`)
   }
 }
