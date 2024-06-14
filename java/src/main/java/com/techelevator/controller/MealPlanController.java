@@ -30,12 +30,12 @@ public class MealPlanController {
     @GetMapping("/library")
     public List<MealPlan> getAllMyMealPlans(Principal principal) {
         int userId = userDao.findIdByUsername(principal.getName());
-        return getAllMyMealPlans(principal);
+        return mealPlanDao.getAllMyMealPlans(userId);
     }
 
     @GetMapping("/{mealPlanId}")
-    public MealPlan getMealPlanDetails(int mealPlanId){
-        return getMealPlanDetails(mealPlanId);
+    public MealPlan getMealPlanDetails(@PathVariable int mealPlanId){
+        return mealPlanDao.getMealPlanDetails(mealPlanId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
