@@ -30,10 +30,6 @@ public class RecipeController {
 
     //API calls go here
     @GetMapping(path = "{searchQuery}")
-<<<<<<< HEAD
-    // Search did not work properly, removing for now
-=======
->>>>>>> 58b38b670b6beb50ca68a305e075fbd7c2b44141
     public List<Recipe> searchRecipesByKeyword(String searchQuery) {
         return recipeService.getRecipesByKeyword(searchQuery);
     }
