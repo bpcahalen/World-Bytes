@@ -10,13 +10,17 @@
         <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       </nav>
     </header>
-    <main>
+    <main class="recipeDetails">
       <h1>{{ recipe.title }}</h1>
       <img :src="recipe.image" :alt="recipe.title" class="recipe-image" />
       <p><strong>Duration:</strong> {{ recipe.duration }} minutes</p>
       <p><strong>Category:</strong> {{ eachThing(recipe.occasions) }}</p>
       <p><strong>Dietary:</strong> {{ eachThing(recipe.dietCategories) }} </p>
       <p><strong>Servings:</strong> {{ recipe.servings }}</p>
+      <p><strong>Ingredients: </strong>  {{ eachIngredient(recipe.ingredientList) }} </p>
+      <!-- <p><strong>Summary: </strong>  {{ fixSummary(recipe.summary) }} </p> -->
+      <p><strong>Instructions: </strong> {{ eachInstruction(recipe.instructions) }} </p>
+      <p><strong>Learn More At: </strong> {{ recipe.source }} </p>
     </main>
     <footer>
       <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter" src="../photos/walter_smiling.png" />
@@ -56,10 +60,51 @@ export default {
         for (let i = 1; i < object.length; i++) {
           string += ", " + object[i]
         }
+      } else if(object.length === 0){
+        return "none";
       }
 
       return string
-    }
+    },
+    eachInstruction(object) {
+      let string = object[0];
+
+      if (object.length > 1) {
+        for (let i = 1; i < object.length; i++) {
+          string += " " + object[i]
+        }
+      }
+
+      return string
+    },
+    eachIngredient(object) {
+      let string = object[0].ingredientName;
+
+      if (object.length > 1) {
+        for (let i = 1; i < object.length; i++) {
+          string += ", " + object[i].ingredientName
+        }
+      }
+
+      return string
+    },
+    // fixSummary(object){
+    //   let string = "";
+
+    //     if(object.includes("<b>") || object.includes("</b>")){
+    //       for(let i = 0; i < object.length; i++){
+    //         if(object.substring(i, i+2) === "<b>" || object.substring(i, i+2) === "</b>"){
+    //           string += "";
+    //         }else{
+    //           string = object.substring(i, i+1);
+    //         }
+    //       }
+    //       return string;
+    //     } else{
+    //       return object;
+    //     }
+    // }
+
   }
 };
 </script>
@@ -74,6 +119,15 @@ export default {
   border-radius: 8px;
   width: 100vw;
   height: 100vh;
+}
+
+.recipeDetails{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 90vw;
+  margin-left: 75px;
 }
 
 .recipe-details img {
