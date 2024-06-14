@@ -3,8 +3,8 @@
         <header id="navigation" class="header">
             <div>
                 <span class="searchWords">Search Recipes By Keyword: </span>
-                <input placeholder="Search recipes..." class="keyword" v-model="keyword" />
-                <button class="searchButton" @click="searchByKeyword()">Search</button>
+                <input placeholder="Search recipes..." class="keyword" v-model="word" />
+                <button class="searchButton" @click="searchByKeyword(word)">Search</button>
             </div>
             <nav>
                 <router-link to="/">Home</router-link>
@@ -135,7 +135,7 @@ export default {
                 category: "",
                 dietary: ""
             },
-            keyword: ""
+            word: ""
         }
     },
     methods: {
@@ -145,8 +145,8 @@ export default {
                 this.filter.category = "",
                 this.filter.dietary = ""
         },
-        searchByKeyword() {
-            authService.getRecipes(this.keyword).then(response => {
+        searchByKeyword(word) {
+            authService.getRecipes(word).then(response => {
                 this.recipes = response.data
                 this.keyword = ""
             }).catch(error => {
