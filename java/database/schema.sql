@@ -22,7 +22,7 @@ CREATE TABLE recipes_library (
 	duration numeric,                       -- time in minutes for recipe
 	servings numeric,                       -- serving size
 	diet_categories text,		        	-- will hold multiple categories, such as keto or gluten free
-	occasions text, 		                -- will include stuff like holidays, etc.
+	occasions text, 		                -- will include stuff like holidays, time of day
 	recipe_source_url varchar(200),
 	image_path varchar(200),
 	CONSTRAINT PK_recipe_id PRIMARY KEY (recipe_id)
