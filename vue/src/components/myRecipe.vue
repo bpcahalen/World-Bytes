@@ -43,7 +43,7 @@ export default {
             if(confirm){
                 authService.deleteMyRecipe(recipe.recipeId).then(response => {
                 if (response.status == 200) {
-                    alert("Recipe added successfully")
+                    alert("Recipe removed from Library")
                 }
             })
             }

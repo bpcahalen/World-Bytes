@@ -153,6 +153,14 @@ export default {
                 console.error('Error searching recipes:', error)
             });
 
+        },
+        sortThrough(object){
+            let string = "";
+
+            for(let i = 0; i < object.length; i++){
+                string = object[i]
+                return string
+            }
         }
     },
     created() {
@@ -173,11 +181,11 @@ export default {
                 );
             }
             if (this.filter.category != "") {
-                filterRecipe = filterRecipe.filter(recipe => {
-                    for(let i = 0; i < recipe.occasions.length; i++){
-                        recipe.occasions[i].toLowerCase().includes(this.filter.category.toLowerCase())
-                    }
-                })
+                filterRecipe = filterRecipe.filter(recipe => 
+                    this.sortThrough(recipe.occasions).toLowerCase().includes(this.filter.category.toLowerCase())
+                )
+
+                
             }
             if (this.filter.duration != 0) {
                 filterRecipe = filterRecipe.filter(recipe =>
@@ -186,7 +194,7 @@ export default {
             }
             if (this.filter.dietary != "") {
                 filterRecipe = filterRecipe.filter(recipe =>
-                    recipe.dietCategories[0]
+                    recipe.dietCategories.Array[0]
                         .toLowerCase()
                         .includes(this.filter.dietary.toLowerCase())
                 )
