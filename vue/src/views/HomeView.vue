@@ -6,8 +6,7 @@
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>
         <router-link to="/recipes">Recipes</router-link>
-        <!-- <router-link to="/meal-plans">Meal Plans</router-link> -->
-        <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+        <router-link to="/meal-plans">Meal Plans</router-link>
       </nav>
     </header>
     <main>
@@ -29,7 +28,7 @@
           <div v-for="recipe in filteredList" :key="recipe.id" class="recipe-card">
             <img :src="recipe.image" :alt="recipe.title" class="recipe-image" />
             <h3>{{ recipe.title }}</h3>
-            <router-link :to="`/recipes/${recipe.id}/information`">View Details</router-link>
+            <router-link :to="`/recipes/${recipe.recipeId}/information`">View Details</router-link>
           </div>
         </div>
         <div class="see-more">
@@ -83,7 +82,7 @@ export default {
   },
   methods: {
     getRecipes() {
-      recipeService.getRecipes().then(response => {
+      recipeService.getRecipes("random").then(response => {
         this.recipes = response.data.slice(0, 8); // Limit to 8 recipes
       }).catch(error => {
         console.error('Error fetching recipes:', error);
@@ -129,7 +128,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: #369cdb;
-  padding: 10px 20px 40px 20px;
+  padding: 10px 20px;
 }
 
 .logo {
@@ -137,8 +136,7 @@ header {
 }
 
 nav a {
-  margin: 0 20px;
-  font-size: 35px;
+  margin: 0 10px;
   color: white;
   text-decoration: none;
 }
