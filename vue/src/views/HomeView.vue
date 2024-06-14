@@ -83,7 +83,7 @@ export default {
   methods: {
     getRecipes() {
       recipeService.getRecipes("random").then(response => {
-        this.recipes = response.data.slice(0, 8); // Limit to 8 recipes
+        this.recipes = response.data.slice(0, 8);
       }).catch(error => {
         console.error('Error fetching recipes:', error);
       });
