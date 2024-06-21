@@ -176,7 +176,7 @@ export default {
         }
     },
     created() {
-        authService.getRecipes("chicken").then(response => {
+        authService.getRecipes("turkey").then(response => {
             this.recipes = response.data;
         }).catch(error => {
             console.error('Error searching recipes:', error)
