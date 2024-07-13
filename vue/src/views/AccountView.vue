@@ -243,9 +243,9 @@ header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    background-color: #369cdb;
-    padding: 10px 20px 40px 20px;
+    padding: 10px 30px 10px 30px;
     width: 96vw;
+    border-bottom: solid black 2px;
 }
 
 img {

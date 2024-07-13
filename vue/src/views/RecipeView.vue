@@ -249,6 +249,8 @@ export default {
 .header {
     display: flex;
     justify-content: space-between;
+    width: 100vw;
+    padding: 10px 0px 10px 0px
 }
 
 .searchWords {
@@ -278,7 +280,7 @@ export default {
 
 nav a {
     margin: 0 20px;
-    font-size: 35px;
+    font-size: 30px;
     color: white;
     text-decoration: none;
 }

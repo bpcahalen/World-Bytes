@@ -1,14 +1,14 @@
 <template>
   <div class="home">
     <header>
-      <img src="../photos/world_byte.png" alt="Logo" class="logo" />
-      <nav>
+      <nav id="navigation">
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/meal-plans">Meal Plans</router-link>
       </nav>
     </header>
+    <img src="../photos/world_byte.png" alt="Logo" class="logo" />
     <main>
       <h1 class="centered-title">Welcome to Our Meal Planning Application</h1>
       <p class="centered-text">Start your journey by exploring our recipes or creating a meal plan tailored to your needs.</p>
@@ -25,11 +25,7 @@
           <button @click="searchRecipes">Search</button>
         </div>
         <div class="recipe-list">
-          <div v-for="recipe in filteredList" :key="recipe.id" class="recipe-card">
-            <img :src="recipe.image" :alt="recipe.title" class="recipe-image" />
-            <h3>{{ recipe.title }}</h3>
-            <router-link :to="`/recipes/${recipe.recipeId}/information`">View Details</router-link>
-          </div>
+          <recipeDesign :recipes="filteredList"/>
         </div>
         <div class="see-more">
           <button @mouseover="expandButton" @mouseleave="shrinkButton" @click="viewAllRecipes">
@@ -54,23 +50,89 @@
       </section>
     </main>
     <footer>
-      <p>&copy; 2024 Meal Planning App. All rights reserved.</p>
-      <div class="socials">
-        <a href="https://facebook.com" target="_blank">Facebook</a>
-        <a href="https://twitter.com" target="_blank">Twitter</a>
-        <a href="https://instagram.com" target="_blank">Instagram</a>
-      </div>
-    </footer>
+            <p>&copy; 2024 Meal Planning App. All rights reserved. <img id="waltFooter"
+                    src="../photos/walter_smiling.png" /></p>
+            <div class="socials">
+                <a href="https://facebook.com" target="_blank">Facebook
+                    <fa :icon="['fab', 'facebook']" />
+                </a>
+                <a href="https://twitter.com" target="_blank">Twitter
+                    <fa :icon="['fab', 'twitter']" />
+                </a>
+                <a href="https://instagram.com" target="_blank">Instagram
+                    <fa :icon="['fab', 'instagram']" />
+                </a>
+            </div>
+        </footer>
   </div>
 </template>
 
 <script>
+import recipeDesign from '../components/recipe.vue'
 import recipeService from '../services/AuthService';
 
 export default {
+  components: {
+    recipeDesign
+  },
   data() {
     return {
-      recipes: [],
+      recipes: [
+      // {
+      //               recipeId: 1,
+      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+      //               title: "Chicken alfredo with some parmesan encrustated cauliflower",
+      //               duration: 30,
+      //               occasions: ['lunch', 'snack'],
+      //               dietCategories: "none",
+      //               servings: 2
+      //           },
+      //           {
+      //               recipeId: 2,
+      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+      //               title: "Gnocchi",
+      //               duration: 60,
+      //               occasions: ["Dinner", 'snack'],
+      //               dietCategories: ["none"],
+      //               servings: 4
+      //           },
+      //           {
+      //               recipeId: 3,
+      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+      //               title: "Pie",
+      //               duration: 30,
+      //               occasions: ["Dessert", 'snack'],
+      //               dietCategories: ["Vegan"],
+      //               servings: 2
+      //           },
+      //           {
+      //               recipeId: 4,
+      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+      //               title: "Chicken alfredo",
+      //               duration: 30,
+      //               occasions: ["Lunch", 'snack'],
+      //               dietCategories: ["none"],
+      //               servings: 2
+      //           },
+      //           {
+      //               recipeId: 5,
+      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+      //               title: "iced tea",
+      //               duration: 60,
+      //               occasions: ["Dinner", 'snack'],
+      //               dietCategories: ["vegetarian"],
+      //               servings: 4
+      //           },
+      //           {
+      //               recipeId: 6,
+      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+      //               title: "Pie",
+      //               duration: 30,
+      //               occasions: ["Dessert", 'snack'],
+      //               dietCategories: ["pescatarian"],
+      //               servings: 2
+      //           }
+      ],
       filter: {
         name: "",
       },
@@ -119,35 +181,29 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@600&family=Varela+Round&display=swap');
 
 .home {
-  font-family: 'Varela Round', sans-serif;
-  padding: 20px;
+  background-color: #369cdb;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #369cdb;
-  padding: 10px 20px;
+nav a {
+    margin: 0 20px;
+    font-size: 30px;
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+text-decoration: underline;
 }
 
 .logo {
   height: 50px;
 }
 
-nav a {
-  margin: 0 10px;
-  color: white;
-  text-decoration: none;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
 main {
   margin-top: 20px;
 }
+
+
 
 .centered-title {
   font-family: 'Merienda', cursive;
@@ -174,7 +230,6 @@ section {
 
 .recipe-list {
   display: flex;
-  flex-wrap: wrap;
 }
 
 .recipe-card {
