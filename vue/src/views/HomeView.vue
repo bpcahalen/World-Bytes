@@ -1,20 +1,21 @@
 <template>
   <div class="home">
     <header>
+      <span class="brand">World Byte <img src="../photos/bitten_world.png" alt="Logo" class="logo" /></span>
       <nav id="navigation">
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>
         <router-link to="/recipes">Recipes</router-link>
         <router-link to="/meal-plans">Meal Plans</router-link>
+        <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
       </nav>
     </header>
-    <img src="../photos/world_byte.png" alt="Logo" class="logo" />
     <main>
-      <h1 class="centered-title">Welcome to Our Meal Planning Application</h1>
-      <p class="centered-text">Start your journey by exploring our recipes or creating a meal plan tailored to your needs.</p>
+      <h1 class="main_title">Welcome to Our Meal Planning Application</h1>
+      <p class="text">Start your journey by exploring our recipes or creating a meal plan tailored to your needs.</p>
       
       <section class="recipes">
-        <h2>Our Recipes</h2>
+        <h2 class="our-recipes">Our Recipes</h2>
         <div class="search-bar">
           <input
             type="text"
@@ -78,60 +79,60 @@ export default {
   data() {
     return {
       recipes: [
-      // {
-      //               recipeId: 1,
-      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-      //               title: "Chicken alfredo with some parmesan encrustated cauliflower",
-      //               duration: 30,
-      //               occasions: ['lunch', 'snack'],
-      //               dietCategories: "none",
-      //               servings: 2
-      //           },
-      //           {
-      //               recipeId: 2,
-      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-      //               title: "Gnocchi",
-      //               duration: 60,
-      //               occasions: ["Dinner", 'snack'],
-      //               dietCategories: ["none"],
-      //               servings: 4
-      //           },
-      //           {
-      //               recipeId: 3,
-      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-      //               title: "Pie",
-      //               duration: 30,
-      //               occasions: ["Dessert", 'snack'],
-      //               dietCategories: ["Vegan"],
-      //               servings: 2
-      //           },
-      //           {
-      //               recipeId: 4,
-      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-      //               title: "Chicken alfredo",
-      //               duration: 30,
-      //               occasions: ["Lunch", 'snack'],
-      //               dietCategories: ["none"],
-      //               servings: 2
-      //           },
-      //           {
-      //               recipeId: 5,
-      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-      //               title: "iced tea",
-      //               duration: 60,
-      //               occasions: ["Dinner", 'snack'],
-      //               dietCategories: ["vegetarian"],
-      //               servings: 4
-      //           },
-      //           {
-      //               recipeId: 6,
-      //               image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
-      //               title: "Pie",
-      //               duration: 30,
-      //               occasions: ["Dessert", 'snack'],
-      //               dietCategories: ["pescatarian"],
-      //               servings: 2
-      //           }
+      {
+                    recipeId: 1,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Chicken alfredo with some parmesan encrustated cauliflower",
+                    duration: 30,
+                    occasions: ['lunch', 'snack'],
+                    dietCategories: "none",
+                    servings: 2
+                },
+                {
+                    recipeId: 2,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Gnocchi",
+                    duration: 60,
+                    occasions: ["Dinner", 'snack'],
+                    dietCategories: ["none"],
+                    servings: 4
+                },
+                {
+                    recipeId: 3,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Pie",
+                    duration: 30,
+                    occasions: ["Dessert", 'snack'],
+                    dietCategories: ["Vegan"],
+                    servings: 2
+                },
+                {
+                    recipeId: 4,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Chicken alfredo",
+                    duration: 30,
+                    occasions: ["Lunch", 'snack'],
+                    dietCategories: ["none"],
+                    servings: 2
+                },
+                {
+                    recipeId: 5,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "iced tea",
+                    duration: 60,
+                    occasions: ["Dinner", 'snack'],
+                    dietCategories: ["vegetarian"],
+                    servings: 4
+                },
+                {
+                    recipeId: 6,
+                    image: "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505",
+                    title: "Pie",
+                    duration: 30,
+                    occasions: ["Dessert", 'snack'],
+                    dietCategories: ["pescatarian"],
+                    servings: 2
+                }
       ],
       filter: {
         name: "",
@@ -179,9 +180,24 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@600&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Beiruti:wght@500&display=swap');
 
 .home {
+  width: 100vw;
   background-color: #369cdb;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand{
+  color: white;
+  text-shadow: 2px 2px black;
+  font-size: 60px;
+  font-family: Beiruti;
 }
 
 nav a {
@@ -203,17 +219,24 @@ main {
   margin-top: 20px;
 }
 
-
-
-.centered-title {
+.main_title {
   font-family: 'Merienda', cursive;
   color: #00b35c;
   text-align: center;
+  font-size: 55px;
+  text-shadow: 1px 1px black;
+  margin-bottom: 0px;
 }
 
-.centered-text {
+.text {
   text-align: center;
-  font-size: 1.2em;
+  font-size: 25px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+.our-recipes{
+  color: white;
 }
 
 section {
@@ -261,12 +284,12 @@ footer {
   background-color: #369cdb;
   color: white;
   text-align: center;
+  grid-area: footer;
 }
 
 footer .socials a {
   margin: 0 10px;
   color: white;
-  text-decoration: none;
 }
 
 footer .socials a:hover {

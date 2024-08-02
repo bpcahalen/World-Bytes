@@ -1,15 +1,15 @@
 <template>
     <div id="account">
         <header id="naviagtion">
+            <span class="brand">World Byte <img src="../photos/bitten_world.png" alt="Logo" class="logo" /></span>
             <nav>
                 <router-link to="/">Home</router-link>
                 <router-link to="/account">Account</router-link>
                 <router-link to="/recipes">Recipes</router-link>
-                <!-- <router-link to="/meal-plans">Meal Plans</router-link> -->
+                <router-link to="/meal-plans">Meal Plans</router-link>
                 <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
             </nav>
         </header>
-        <img src="../photos/world_byte.png" />
         <h1 class="title">{{ choice }}</h1>
         <div id="menu">
             <ul>
@@ -241,11 +241,22 @@ export default {
 header {
     grid-area: nav;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     padding: 10px 30px 10px 30px;
     width: 96vw;
     border-bottom: solid black 2px;
+}
+
+.brand{
+  color: white;
+  text-shadow: 2px 2px black;
+  font-size: 60px;
+  font-family: Beiruti;
+}
+
+.logo{
+    height: 50px;
 }
 
 img {
