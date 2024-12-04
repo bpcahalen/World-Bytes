@@ -1,7 +1,7 @@
 <template>
   <div class="recipe-details">
     <header>
-      <img src="../photos/world_byte.png" alt="Logo" class="logo" />
+      <img src="../photos/bitten_world.png" alt="Logo" class="logo" />
       <nav>
         <router-link to="/">Home</router-link>
         <router-link to="/account">Account</router-link>

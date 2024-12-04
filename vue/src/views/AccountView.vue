@@ -69,7 +69,7 @@
                         <input type:text v-model="filteredRecipe.dietary" placeholder="Search by diet...">
                     </div>
                     <div>
-                <button @click="clear" class="clearButton">Clear</button>
+                <button @click="clear" class="clearSearchButton">Clear</button>
             </div>
                 </div>
                 <div>
@@ -227,10 +227,10 @@ export default {
 
 #account {
     display: grid;
-    grid-template-columns: 0.2fr 1.5fr .2fr;
+    grid-template-columns: 0.2fr 1.3fr 0.2fr;
     grid-template-areas:
         "nav nav nav"
-        "image title ."
+        ".title ."
         "menu details ."
         "footer footer footer"
     ;
@@ -273,6 +273,7 @@ img {
     margin: 0;
     font-size: 75px;
     padding-right: 15px;
+    margin-bottom: 15px;
 }
 
 .addLink {
@@ -333,7 +334,7 @@ ul :hover {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 20px 40px;
+    padding: 20px 40px 20px 10px;
     border: black solid 2px;
     width: 75vw;
     border-radius: 4px;
@@ -341,31 +342,35 @@ ul :hover {
 
 #searchBar {
     height: 60px;
-    width: 75vw;
-    display: flex;
-    justify-content: space-between;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 50% 35% 45%;
+    grid-template-rows: 1fr;
+    grid-template-areas: "name time diet button"
+    ;
     align-items: center;
+    align-content: center;
     font-family: Varela Round;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
 }
 
 .nameSearch {
-    width: 450px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    grid-area: name;
 }
 
 .nameSearch label {
+    font-size: 25px;
     margin: 10px;
 }
 
 input {
-    width: 200px;
+    width: 150px;
     border-radius: 4px;
     padding: 5px;
-    font-size: 20px;;
+    font-size: 15px;;
 }
 
 select{
@@ -374,10 +379,9 @@ select{
 }
 
 .timeSearch {
-    width: 300px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    grid-area: time;
 }
 
 .timeSearch label {
@@ -385,15 +389,25 @@ select{
 }
 
 .dietary {
-    width: 400px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    grid-area: diet;
 }
 
 .dietary label {
     margin: 10px;
 
+}
+
+.clearSearchButton{
+    margin-left: 10px;
+    margin-right: 0px;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: Varela Round;
+    border-radius: 5px;
+    grid-area: button;
 }
 
 #groceryList {

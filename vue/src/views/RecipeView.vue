@@ -1,11 +1,7 @@
 <template>
     <div id="recipeList" @keypress.enter.prevent="searchByKeyword()">
         <header id="navigation" class="header">
-            <div>
-                <span class="searchWords">Search Recipes By Keyword: </span>
-                <input placeholder="Search recipes..." class="keyword" v-model="word" />
-                <button class="searchButton" @click="searchByKeyword(word)">Search</button>
-            </div>
+            <span class="brand">World Byte <img src="../photos/bitten_world.png" alt="Logo" class="logo" /></span>
             <nav>
                 <router-link to="/">Home</router-link>
                 <router-link to="/account">Account</router-link>
@@ -15,6 +11,11 @@
             </nav>
         </header>
         <h1 class="recipeTitle">Recipes</h1>
+        <div>
+                <span class="searchWords">Search Recipes By Keyword: </span>
+                <input placeholder="Search recipes..." class="keyword" v-model="word" />
+                <button class="searchButton" @click="searchByKeyword(word)">Search</button>
+            </div>
         <div class="nav">
             <div id="nameSearch">
                 <label for="name">Recipe Name: </label>
@@ -224,7 +225,7 @@ export default {
 .searchButton {
     margin: 10px;
     padding: 5px;
-    font-size: 18px;
+    font-size: 15px;
     width: 100px;
     background-color: #00b35c;
     color: white;
@@ -255,14 +256,14 @@ export default {
 
 .searchWords {
     margin: 0 20px;
-    font-size: 30px;
+    font-size: 20px;
     color: white;
     text-decoration: none;
 }
 
 .keyword {
     padding: 5px;
-    font-size: 20px;
+    font-size: 15px;
     width: 250px;
 }
 
@@ -289,12 +290,14 @@ nav a:hover {
     text-decoration: underline;
 }
 
+
 .recipeTitle {
     font-family: Merienda;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 25px;
+    margin-top: 15px;
+    margin-bottom: 50px;
     font-size: 75px;
     margin-top: 0;
 }
